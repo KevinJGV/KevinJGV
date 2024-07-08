@@ -1,5 +1,18 @@
-# 💫 About Me:
-🔭 I’m currently working on<br>👯 I’m looking to collaborate on<br>🤝 I’m looking for help with<br>🌱 I’m currently learning<br>💬 Ask me about<br>⚡ Fun fact
+<div id="header" align="center">
+  <img decoding="async" src="./assets/Github_banner.png" width="800"/>
+</div>
+
+[![](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/noelianav/)
+[![](https://img.shields.io/badge/Página_Web-yelow?style=for-the-badge&logo=medium&logoColor=white)](https://www.noelia-navarro.com/)
+
+<h1>
+  ¡Kevin al habla! ¡Nice to meet you!
+  <img decoding="async" src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30px"/>
+</h1>
+
+# 💫 Hi there:
+"seccion de entusiata blabla"<br>
+👂 My name is Kevin Johan González<br>🔭 I’m currently training on [🧑‍🚀Campuslands](https://www.linkedin.com/company/campuslands/)<br>👯 I’m looking to collaborate on backend related projects<br>🌱 I’m currently learning SQL | Java | SpringBoot | Team work skills<br>📫 Contact me ➜ [kejogo.dev@outlook](mailto:kejogo.dev@outlook)<br>👨‍💻 All of my projects are available at [my portfolio](https://kevinjgv.github.io/KevinJGV/)<br>💬 Ask me about places to visit in my city<br>❤️ I love videogames | learn spiritual things/knowledge<br>⚡ Fun fact: I think i have 4 nipples 🫣🌰
 
 
 ## 🌐 Socials:
@@ -12,16 +25,16 @@
 ![](https://github-readme-streak-stats.herokuapp.com/?user=KevinJGV&theme=dracula&hide_border=false)<br/>
 ![](https://github-readme-stats.vercel.app/api/top-langs/?username=KevinJGV&theme=dracula&hide_border=false&include_all_commits=true&count_private=false&layout=compact)
 
-### ✍️ Random Dev Quote
+## ✍️ Random Dev Quote
 ![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
 
-### 🔝 Top Contributed Repo
+## 🔝 Top Contributed Repo
 ![](https://github-contributor-stats.vercel.app/api?username=KevinJGV&limit=5&theme=dracula&combine_all_yearly_contributions=true)
 
 [![](https://visitcount.itsvg.in/api?id=KevinJGV&icon=5&color=8)](https://visitcount.itsvg.in)
 
-  ## 💰 You can help me by Donating
-  [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/kejogo.dev) 
+### 💰 You can help me by Donating
+[![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/kejogo.dev) 
 
 <p align="center">
  <img width="1000" src="assets/snake-contributions.svg" alt="snake"/>
