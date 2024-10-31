@@ -4,5 +4,5 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
     base: '/KevinJGV/',
-    outDir: 'dist',
+    outDir: 'docs',
 });
