@@ -17,26 +17,14 @@ const { title } = Astro.props;
         <title>{title}</title>
 		<GlobalStyles/>
     </head>
-    <body class="noise">
-		<nav id="sandwich" class="pointer">
-			<hr>
-			<hr>
-		</nav>
-		<aside>
-			<section id="vin" class="Alumni">
-				.: VIN
-			</section>
-			<slot name="sidebar" />
-			<section>
-				<strong>•</strong> Disponible
-			</section>
-		</aside>
+    <body class="noise flex_col j_c">
+		<slot name="navbar" />
         <slot name="main" />
 		<slot name="footer" />
     </body>
 	<script>
-		const activeIcon : string = "./public/circle.svg";
-		const inactiveIcon : string = "./public/cross.svg";
+		const activeIcon : string = "/circle.svg";
+		const inactiveIcon : string = "/cross.svg";
 
 		function changeFavicon(iconURL: string): void {
 			const favicon = document.getElementById("icon") as HTMLLinkElement;
@@ -54,3 +42,5 @@ const { title } = Astro.props;
 		});
 	</script>
 </html>
+<style>
+</style>

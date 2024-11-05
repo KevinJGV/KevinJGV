@@ -2,8 +2,13 @@
 import GlobalStyles from "../styles/GlobalStyles.astro";
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
+import Navbar from '../components/Navbar.astro';
 ---
 
 <Layout title="Vin">
+	<Navbar slot='navbar'></Navbar>
+	<main slot="main">
+		MAIN
+	</main>
 	<Footer slot='footer'></Footer>
 </Layout>
