@@ -1,12 +1,11 @@
 ---
-
+import Anchor from './Anchor.astro';
 ---
-
 <footer>
 	<section id="top_foot" class="flex j_sb">
 		<div>
 			<h3 class="Dela">Crece tu xxxx.|</h3>
-			<a href="src/pages/contact.astro" class="Poppins-S">Contactame</a>
+			<Anchor href='src/pages/contact.astro' text="Contactame" svgh={21} svgw={20}></Anchor>
 		</div>
 		<div>
 			<svg
@@ -63,7 +62,7 @@
 			</svg>
 		</div>
 	</section>
-	<section id="bot_foot" class="flex j_sb Poppins-R">
+	<section id="mid_foot" class="flex j_sb Poppins-R">
 		<div>
 			<p>Más sobre mí</p>
 			<div id="social_media" class="flex">
@@ -116,6 +115,9 @@
 		</div>
 		<p>©2024 VIN-DEV</p>
 	</section>
+	<p id="bot_foot" class="text_center Poppins-R">
+		Despegando al éxito 🚀... gracias a Astro y algo de café ☕
+	</p>
 </footer>
 <style>
 	#social_media > * {
@@ -128,21 +130,11 @@
 		height: 495px;
 	}
 
-	#top_foot a::after{
-		content: url("data:image/svg+xml,%3Csvg width='30' height='31' viewBox='0 0 47 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M17.4383 0.373962L9.08284 8.95429H32.0739L0.718384 41.119L6.98948 47.5519L38.3449 15.3872V38.9716L46.7094 30.4005L46.7184 0.364746L17.4383 0.373962Z' fill='white'/%3E%3C/svg%3E");
-		margin-left: 10px;
-	}
-
 	#top_foot h3 {
 		font-size: 5rem;
 		font-weight: 100;
 		margin-bottom: 30px;
 	}
-
-	#top_foot a {
-		font-size: 2rem;
-	}
-
 	#top_foot svg {
 		border-radius: 200px;
 		animation-name: wheel;
@@ -156,18 +148,23 @@
 		animation-play-state: paused;
 	}
 
-	#bot_foot {
-		padding: 30px 20px;
+	#mid_foot {
+		padding: 30px 20px 0;
 		border-top: 1px solid var(--border);
 	}
 
-	#bot_foot div:first-child p {
+	#mid_foot div:first-child p {
 		margin: 5px 5px 5px 10px;
 	}
 
-	#bot_foot p:last-child {
+	#mid_foot p:last-child {
 		align-self: flex-end;
 		margin-right: 30px;
+	}
+
+	#bot_foot{
+		color: var(--border);
+		margin-bottom: 30px;
 	}
 
 	@keyframes wheel {

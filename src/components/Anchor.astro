@@ -1,0 +1,67 @@
+---
+interface Props {
+    text: string;
+    href: string;
+    svgw?: number;
+    svgh?: number;
+}
+
+const { text, href, svgh = 31, svgw = 30 } = Astro.props;
+---
+
+<a href={href} class="Anchor relative Poppins-S"
+    >{text}<svg
+        class="relative"
+        width={svgw}
+        height={svgh}
+        viewBox="0 0 21 21"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <g clip-path="url(#clip0_58_408)">
+            <path
+                d="M5.40518 0.0046875L0.95498 4.36875H13.2002L-3.5 20.7281L-0.159961 24L16.5402 7.64062V19.6359L20.9952 15.2766L21 0L5.40518 0.0046875Z"
+                fill="white"></path>
+        </g>
+        <defs>
+            <clipPath id="clip0_58_408">
+                <rect width="21" height="21" fill="white"></rect>
+            </clipPath>
+        </defs>
+    </svg><div class="Anbackground absolute"></div></a
+>
+
+<style>
+    .Anchor {
+        font-size: 2rem;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .Anchor svg {
+        margin: 0 0 5px 10px;
+    }
+
+    .Anchor:hover, .Anchor:hover path {
+        color: var(--bg-color);
+        fill: var(--bg-color);
+    }
+
+    .Anchor:hover .Anbackground {
+        height: inherit;
+        width: 110%;
+        top: 47%;
+    }
+
+    .Anchor .Anbackground {
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 3px;
+        width: 100%;
+        background-color: var(--text-color) !important;
+        z-index: -1;
+        border-radius: 5px;
+        transition: all 0.3s;
+    }
+</style>
