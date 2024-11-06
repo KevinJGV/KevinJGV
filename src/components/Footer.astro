@@ -3,10 +3,10 @@
 ---
 
 <footer>
-	<section id="top_foot" class="flex">
+	<section id="top_foot" class="flex j_sb">
 		<div>
-			<h3>Crece tu xxxx|.</h3>
-			<h4>Contactame</h4>
+			<h3 class="Dela">Crece tu xxxx.|</h3>
+			<a href="src/pages/contact.astro" class="Poppins-S">Contactame</a>
 		</div>
 		<div>
 			<svg
@@ -122,6 +122,27 @@
 		margin: 10px;
 	}
 
+	#top_foot {
+		align-items: center;
+		margin-inline: 50px;
+		height: 495px;
+	}
+
+	#top_foot a::after{
+		content: url("data:image/svg+xml,%3Csvg width='30' height='31' viewBox='0 0 47 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M17.4383 0.373962L9.08284 8.95429H32.0739L0.718384 41.119L6.98948 47.5519L38.3449 15.3872V38.9716L46.7094 30.4005L46.7184 0.364746L17.4383 0.373962Z' fill='white'/%3E%3C/svg%3E");
+		margin-left: 10px;
+	}
+
+	#top_foot h3 {
+		font-size: 5rem;
+		font-weight: 100;
+		margin-bottom: 30px;
+	}
+
+	#top_foot a {
+		font-size: 2rem;
+	}
+
 	#top_foot svg {
 		border-radius: 200px;
 		animation-name: wheel;
@@ -137,6 +158,7 @@
 
 	#bot_foot {
 		padding: 30px 20px;
+		border-top: 1px solid var(--border);
 	}
 
 	#bot_foot div:first-child p {
