@@ -1,11 +1,25 @@
 ---
-import Anchor from './Anchor.astro';
+import Anchor from "./Anchor.astro";
+
+interface Props {
+	no_top_foot?: boolean
+}
+
+const {no_top_foot = false} = Astro.props;
 ---
+
 <footer>
-	<section id="top_foot" class="flex j_sb">
+	<section id="top_foot" class:list={["flex", "j_sb", {"no_display":no_top_foot}]}>
 		<div>
 			<h3 class="Dela">Crece tu xxxx.|</h3>
-			<Anchor href='src/pages/contact.astro' text="Contactame" svgh={21} svgw={20}></Anchor>
+			<Anchor
+				href="src/pages/contact.astro"
+				text="Contactame"
+				font_size="2rem"
+				svgh={21}
+				svgw={20}
+				svg={true}
+			/>
 		</div>
 		<div>
 			<svg
@@ -115,9 +129,9 @@ import Anchor from './Anchor.astro';
 		</div>
 		<p>©2024 VIN-DEV</p>
 	</section>
-	<p id="bot_foot" class="text_center Poppins-R">
-		Despegando al éxito 🚀... gracias a Astro y algo de café ☕
-	</p>
+	<section id="bot_foot" class="text_center Poppins-R">
+		Despegando al éxito 🚀... gracias a <Anchor href="https://astro.build/" font_size="1rem" text="Astro" /> y algo de café ☕
+	</section>
 </footer>
 <style>
 	#social_media > * {
@@ -162,7 +176,7 @@ import Anchor from './Anchor.astro';
 		margin-right: 30px;
 	}
 
-	#bot_foot{
+	#bot_foot {
 		color: var(--border);
 		margin-bottom: 30px;
 	}
