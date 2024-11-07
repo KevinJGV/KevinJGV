@@ -1,14 +1,17 @@
 ---
-import GlobalStyles from "../styles/GlobalStyles.astro";
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
 import Navbar from '../components/Navbar.astro';
+import Sidebar from "../components/Sidebar.astro";
+import SideComponent from "../components/SideComponentMain.astro";
 ---
 
 <Layout title="Vin">
 	<Navbar slot='navbar'></Navbar>
+	<Sidebar slot="sidebar" >
+		<SideComponent slot="side-component"></SideComponent>
+	</Sidebar>
 	<main slot="main">
-		MAIN
 	</main>
 	<Footer slot='footer'></Footer>
 </Layout>

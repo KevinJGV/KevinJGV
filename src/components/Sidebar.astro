@@ -1,0 +1,55 @@
+---
+
+---
+
+<aside class="flex relative fixed j_sb unselected glass1">
+	<a href="/src/pages/me" id="vin" class="Alumni relative">
+		<span class="relative">.:</span>
+		<span>VIN</span>
+	</a>
+	<slot name="side-component" />
+	<a href="/src/pages/contact" id="avilable" class="Poppins-R">
+		<strong>•</strong>
+		<span>Disponible</span>
+	</a>
+</aside>
+
+<style>
+	#vin span:nth-child(1) {
+		font-size: 5rem;
+		font-weight: 1000;
+		line-height: 0;
+		left: 7px;
+	}
+	#vin span:nth-child(2) {
+		font-size: 3.3rem;
+		font-weight: bold;
+		font-style: italic;
+		line-height: 0.7;
+	}
+
+	aside {
+		padding: 20px 15px;
+		border: 1px solid var(--border);
+		border-radius: 5px;
+		writing-mode: vertical-lr;
+		transform: rotate(180deg);
+		top: 5px;
+		left: 5px;
+		bottom: 5px;
+	}
+
+	aside strong {
+		filter: drop-shadow(0 0 5px var(--green));
+		font-size: 2rem;
+		line-height: 0;
+	}
+
+	#avilable {
+		align-self: center;
+	}
+
+	#avilable > * {
+		color: var(--green);
+	}
+</style>
