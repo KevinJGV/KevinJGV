@@ -1,0 +1,69 @@
+---
+
+---
+
+<section class="container">
+    <ul id="aside-carousel" class="Poppins-R"></ul>
+</section>
+
+<script>
+    const nouns = [
+        "Software Developer",
+        "Dev in dev",
+        "Pizza Time",
+        "FullStack",
+        "Frontend",
+        "Backend",
+        "Clearly Senior",
+        "I mean, Jr",
+    ];
+
+    const carousel = document.querySelector("#aside-carousel");
+    const rotationAngle = -360 / nouns.length;
+    let activeIndex = 0;
+
+    function initializeCarousel() {
+        nouns.forEach((noun, idx) => {
+            const listItem = document.createElement("li");
+            listItem.style.setProperty("--noun_idx", idx);
+            listItem.insertAdjacentText("afterbegin", noun);
+            carousel.append(listItem);
+        });
+        carousel.firstChild.classList.add("active")
+        carousel.style.setProperty("--rotateDegrees", rotationAngle);
+        animateCarousel();
+    }
+
+    function animateCarousel() {
+        setInterval(() => {
+            const activeElement = carousel.querySelector("li.active");
+            if (activeElement) activeElement.classList.remove("active");
+
+            activeIndex = (activeIndex + 1) % nouns.length;
+            const newActiveElement = carousel.querySelector(`li:nth-child(${activeIndex + 1})`);
+
+            carousel.style.setProperty("--currentNoun", activeIndex);
+            newActiveElement.classList.add("active");
+        }, 5000);
+    }
+
+    initializeCarousel();
+</script>
+
+<style>
+    .container {
+        position: relative;
+        flex-grow: 2;
+    }
+
+    #aside-carousel {
+        list-style: none;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        perspective: 900px;
+        transform-style: preserve-3d;
+    }
+
+</style>
+<!-- https://codepen.io/Tbgse/pen/dYaJyJ -->

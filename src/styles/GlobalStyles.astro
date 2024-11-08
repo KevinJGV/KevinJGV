@@ -185,4 +185,30 @@
     body {
         background-color: var(--bg-color);
     }
+
+    #aside-carousel li {
+        position: absolute;
+        left: 50%;
+        top: calc(50% - 1.2rem);
+        --rotateX: calc(
+            1deg * var(--rotateDegrees) *
+                calc(var(--noun_idx) - var(--currentNoun))
+        );
+        transform: rotateY(var(--rotateX)) translateZ(190px) translateX(-50%)
+            scale(var(--scale, 1));
+        height: 2.4rem;
+        transition: transform 500ms ease, background-color 500ms ease;
+    }
+
+    #aside-carousel li.active {
+        --lightness: 30%;
+        --scale: 1.1;
+    }
+
+    #aside-carousel li > * {
+        display: grid;
+        align-items: center;
+    }
+    
+
 </style>

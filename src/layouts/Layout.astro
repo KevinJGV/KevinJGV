@@ -50,11 +50,8 @@ const { title } = Astro.props;
             const sidebarRef = document.querySelector("#side-container") as HTMLElement;
 			const aside = sidebarRef.querySelector("aside");
             const { width, height } = aside.getBoundingClientRect();
-			console.log(sidebarRef);
 			sidebarRef.style.width = `${width}px`;
 			sidebarRef.style.height = `${height}px`;
-            console.log(`Width: ${width}, Height: ${height}`);
-            // Usa `width` y `height` según lo necesites
         });
     </script>
 </html>
