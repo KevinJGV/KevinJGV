@@ -1,189 +1,213 @@
 <style is:global>
-    @font-face {
-        font-family: "Dela";
-        src: url("/fonts/DelaGothicOne-Regular.ttf");
-    }
+	@font-face {
+		font-family: "Dela";
+		src: url("/fonts/DelaGothicOne-Regular.ttf");
+	}
 
-    .Dela {
-        font-family: "Dela";
-    }
+	.Dela {
+		font-family: "Dela";
+	}
 
-    @font-face {
-        font-family: "Poppins-R";
-        src: url("/fonts/Poppins-Regular.ttf");
-    }
+	@font-face {
+		font-family: "Poppins-R";
+		src: url("/fonts/Poppins-Regular.ttf");
+	}
 
-    .Poppins-R {
-        font-family: "Poppins-R";
-    }
+	.Poppins-R {
+		font-family: "Poppins-R";
+	}
 
-    @font-face {
-        font-family: "Poppins-S";
-        src: url("/fonts/Poppins-SemiBold.ttf");
-    }
+	@font-face {
+		font-family: "Poppins-S";
+		src: url("/fonts/Poppins-SemiBold.ttf");
+	}
 
-    .Poppins-S {
-        font-family: "Poppins-S";
-    }
+	.Poppins-S {
+		font-family: "Poppins-S";
+	}
 
-    @font-face {
-        font-family: "Alumni";
-        src: url("/fonts/AlumniSans-VariableFont_wght.ttf");
-    }
+	@font-face {
+		font-family: "Alumni";
+		src: url("/fonts/AlumniSans-VariableFont_wght.ttf");
+	}
 
-    .Alumni {
-        font-family: "Alumni";
-    }
+	.Alumni {
+		font-family: "Alumni";
+	}
 
-    @font-face {
-        font-family: "Alumni Italic";
-        src: url("/fonts/AlumniSans-Italic-VariableFont_wght.ttf");
-    }
+	@font-face {
+		font-family: "Alumni Italic";
+		src: url("/fonts/AlumniSans-Italic-VariableFont_wght.ttf");
+	}
 
-    .Alumni_I {
-        font-family: "Alumni Italic";
-    }
+	.Alumni_I {
+		font-family: "Alumni Italic";
+	}
 
-    @font-face {
-        font-family: "AudioWide";
-        src: url("/fonts/Audiowide-Regular.ttf");
-    }
+	@font-face {
+		font-family: "AudioWide";
+		src: url("/fonts/Audiowide-Regular.ttf");
+	}
 
-    .AudioWide {
-        font-family: "AudioWide";
-    }
+	.AudioWide {
+		font-family: "AudioWide";
+	}
 
-    :root {
-        --font-color-sub: rgba(255, 255, 255, 0.26);
-        --bg-color: #000000;
-        --text-color: #ffffff;
-        --border:#757373;
-        --green: #1ed760;
-        --red: #d71e1e;
-    }
+	:root {
+		--font-color-sub: rgba(255, 255, 255, 0.26);
+		--bg-color: #000000;
+		--text-color: #ffffff;
+		--border: #757373;
+		--green: #1ed760;
+		--red: #d71e1e;
+	}
 
-    * {
-        color: var(--text-color);
-        box-sizing: border-box;
-        transition: all 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
-    }
+	* {
+		color: var(--text-color);
+		box-sizing: border-box;
+		transition: all 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+	}
 
-    a {
-        color: unset;
-        text-decoration: none;
-    }
+	a {
+		color: unset;
+		text-decoration: none;
+	}
 
-    .flex {
-        display: flex;
-    }
+	.flex {
+		display: flex;
+	}
 
-    .flex_col {
-        display: flex;
-        flex-flow: column;
-    }
+	.flex_col {
+		display: flex;
+		flex-flow: column;
+	}
 
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-    }
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+	}
 
-    .grid_text_center {
-        justify-content: center;
-        place-items: center;
-    }
+	.grid_text_center {
+		justify-content: center;
+		place-items: center;
+	}
 
-    .wrap {
-        flex-wrap: wrap;
-    }
+	.wrap {
+		flex-wrap: wrap;
+	}
 
-    .text_center {
-        text-align: center;
-    }
+	.text_center {
+		text-align: center;
+	}
 
-    .all_c {
-        justify-content: center;
-        justify-self: center;
-        justify-items: center;
-        align-content: center;
-        align-self: center;
-        align-items: center;
-    }
+	.all_c {
+		justify-content: center;
+		justify-self: center;
+		justify-items: center;
+		align-content: center;
+		align-self: center;
+		align-items: center;
+	}
 
-    .j_sb {
-        justify-content: space-between;
-        align-content: space-between;
-    }
+	.j_sb {
+		justify-content: space-between;
+		align-content: space-between;
+	}
 
-    .j_se {
-        justify-content: space-evenly;
-        align-content: space-evenly;
-    }
+	.j_se {
+		justify-content: space-evenly;
+		align-content: space-evenly;
+	}
 
-    .j_sa {
-        justify-content: space-around;
-        align-content: space-around;
-    }
+	.j_sa {
+		justify-content: space-around;
+		align-content: space-around;
+	}
 
-    .j_c {
-        justify-content: center;
-        align-content: center;
-    }
+	.j_c {
+		justify-content: center;
+		align-content: center;
+	}
 
-    .relative {
-        position: relative;
-    }
+	.relative {
+		position: relative;
+	}
 
-    .absolute {
-        position: absolute;
-    }
+	.absolute {
+		position: absolute;
+	}
 
-    .fixed {
-        position: fixed;
-    }
+	.fixed {
+		position: fixed;
+	}
 
-    .centrar_absolutoX {
-        left: 50%;
-        transform: translateX(-50%);
-    }
+	.centrar_absolutoX {
+		left: 50%;
+		transform: translateX(-50%);
+	}
 
-    .centrar_absolutoY {
-        top: 50%;
-        transform: translateY(-50%);
-    }
+	.centrar_absolutoY {
+		top: 50%;
+		transform: translateY(-50%);
+	}
 
-    .unselected,
-    .unselected * {
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -webkit-user-drag: none;
-    }
+	.unselected,
+	.unselected * {
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-webkit-user-drag: none;
+	}
 
-    .no_display {
-        display: none;
-    }
+	.no_display {
+		display: none;
+	}
 
-    .hidden {
-        visibility: hidden;
-    }
+	.hidden {
+		visibility: hidden;
+	}
 
-    .pointer {
-        cursor: pointer;
-    }
+	.pointer {
+		cursor: pointer;
+	}
 
-    .noise {
-        background: repeating-conic-gradient(#000 0.000001%, #000000e8 .00005%, #000 .00035%, #000 .00005%), repeating-conic-gradient(#0a0505 0.00002%, #00000082 .00008%, #000 .0008%, #000 .00008%);
-    }
+	.noise {
+		background: repeating-conic-gradient(
+				#000 0.000001%,
+				#000000e8 0.00005%,
+				#000 0.00035%,
+				#000 0.00005%
+			),
+			repeating-conic-gradient(
+				#0a0505 0.00002%,
+				#00000082 0.00008%,
+				#000 0.0008%,
+				#000 0.00008%
+			);
+	}
 
-    .glass1 {
-        background: rgba( 255, 255, 255, 0.05 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 2px );
-    -webkit-backdrop-filter: blur( 2px );
-    }
+	.glass1 {
+		background: rgba(255, 255, 255, 0.05);
+		box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+		backdrop-filter: blur(2px);
+		-webkit-backdrop-filter: blur(2px);
+	}
 
-    body {
-        background-color: var(--bg-color);
-    }
+	body {
+		background-color: var(--bg-color);
+	}
 
+	#top-menu {
+		flex-grow: 2;
+	}
+
+	#top-menu div {
+		flex-grow: 1;
+	}
+
+	#top-menu ul {
+		flex-grow: 1;
+		list-style: none;
+		padding: 0;
+	}
 </style>

@@ -1,17 +1,26 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Footer from '../components/Footer.astro';
-import Navbar from '../components/Navbar.astro';
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
 import Sidebar from "../components/Sidebar.astro";
 import SideComponent from "../components/SideComponentMain.astro";
 ---
 
 <Layout title="Vin">
-	<Navbar slot='navbar'></Navbar>
-	<Sidebar slot="sidebar" >
-		<SideComponent slot="side-component"></SideComponent>
+	<Navbar
+		slot="navbar"
+		hrefs={{
+			Proyectos: "src/pages/projects.astro",
+			Recomendaciones: "src/pages/suggestions.astro",
+			"Sobre mí": "src/pages/me.astro",
+			Contacto: "src/pages/contact.astro",
+		}}
+	/>
+	<Sidebar slot="sidebar">
+		<SideComponent slot="side-component" />
 	</Sidebar>
-	<main slot="main">
-	</main>
-	<Footer slot='footer'></Footer>
+	<main slot="main"></main>
+	<Footer slot="footer" />
 </Layout>
+
+<style></style>
