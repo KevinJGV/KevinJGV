@@ -1,11 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Footer from "../components/Footer.astro";
 import Navbar from "../components/Navbar.astro";
 import Sidebar from "../components/Sidebar.astro";
 import SideComponent from "../components/SideComponentMain.astro";
+import Home from "../components/Home.astro";
+import Footer from "../components/Footer.astro";
 ---
-
 <Layout title="Vin">
 	<Navbar
 		slot="navbar"
@@ -19,8 +19,6 @@ import SideComponent from "../components/SideComponentMain.astro";
 	<Sidebar slot="sidebar">
 		<SideComponent slot="side-component" />
 	</Sidebar>
-	<main slot="main"></main>
-	<Footer slot="footer" />
+	<Home slot="main"></Home>
+	<!-- <Footer slot="footer" /> -->
 </Layout>
-
-<style></style>
