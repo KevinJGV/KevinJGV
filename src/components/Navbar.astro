@@ -81,10 +81,11 @@ const { hrefs } = Astro.props;
 	}
 
 	#menu {
+		overflow: hidden;
 		z-index: 100;
 		width: 96vw;
 		height: 96vh;
-		top: -100%;
+		top: -96vh;
 		background-color: #fff;
 		border-radius: 0 0 20px 20px;
 	}
@@ -118,7 +119,7 @@ const { hrefs } = Astro.props;
 	}
 
 	#bot-menu {
-		flex-grow: 0.5;
+		flex-grow: 1;
 		flex-shrink: 0;
 		place-content: center;
 		width: fit-content;
@@ -127,6 +128,7 @@ const { hrefs } = Astro.props;
 
 	#menu hr {
 		border: 1px var(--bg-color) solid;
+		margin: 4px;
 	}
 
 	#menu.hovered {
