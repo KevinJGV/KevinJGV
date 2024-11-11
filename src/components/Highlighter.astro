@@ -1,0 +1,47 @@
+---
+interface Props {
+    el?:string,
+    font_size?:string
+    text:string,
+    bg_Color?:string,
+    txt_Color?:string,
+    font?:string
+};
+
+const {text, font_size = "1rem", el = "p", bg_Color = "#fff", txt_Color = "#000", font = "Dela"} = Astro.props
+
+const validItems = ['p', 'i', 'strong', 'span', 'q', 'h1', 'h2', 'h3', 'h4'];
+const Elem = validItems.includes(el) ? el : 'p';
+---
+
+<Elem class:list={["elem", "relative",font]} style={`--font_size: ${font_size}; --bg_Color: ${bg_Color}; --txt_Color: ${txt_Color};`}>{text}<div class="background absolute"></div></Elem>
+
+<style define:vars={{font_size, bg_Color, txt_Color}}>
+    .elem {
+        font-size: var(--font_size);
+		height: 40px;
+		line-height: 40px;
+    }
+
+    .elem:hover {
+		color: var(--txt_Color);
+	}
+
+    .elem:hover .background {
+        background-color: var(--bg_Color);
+		height: inherit;
+		width: 102.5%;
+		top: 47%;
+	}
+
+	.elem .background {
+		top: 100%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		height: 3px;
+		width: 100%;
+		z-index: -10;
+		border-radius: 5px;
+		transition: all 0.3s;
+	}
+</style>

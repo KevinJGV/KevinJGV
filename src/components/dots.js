@@ -19,7 +19,7 @@ export const generateDots = () => {
         let _xPos = Math.random() * window.innerWidth;
         let _yPos = Math.random() * window.innerHeight;
         let size = Math.ceil(Math.random() * maxSize);
-        // if (size < 10) size = 50;
+        if (size < 10) size = 50;
         if (_xPos > size) _xPos = _xPos - size;
         if (_yPos > size) _yPos = _yPos - size;
         gsap.set(dot, {

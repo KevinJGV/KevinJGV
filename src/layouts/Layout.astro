@@ -21,7 +21,7 @@ const { title } = Astro.props;
         <GlobalStyles />
     </head>
     <body class="noise flex j_sb dot-container">
-        <!-- <div id="dot-container" class="absolute"></div> -->
+        <!-- <div id="dot-container" class="fixed"></div> -->
         <slot name="navbar" />
         <section id="side-container" class="relative flex">
             <slot name="sidebar" />
@@ -58,7 +58,7 @@ const { title } = Astro.props;
 			sidebarRef.style.height = `${height}px`;
         });
     </script>
-    <script src="/src/components/dots.js"></script>
+    <script src="/src/components/dots.js" ></script>
 </html>
 <style>
     #dot-container {

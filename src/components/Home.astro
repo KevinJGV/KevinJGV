@@ -1,23 +1,121 @@
 ---
-
+import TextHighlighted from "./Highlighter.astro";
 ---
+
 <main>
-    <article class="Dela flex relative">
-        <h1><span>Hola, </span>Soy Kevin</h1>
-        <img id="photo" src="/photo.png" alt="photo" srcset="" class="absolute unselected" draggable="false">
+    <article id="home1" class="flex relative">
+        <section id="home1_text" class="flex_col j_se">
+            <div id="home1_top" class="flex_col j_c">
+                <span class="Dela">Hola, </span>
+                <h1 class="Dela">Soy Kevin</h1>
+                <i><TextHighlighted text="Fullstack Software Developer" el="span" font_size="2rem"></TextHighlighted> <span class="Poppins-R">&</span> <TextHighlighted text="Empanada Lover" el="span" font_size="2rem"></TextHighlighted></i>
+                <p class="Poppins-S">
+                    Activo Desde SEP ‘23<br /><a href="src/pages/contact.astro"
+                        >HABLEMOS</a
+                    >
+                </p>
+            </div>
+            <div id="home1_bot" class="Poppins-R">
+                <p>
+                    Disciplina en el back-end, pasión por el
+                    front-end.
+                    <br>
+                    Amo la lógica y la creatividad de la
+                    programación.
+                    <br>
+                    ¿Porqué?
+                    <br>
+                    Porque me siento como un Dios creando cosas,
+                    definiendo sus atributos y comportamientos.
+                    <br>
+                    Ambición por comprender los sistemas
+                    informáticos y crear experiencias de usuario impresionantes.
+                    <br>
+                    Cuando no estoy aprendiendo sobre nuevas tecnologías, probablemente estoy
+                    pensando en el futuro o siendo el consejero de mis amigos.
+                </p>
+            </div>
+        </section>
+        <section id="home1_img" class="sticky">
+            <img
+                id="photo"
+                src="/photo.png"
+                alt="Kevin"
+                srcset=""
+                class="unselected relative"
+                draggable="false"
+            />
+        </section>
+    </article>
+    <article id="home2">
+        <section id="projects">
+            <h2 class="Dela"><span class="hidden_text">Short</span> PREVIEW</h2>
+                <div class="grid">
+                    <div class="grid_el">
+                        
+                    </div>
+                    <div class="grid_el">e</div>
+                    <div class="grid_el">r</div>
+                    <div class="grid_el">s</div>
+                </div>
+        </section>
     </article>
 </main>
 
 <style>
-    h1 {
-        font-weight: 100;
+    #home1 {
+        gap: 20rem;
+    }
+
+    #home1_text {
+        margin-block: 200px;
+        gap: 200px;
+    }
+
+    #home1_top span {
         font-size: 5rem;
+        line-height: 0.9;
+    }
+
+    #home1_top h1 {
+        font-size: 7rem;
+        margin: 0;
+    }
+
+    #home1_top i {
+        line-height: 4;
+        font-size: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    #home1_top i span {
+        font-size: 3rem;
+    }
+
+    #home1_top a {
+        text-decoration: underline;
+    }
+
+    #home1_img {
+        top: 150px;
+        width: 0;
+        height: fit-content;
+    }
+    #home1_bot p {
+        font-size: 1.5rem;
     }
 
     #photo {
+        left: -190px;
         width: 450px;
-        top: -70px;
-        right: -250px;
         transform: rotate(3deg);
+    }
+
+    .hidden_text {
+        opacity: 0;
+    }
+
+    h2:hover .hidden_text {
+        opacity: 0.5;
     }
 </style>
