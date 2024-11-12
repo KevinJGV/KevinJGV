@@ -1,0 +1,193 @@
+---
+interface Props {
+    text: string;
+    href: string;
+    hrefImages: string[];
+    cover?: string;
+    txtColor?: string;
+    bgColor?: string;
+    tags?: { [key: string]: string[] };
+}
+
+const {
+    text,
+    href,
+    hrefImages,
+    cover = '<svg xmlns="http://www.w3.org/2000/svg" width="" height="" viewBox="0 0 32 32"> <defs> <filter id="inset-shadow">    <feOffset dx="0" dy="0" />    <feGaussianBlur stdDeviation="1" result="offset-blur" />    <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />    <feFlood flood-color="#838383" flood-opacity="0.8" result="color" />    <feComposite operator="in" in="color" in2="inverse" result="shadow" />  </filter></defs><g filter="url(#inset-shadow)">  <path fill="#fff" d="M20.42 21.157l2.211 2.211L30 16l-7.369-7.369l-2.211 2.212L25.58 16ZM11.58 10.843L9.369 8.631 2 16l7.369 7.369 2.211-2.211L6.42 16Zm5.831-3.166l1.6.437-4.42 16.209-1.6-.437z" />  </g></svg>',
+    txtColor = "#fff",
+    bgColor = "#fff3",
+    tags,
+} = Astro.props;
+---
+
+<a href={href} class="pCard flex_col glass0 relative" target="_blank">
+    <div id="card_carousel" class="flex absolute">
+        <!-- {
+            hrefImages.map((capture) => <img src={capture} alt="" />)
+        } -->
+    </div>
+    {
+        cover && cover.toLowerCase().endsWith("</svg>") ? (
+            <div class="imageCard flex j_c" set:html={cover} />
+        ) : (
+            <img class="imageCard" src={cover} alt="" />
+        )
+    }
+    <p class="Poppins-S text_center"><span>{text}</span></p>
+</a>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const pCards = document.querySelectorAll(".pCard");
+        let timeoutId = null;
+
+        pCards.forEach((card) => {
+            // const images = card.querySelectorAll("#card_carousel img");
+            // images[0].classList.add("active");
+            // let currentIndex = 0;
+            // let direction = 1;
+            // let interval;
+
+            // const startCarousel = () => {
+            //     interval = setInterval(() => {
+            //         images[currentIndex].style.display = "none";
+            //         images[currentIndex].classList.remove("active");
+            //         currentIndex += direction;
+
+            //         if (currentIndex >= images.length) {
+            //             currentIndex = images.length - 2;
+            //             direction = -1;
+            //         } else if (currentIndex < 0) {
+            //             currentIndex = 1;
+            //             direction = 1;
+            //         }
+
+            //         images[currentIndex].style.display = "block";
+            //         images[currentIndex].classList.add("active");
+            //     }, 2500);
+            // };
+
+            // const stopCarousel = () => {
+            //     clearInterval(interval);
+            //     images.forEach((img, index) => {
+            //         img.style.display = index === 0 ? "block" : "none";
+            //         img.classList.toggle("active", index === 0);
+            //     });
+
+            //     currentIndex = 0;
+            //     direction = 1;
+            // };
+
+            const p = card.querySelector("p");
+
+            const resetFontSize = () => {
+                timeoutId = setTimeout(() => {
+                    pCards.forEach((otherCard) => {
+                        const otherP = otherCard.querySelector("p");
+                        otherP.style.fontSize = ""; 
+                    });
+                }, 99); 
+            };
+
+            card.addEventListener("mouseover", () => {
+                // startCarousel();
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+
+                
+                pCards.forEach((otherCard) => {
+                    const otherP = otherCard.querySelector("p");
+                    if (otherCard !== card) {
+                        otherP.style.fontSize = "0"; 
+                    }
+                });
+
+                
+                p.style.fontSize = "1rem";
+            });
+
+            card.addEventListener("mouseout", () => {
+                // stopCarousel();
+                resetFontSize();
+            });
+        });
+
+        const cardsContainer = document.querySelector(
+            "#projects > div"
+        ) as HTMLElement;
+        const calculatePCardsMaxWidth = () => {
+            const containerWidth = cardsContainer.offsetWidth;
+            const totalCards = pCards.length;
+            const growFactor = 4;
+
+            const shrinkFactor = 1;
+            const totalFlex = (totalCards - 1) * shrinkFactor + growFactor;
+            const maxCardWidth =
+                Math.round((containerWidth * growFactor) / totalFlex) - 9;
+            return maxCardWidth;
+        };
+
+        calculatePCardsMaxWidth();
+        window.addEventListener("resize", calculatePCardsMaxWidth);
+    });
+</script>
+
+<style define:vars={{ bgColor, txtColor }}>
+    .pCard {
+        background-color: var(--bgColor);
+        height: 100%;
+        flex: 1;
+        overflow: hidden;
+        border-radius: 2px;
+        transition: all 0.5s;
+        border: 1px var(--border) solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pCard:hover {
+        flex: 4;
+    }
+
+    #card_carousel img {
+        transition: opacity 0.5s ease;
+        width: 100%;
+    }
+
+    .pCard span {
+        min-width: 14em;
+        padding: 0.5em;
+        text-align: center;
+        transform: rotate(-90deg);
+        transition: all 0.5s;
+        text-transform: uppercase;
+        color: var(--txtColor);
+        letter-spacing: 0.1em;
+    }
+
+    #card_carousel {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    #card_carousel img:first-child {
+        display: block;
+    }
+
+    #card_carousel img:not(:first-child) {
+        display: none;
+    }
+
+    .imageCard {
+        width: 5rem;
+        height: 5rem;
+    }
+
+    .pCard p {
+        font-size: 1rem;
+        margin: 1rem;
+    }
+</style>
