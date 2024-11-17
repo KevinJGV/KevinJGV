@@ -15,5 +15,8 @@
     "findup-sync": "^5.0.0",
     "gsap": "^3.12.5",
     "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0"
   }
 }

@@ -3,7 +3,7 @@ import gsap from "gsap";
 // Configuración
 const dotCount = 10;
 const maxSize = 30;
-const withScale = false;
+const withScale = true;
 const withBlur = true;
 const randColour = false;
 
@@ -31,7 +31,7 @@ export const generateDots = () => {
                 ? "#" + Math.floor(Math.random() * 16777215).toString(16)
                 : "#6c8c65",
             scale: withScale ? Math.random() + 0.25 : 1,
-            filter: withBlur ? "blur(2.5rem)" : "unset"
+            filter: withBlur ? "blur(2rem)" : "unset"
         });
     });
     // Animación

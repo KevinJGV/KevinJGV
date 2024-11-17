@@ -3,63 +3,120 @@ import TextHighlighted from "./Highlighter.astro";
 import Card from "./Card.astro";
 ---
 
-<main>
-    <!-- <article id="home1" class="flex relative">
-        <section id="home1_text" class="flex_col j_se">
-            <div id="home1_top" class="flex_col j_c">
-                <span class="Dela">Hola, </span>
-                <h1 class="Dela">Soy Kevin</h1>
-                <i><TextHighlighted text="Fullstack Software Developer" el="span" font_size="2rem" bg_Color="#6c8c65"></TextHighlighted> <span class="Poppins-R">&</span> <TextHighlighted text="Empanada Lover" el="span" font_size="2rem" bg_Color="#6c8c65"></TextHighlighted></i>
-                <p class="Poppins-S">
-                    Activo Desde SEP ‘23<br /><a href="src/pages/contact.astro"
-                        >HABLEMOS</a
-                    >
-                </p>
-            </div>
-            <div id="home1_bot" class="Poppins-R">
-                <p>
-                    Disciplina en el back-end, pasión por el
-                    front-end.
-                    <br>
-                    Amo la lógica y la creatividad de la
-                    programación.
-                    <br>
-                    ¿Porqué?
-                    <br>
-                    Porque me siento como un Dios creando cosas,
-                    definiendo sus atributos y comportamientos.
-                    <br>
-                    Ambición por comprender los sistemas
-                    informáticos y crear experiencias de usuario impresionantes.
-                    <br>
-                    Cuando no estoy aprendiendo sobre nuevas tecnologías, probablemente estoy
-                    pensando en el futuro o siendo el consejero de mis amigos.
-                </p>
-            </div>
-        </section>
-        <section id="home1_img" class="sticky">
-            <img
-                id="photo"
-                src="https://res.cloudinary.com/dqgxt985j/image/upload/v1731282091/photo_xmglr7.png"
-                alt="Kevin"
-                srcset=""
-                class="unselected relative"
-                draggable="false"
+<!-- <article id="home1" class="flex relative">
+    <section id="home1_text" class="flex_col j_se">
+        <div id="home1_top" class="flex_col j_c">
+            <span class="Dela">Hola, </span>
+            <h1 class="Dela">Soy Kevin</h1>
+            <i
+                ><TextHighlighted
+                    text="Fullstack Software Developer"
+                    el="span"
+                    font_size="2rem"
+                    bg_Color="#6c8c65"
+                />
+                <span class="Poppins-R">&</span>
+                <TextHighlighted
+                    text="Empanada Lover"
+                    el="span"
+                    font_size="2rem"
+                    bg_Color="#6c8c65"
+                /></i
+            >
+            <p class="Poppins-S">
+                Activo Desde SEP ‘23<br /><a href="src/pages/contact.astro"
+                    >HABLEMOS</a
+                >
+            </p>
+        </div>
+        <div id="home1_bot" class="Poppins-R">
+            <p>
+                Disciplina en el back-end, pasión por el front-end.
+                <br />
+                Amo la lógica y la creatividad de la programación.
+                <br />
+                ¿Por qué?
+                <br />
+                Porque me siento como un dios creando cosas, definiendo sus atributos
+                y comportamientos.
+                <br />
+                Ambición por comprender los sistemas informáticos y crear experiencias
+                de usuario impresionantes.
+                <br />
+                Cuando no estoy aprendiendo sobre nuevas tecnologías, probablemente
+                estoy pensando en el futuro o siendo el consejero de mis amigos.
+            </p>
+        </div>
+    </section>
+    <section id="home1_img" class="sticky">
+        <img
+            id="photo"
+            src="https://res.cloudinary.com/dqgxt985j/image/upload/v1731282091/photo_xmglr7.png"
+            alt="Kevin"
+            srcset=""
+            class="unselected relative"
+            draggable="false"
+        />
+    </section>
+</article> -->
+<article id="home2">
+    <section id="projects">
+        <h2 class="Dela"><span class="hidden_text">Short</span> PREVIEW</h2>
+        <div class="flex">
+            <Card
+                text="Domi"
+                href="https://kevinjgv.github.io/Work-Project_DOMI/"
+                cover="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1731379909/Domi_lmwy6d.svg"
+                bgColor="#F3B10F"
+                txtColor="#092334"
+                hrefImages={[
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png",
+                ]}
+                tags={{template:"e-commerce", template2: "technology", template3: "frontend", template4: "uiux"}}
             />
-        </section>
-    </article> -->
-    <article id="home2">
-        <section id="projects">
-            <h2 class="Dela"><span class="hidden_text">Short</span> PREVIEW</h2>
-                <div class="flex">
-                    <Card text="Domi" href="https://kevinjgv.github.io/Work-Project_DOMI/" cover="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1731379909/Domi_lmwy6d.svg" bgColor="#F3B10F" txtColor="#092334" hrefImages={["https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png","https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png" , "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png"]} tags={{}}></Card>
-                    <Card text="SWAPI - Consumed API" cover="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1731379907/Swapi_popgza.png" bgColor="#42000b" txtColor="#FFE300" href="https://kevinjgv.github.io/SWAPIMPIRE_OF_JEDIS_CONSUMED-API/" hrefImages={["https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png","https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png" , "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png"]} tags={{}}></Card>
-                    <Card text="My Progress Eye" cover="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1731379911/progress_eye_wsybqv.png" bgColor="#F9FAFB" txtColor="#000" href="https://kevinjgv.github.io/My_Progress_Eye/index.html" hrefImages={["https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png","https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png" , "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png"]} tags={{}}></Card>
-                    <Card text="Farm Database" cover='<svg xmlns="http://www.w3.org/2000/svg" width="0.88em" height="1em" viewBox="0 0 448 512"><path fill="currentColor" d="M448 73.143v45.714C448 159.143 347.667 192 224 192S0 159.143 0 118.857V73.143C0 32.857 100.333 0 224 0s224 32.857 224 73.143M448 176v102.857C448 319.143 347.667 352 224 352S0 319.143 0 278.857V176c48.125 33.143 136.208 48.572 224 48.572S399.874 209.143 448 176m0 160v102.857C448 479.143 347.667 512 224 512S0 479.143 0 438.857V336c48.125 33.143 136.208 48.572 224 48.572S399.874 369.143 448 336"/></svg>' href="https://github.com/KevinJGV/Finca_El_Primer_Mundo_MYSQL"  hrefImages={["https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png","https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png" , "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png"]} tags={{}}></Card>
-                </div>
-        </section>
-    </article>
-</main>
+            <Card
+                text="SWAPI - Consumed API"
+                cover="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1731379907/Swapi_popgza.png"
+                bgColor="#42000b"
+                txtColor="#FFE300"
+                href="https://kevinjgv.github.io/SWAPIMPIRE_OF_JEDIS_CONSUMED-API/"
+                hrefImages={[
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png",
+                ]}
+                tags={{template:"entertainment", template1: "api", template2: "frontend", template3: "uiux"}}
+            />
+            <Card
+                text="My Progress Eye"
+                cover="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1731379911/progress_eye_wsybqv.png"
+                bgColor="#F9FAFB"
+                txtColor="#000"
+                href="https://kevinjgv.github.io/My_Progress_Eye/index.html"
+                hrefImages={[
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png",
+                ]}
+                tags={{template:"manager", template1: "entertainment", template2: "frontend", template3: "api", template4: "dashboard", template5: "uiux"}}
+            />
+            <Card
+                text="Farm Database"
+                cover='<svg xmlns="http://www.w3.org/2000/svg" width="0.88em" height="1em" viewBox="0 0 448 512"><path fill="currentColor" d="M448 73.143v45.714C448 159.143 347.667 192 224 192S0 159.143 0 118.857V73.143C0 32.857 100.333 0 224 0s224 32.857 224 73.143M448 176v102.857C448 319.143 347.667 352 224 352S0 319.143 0 278.857V176c48.125 33.143 136.208 48.572 224 48.572S399.874 209.143 448 176m0 160v102.857C448 479.143 347.667 512 224 512S0 479.143 0 438.857V336c48.125 33.143 136.208 48.572 224 48.572S399.874 369.143 448 336"/></svg>'
+                href="https://github.com/KevinJGV/Finca_El_Primer_Mundo_MYSQL"
+                bgColor="#353535"
+                hrefImages={[
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png",
+                ]}
+                tags={{template: "modeling", template1: "business", template2: "leadership", template3: "mysql", template4: "db"}}
+            />
+        </div>
+    </section>
+</article>
 
 <style>
     #home1 {
@@ -72,7 +129,7 @@ import Card from "./Card.astro";
 
     #home1_top {
         height: 100vh;
-	    padding-top: 200px;
+        padding-top: 200px;
     }
 
     #home1_top span {
@@ -129,5 +186,4 @@ import Card from "./Card.astro";
         gap: 5px;
         padding: 0.4em;
     }
-
 </style>
