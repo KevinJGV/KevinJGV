@@ -1,9 +1,10 @@
 ---
 import TextHighlighted from "./Highlighter.astro";
 import Card from "./Card.astro";
+import Anchor from "./Anchor.astro";
 ---
 
-<!-- <article id="home1" class="flex relative">
+<!-- <article id="home1" class="home_article flex relative">
     <section id="home1_text" class="flex_col j_se">
         <div id="home1_top" class="flex_col j_c">
             <span class="Dela">Hola, </span>
@@ -58,8 +59,8 @@ import Card from "./Card.astro";
             draggable="false"
         />
     </section>
-</article> -->
-<article id="home2">
+</article>
+<article id="home2" class="home_article flex_col">
     <section id="projects">
         <h2 class="Dela"><span class="hidden_text">Short</span> PREVIEW</h2>
         <div class="flex">
@@ -72,9 +73,14 @@ import Card from "./Card.astro";
                 hrefImages={[
                     "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png",
                     "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png",
-                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png"
                 ]}
-                tags={{template:"e-commerce", template2: "technology", template3: "frontend", template4: "uiux"}}
+                tags={{
+                    template: "e-commerce",
+                    template2: "technology",
+                    template3: "frontend",
+                    template4: "uiux",
+                }}
             />
             <Card
                 text="SWAPI - Consumed API"
@@ -83,11 +89,16 @@ import Card from "./Card.astro";
                 txtColor="#FFE300"
                 href="https://kevinjgv.github.io/SWAPIMPIRE_OF_JEDIS_CONSUMED-API/"
                 hrefImages={[
-                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png",
-                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png",
-                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731914352/swapi1_dgz5ml.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731914349/swapi2_v6zavr.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731914348/swapi3_czp65u.png"
                 ]}
-                tags={{template:"entertainment", template1: "api", template2: "frontend", template3: "uiux"}}
+                tags={{
+                    template: "entertainment",
+                    template1: "api",
+                    template2: "frontend",
+                    template3: "uiux",
+                }}
             />
             <Card
                 text="My Progress Eye"
@@ -96,27 +107,105 @@ import Card from "./Card.astro";
                 txtColor="#000"
                 href="https://kevinjgv.github.io/My_Progress_Eye/index.html"
                 hrefImages={[
-                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png",
-                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png",
-                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731915005/prog1_bwchsj.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731915003/prog2_tvttbo.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731915000/prog3_yoa58g.png",
+                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731914999/prog4_rredwu.png"
                 ]}
-                tags={{template:"manager", template1: "entertainment", template2: "frontend", template3: "api", template4: "dashboard", template5: "uiux"}}
+                tags={{
+                    template: "manager",
+                    template1: "entertainment",
+                    template2: "frontend",
+                    template3: "api",
+                    template4: "dashboard",
+                    template5: "uiux",
+                }}
             />
             <Card
                 text="Farm Database"
                 cover='<svg xmlns="http://www.w3.org/2000/svg" width="0.88em" height="1em" viewBox="0 0 448 512"><path fill="currentColor" d="M448 73.143v45.714C448 159.143 347.667 192 224 192S0 159.143 0 118.857V73.143C0 32.857 100.333 0 224 0s224 32.857 224 73.143M448 176v102.857C448 319.143 347.667 352 224 352S0 319.143 0 278.857V176c48.125 33.143 136.208 48.572 224 48.572S399.874 209.143 448 176m0 160v102.857C448 479.143 347.667 512 224 512S0 479.143 0 438.857V336c48.125 33.143 136.208 48.572 224 48.572S399.874 369.143 448 336"/></svg>'
                 href="https://github.com/KevinJGV/Finca_El_Primer_Mundo_MYSQL"
                 bgColor="#353535"
-                hrefImages={[
-                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_index_hg32o3.png",
-                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_shop_snjaez.png",
-                    "https://res.cloudinary.com/dqgxt985j/image/upload/v1731358579/Domi_cart_ezbmjb.png",
-                ]}
-                tags={{template: "modeling", template1: "business", template2: "leadership", template3: "mysql", template4: "db"}}
+                tags={{
+                    template: "modeling",
+                    template1: "business",
+                    template2: "leadership",
+                    template3: "mysql",
+                    template4: "db",
+                }}
             />
         </div>
+        <blockquote class="text_center">
+            <Anchor
+                href="https://github.com/KevinJGV?tab=repositories"
+                text="Más Proyectos"
+                font_size="4rem"
+                bgHeight="4.5rem"
+                _blank={true}
+                svgh={46}
+                svgw={45}
+                svg={true}
+            />
+        </blockquote>
+    </section> -->
+    <section id="techs">
+        <h2 class="Dela">
+            <span class="hidden_text">Main</span> TECHS | TOOLS
+        </h2>
+        <div class="techs_container grid">
+            <ul>
+                <li><svg width="50px" height="80px" viewBox="0 0 708 767" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#000000" opacity="1.00" d=" M 137.12 42.94 C 142.35 41.99 147.70 42.10 152.99 41.92 C 290.99 42.09 429.00 41.96 567.00 42.00 C 567.00 56.33 566.99 70.67 567.00 85.00 C 581.33 85.00 595.66 85.00 610.00 85.00 C 609.99 99.33 610.00 113.67 610.00 128.00 C 624.33 128.00 638.66 128.00 653.00 128.00 C 653.00 199.67 652.99 271.33 653.00 343.00 C 638.66 343.00 624.33 343.00 610.00 343.00 C 610.00 357.33 610.00 371.67 610.00 386.01 C 595.98 386.09 581.95 385.52 567.94 386.12 C 566.11 400.32 567.12 414.72 567.01 429.00 C 524.01 428.99 481.00 429.01 438.00 429.00 C 438.01 457.66 437.98 486.33 438.00 515.00 C 366.34 514.70 294.65 515.58 223.00 514.58 C 223.19 472.03 222.69 429.47 223.12 386.94 C 237.33 385.10 251.72 386.12 266.02 386.01 C 266.09 371.99 265.52 357.95 266.12 343.94 C 280.53 342.10 295.12 343.11 309.61 343.03 C 308.87 328.90 308.95 314.76 308.95 300.62 C 351.95 299.24 394.99 300.34 438.00 300.01 C 438.00 271.33 437.99 242.67 438.00 214.00 C 380.67 214.00 323.33 214.00 266.00 214.00 C 266.00 228.33 266.00 242.67 266.00 257.00 C 251.66 257.00 237.33 257.00 223.00 257.00 C 223.00 271.33 223.00 285.66 223.00 300.00 C 180.00 300.00 137.00 300.00 94.00 300.00 C 94.00 285.66 94.00 271.32 94.00 256.98 C 79.98 256.91 65.95 257.47 51.94 256.88 C 50.15 243.34 51.14 229.61 50.96 216.00 C 51.28 186.98 50.57 157.95 51.12 128.94 C 65.33 127.10 79.72 128.12 94.00 128.01 C 94.00 113.67 94.00 99.33 94.00 85.00 C 108.34 85.00 122.68 85.00 137.02 85.00 C 137.09 70.98 136.52 56.95 137.12 42.94 Z" />
+                    <path fill="#000000" opacity="1.00" d=" M 225.42 558.00 C 296.28 557.99 367.14 558.01 438.00 558.00 C 437.99 599.33 438.00 640.67 438.00 682.00 C 423.66 682.00 409.33 681.99 395.00 682.00 C 395.00 696.33 395.00 710.66 395.00 725.00 C 352.00 725.00 309.00 724.99 266.00 725.00 C 265.99 710.66 266.00 696.33 266.00 681.99 C 252.33 682.00 238.67 681.99 225.00 682.01 C 225.27 640.67 224.44 599.32 225.42 558.00 Z" />
+                    </g>
+                    </svg>
+                    </li>
+                <li><img src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1731913938/java-logo-1_mdrynk.png" alt="" /></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <blockquote class="text_center">
+            <Anchor
+                href="src/pages/me.astro"
+                text="Sobre mí"
+                font_size="4rem"
+                bgHeight="4.5rem"
+                svgh={46}
+                svgw={45}
+                svg={true}
+            />
+        </blockquote>
     </section>
 </article>
+
+<script is:inline>
+    document.addEventListener("DOMContentLoaded", () => {
+        document
+            .querySelector(".techs_container ul")
+            .addEventListener("pointermove", (ev) => {
+                const target = ev.target.closest("li");
+                if (target) {
+                    const rect = target.getBoundingClientRect();
+                    target.style.setProperty("--x", ev.clientX - rect.left);
+                    target.style.setProperty("--y", ev.clientY - rect.top);
+                }
+            });
+    });
+</script>
 
 <style>
     #home1 {
@@ -185,5 +274,110 @@ import Card from "./Card.astro";
         display: flex;
         gap: 5px;
         padding: 0.4em;
+    }
+
+    #home2 h2 {
+        margin-block: 4rem;
+    }
+
+    #home2 blockquote {
+        margin-block: 4rem;
+    }
+
+    #home2 {
+        gap: 1rem;
+    }
+
+    .techs_container {
+        --s: 120px;
+        --r: 1;
+        --h: 0.5;
+        --v: 0.29;
+        --hc: calc(clamp(0, var(--h), 0.5) * var(--s));
+        --vc: calc(clamp(0, var(--v), 0.5) * var(--s) * var(--r));
+        --mv: 5px;
+        --mh: calc(var(--mv) + (var(--s) - 2 * var(--hc)) / 2);
+        --f: calc(
+            2 * var(--s) * var(--r) + 4 * var(--mv) - 2 * var(--vc) - 2px
+        );
+    }
+
+    .techs_container ul {
+        font-size: 0;
+        padding-bottom: calc(var(--s) * var(--r) + var(--mv));
+    }
+
+    .techs_container ul::before {
+        content: "";
+        width: calc(var(--s) / 2 + var(--mh));
+        float: left;
+        height: 140%;
+        shape-outside: repeating-linear-gradient(
+            #0000 0 calc(var(--f) - 2px),
+            #000 0 var(--f)
+        );
+    }
+
+    .techs_container ul li {
+        position: relative;
+        --x-px: calc(var(--x) * 1px);
+        --y-px: calc(var(--y) * 1px);
+        --border: 2px;
+        background: rgba(255, 255, 255, 0.125);
+        overflow: hidden;
+        width: var(--s);
+        margin: var(--mv) var(--mh);
+        height: calc(var(--s) * var(--r));
+        display: inline-block;
+        font-size: initial;
+        clip-path: polygon(
+            var(--hc) 0,
+            calc(100% - var(--hc)) 0,
+            100% var(--vc),
+            100% calc(100% - var(--vc)),
+            calc(100% - var(--hc)) 100%,
+            var(--hc) 100%,
+            0 calc(100% - var(--vc)),
+            0 var(--vc)
+        );
+        margin-bottom: calc(var(--mv) - var(--vc));
+    }
+
+    .techs_container li:before,
+    .techs_container li:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        inset: 0px;
+        background: radial-gradient(
+            800px circle at var(--x-px) var(--y-px),
+            rgba(255, 255, 255, 0.3),
+            transparent 20%
+        );
+    }
+
+    .techs_container li:before {
+        z-index: 1;
+    }
+
+    .techs_container li:after {
+        opacity: 0;
+        z-index: 2;
+    }
+
+    .techs_container li:hover:after {
+        opacity: 1;
+    }
+
+    .techs_container li > * {
+        top: 50% !important;
+		left: 50% !important;
+		transform: translate(-50%, -50%);
+        z-index: 1;
+        position: absolute;
     }
 </style>

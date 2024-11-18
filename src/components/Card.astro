@@ -2,7 +2,7 @@
 interface Props {
 	text: string;
 	href: string;
-	hrefImages: string[];
+	hrefImages?: string[];
 	cover?: string;
 	txtColor?: string;
 	bgColor?: string;
@@ -19,24 +19,29 @@ const {
 	tags = {},
 } = Astro.props;
 
-// Utilizamos el FileSystem API de Astro en lugar de fetch
-import { readFile } from 'node:fs/promises';
-import path from 'node:path';
+import { string } from "astro:schema";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 async function readSvgFile(svgPath: string) {
 	try {
 		const fullPath = path.join("public/", svgPath);
-		const svgContent = await readFile(fullPath, 'utf-8');
+		const svgContent = await readFile(fullPath, "utf-8");
 		return svgContent;
 	} catch (error) {
 		console.error(`Error reading SVG file: ${error}`);
 	}
 }
 
-async function tagItem(key: string, svgContent: string) {
+async function tagItem(
+	key: string,
+	svgContent: string,
+	bgColor: string,
+	color_fill: string,
+) {
 	const svg = await readSvgFile(svgContent);
 	return `
-		<li>
+		<li class="Alumni flex all_c" style="--bgColor: ${bgColor}; --txtColor: ${color_fill}">
 			${svg}
 			<span>${key}</span>
 		</li>
@@ -49,78 +54,283 @@ async function renderTagItem(key: string, setting: string) {
 	}
 
 	const tagConfigs = {
-		"e-commerce": { label: "E-commerce", path: "tags/function/cart.svg" },
-		"technology": { label: "Technologia", path: "tags/purpose/technology.svg" },
-		"frontend": { label: "Frontend", path: "tags/role/frontend.svg" },
-		"uiux": { label: "UI/UX", path: "tags/role/uiux.svg" },
-		"entertainment": { label: "Entretenimiento", path: "tags/purpose/entertainment.svg" },
-		"api": { label: "API", path: "tags/type/api.svg" },
-		"manager": { label: "Administrador", path: "tags/function/manager.svg" },
-		"dashboard": { label: "DashBoard", path: "tags/type/dashboard.svg" },
-		"modeling": { label: "Modelado", path: "tags/function/modeling.svg" },
-		"business": { label: "Negocio", path: "tags/purpose/business.svg" },
-		"leadership": { label: "Líder", path: "tags/role/leadership.svg" },
-		"mysql": { label: "MySql", path: "tags/tech/mysql.svg" },
-		"db": { label: "DB", path: "tags/type/db.svg" }
+		"e-commerce": {
+			label: "E-commerce",
+			path: "tags/function/cart.svg",
+			bgColor: "#264653cc",
+			txtColor: "#fff",
+		},
+		technology: {
+			label: "Technologia",
+			path: "tags/purpose/technology.svg",
+			bgColor: "#6c8c65bb",
+			txtColor: "#000",
+		},
+		frontend: {
+			label: "Frontend",
+			path: "tags/role/frontend.svg",
+			bgColor: "#6f1d1bbb",
+			txtColor: "#fff",
+		},
+		uiux: {
+			label: "UI/UX",
+			path: "tags/role/uiux.svg",
+			bgColor: "#f4d35ebb",
+			txtColor: "#000",
+		},
+		entertainment: {
+			label: "Entretenimiento",
+			path: "tags/purpose/entertainment.svg",
+			bgColor: "#2a9d8fbb",
+			txtColor: "#000",
+		},
+		api: {
+			label: "API",
+			path: "tags/type/api.svg",
+			bgColor: "#00000099",
+			txtColor: "#fff",
+		},
+		manager: {
+			label: "Administrador",
+			path: "tags/function/manager.svg",
+			bgColor: "#8d99aebb",
+			txtColor: "#000",
+		},
+		dashboard: {
+			label: "DashBoard",
+			path: "tags/type/dashboard.svg",
+			bgColor: "#ff6d00bb",
+			txtColor: "#000",
+		},
+		modeling: {
+			label: "Modelado",
+			path: "tags/function/modeling.svg",
+			bgColor: "#042a2b",
+			txtColor: "#fff",
+		},
+		business: {
+			label: "Negocio",
+			path: "tags/purpose/business.svg",
+			bgColor: "#ff6b6bbb",
+			txtColor: "#000",
+		},
+		leadership: {
+			label: "Líderazgo",
+			path: "tags/role/leadership.svg",
+			bgColor: "#7a9e9fbb",
+			txtColor: "#000",
+		},
+		mysql: {
+			label: "MySql",
+			path: "tags/tech/mysql.svg",
+			bgColor: "#04a777bb",
+			txtColor: "#000",
+		},
+		db: {
+			label: "DB",
+			path: "tags/type/db.svg",
+			bgColor: "#f0f0c9bb",
+			txtColor: "#000",
+		},
 	};
 
 	const config = tagConfigs[setting as keyof typeof tagConfigs];
 	if (config) {
-		return await tagItem(config.label, config.path);
+		return await tagItem(
+			config.label,
+			config.path,
+			config.bgColor,
+			config.txtColor,
+		);
 	}
-	return '';
+	return "";
 }
 
-// Preprocesar los tags para mejorar el rendimiento
 const processedTags = await Promise.all(
-	Object.entries(tags).map(async ([key, setting]) => 
-		await renderTagItem(key, setting)
-	)
+	Object.entries(tags).map(
+		async ([key, setting]) => await renderTagItem(key, setting),
+	),
 );
 ---
 
-<a 
-	href={href} 
-	class="pCard flex_col glass0 relative" 
-	target="_blank" 
+<a
+	href={href}
+	class="pCard flex_col glass0 relative"
+	target="_blank"
 	style={`color: ${txtColor}; background-color: ${bgColor};`}
 >
-	{cover && cover.toLowerCase().endsWith("</svg>") ? (
-		<div class="imageCard flex j_c absolute" set:html={cover} />
-	) : (
-		<div class="imageCard flex j_c absolute">
-			<img src={cover} alt="" loading="lazy" />
-		</div>
-	)}
+	{
+		cover && cover.toLowerCase().endsWith("</svg>") ? (
+			<div class="imageCard flex j_c absolute" set:html={cover} />
+		) : (
+			<div class="imageCard flex j_c absolute">
+				<img src={cover} alt="" loading="lazy" />
+			</div>
+		)
+	}
 
-	<ul class="tags absolute flex">
-		{processedTags.map((tag) => (
-			<Fragment set:html={tag} />
-		))}
+	<ul class="tags absolute flex wrap j_sa">
+		{processedTags.map((tag) => <Fragment set:html={tag} />)}
 	</ul>
-	
+
 	<p class="Poppins-S text_center absolute">
 		<span>{text}</span>
 	</p>
 
-	<div class="card_carousel flex absolute">
-		{hrefImages.map((capture) => (
-			<img src={capture} alt=""  />
-		))}
-	</div>
+	{
+		hrefImages ? (
+			<div class="card_carousel flex absolute">
+				{hrefImages.map((capture) => (
+					<img src={capture} alt="" />
+				))}
+			</div>
+		) : (
+			<div class="card_carousel flex absolute" />
+		)
+	}
 </a>
 
 <script>
 	document.addEventListener("DOMContentLoaded", () => {
 		const pCards = document.querySelectorAll(".pCard");
-		let timeoutId: number | null = null;
+		let timeoutId = null;
+		const timeouts = {};
 
-		pCards.forEach((card) => {
+		const setTimeoutWithKey = (key, callback, delay) => {
+			if (timeouts[key]) clearTimeout(timeouts[key]);
+			timeouts[key] = setTimeout(() => {
+				callback();
+				delete timeouts[key];
+			}, delay);
+		};
+
+		const calculateDimensions = () => {
+			const cardsContainer = document.querySelector("#projects > div");
+			if (!cardsContainer) return;
+
+			const containerWidth = cardsContainer.clientWidth;
+			const totalCards = pCards.length;
+			const growFactor = 4;
+			const shrinkFactor = 1;
+			const totalFlex = (totalCards - 1) * shrinkFactor + growFactor;
+			const maxCardWidth =
+				Math.round((containerWidth * growFactor) / totalFlex) - 9;
+			[".tags", ".card_carousel"].forEach((clase) =>
+				document.querySelectorAll(clase).forEach((bunch_elements) => {
+					bunch_elements.style.width = `${maxCardWidth}px`;
+				}),
+			);
+
+			let maxEstimatedHeight = 0;
+			document.querySelectorAll(".card_carousel").forEach((carousel) => {
+				carousel.querySelectorAll("img").forEach((img) => {
+					const aspectRatio = img.naturalHeight / img.naturalWidth;
+					maxEstimatedHeight = Math.max(
+						maxEstimatedHeight,
+						maxCardWidth * aspectRatio,
+					);
+				});
+			});
+
+			pCards.forEach((pCard) => {
+				pCard.style.setProperty(
+					"--carousel-height",
+					`${maxEstimatedHeight}px`,
+				);
+			});
+		};
+
+		const updateStyles = (hoveredCard) => {
+			const styleUpdatesHovered = [
+				{
+					selector: "p",
+					styles: {
+						fontSize: "1rem",
+						paddingBottom: `${hoveredCard.querySelector(".tags").offsetHeight - parseFloat(getComputedStyle(document.documentElement).fontSize)}px`,
+					},
+				},
+				{
+					selector: ".tags",
+					styles: { zIndex: 11 },
+				},
+				{
+					selector: ".imageCard",
+					styles: {
+						opacity: hoveredCard.querySelector(".card_carousel").children.length != 0 ? "0" : "1",
+					},
+				},
+			];
+
+			const styleUpdatesNonHovered = [
+				{
+					selector: "p",
+					styles: { fontSize: "0" },
+				},
+				{
+					selector: ".tags",
+					styles: { zIndex: 3 },
+				},
+			];
+
+			pCards.forEach((otherCard) => {
+				if (otherCard === hoveredCard) {
+					styleUpdatesHovered.forEach(({ selector, styles }) => {
+						const element = otherCard.querySelector(selector);
+						if (element) {
+							Object.keys(styles).forEach((prop) => {
+								element.style[prop] = styles[prop];
+							});
+						}
+					});
+				} else {
+					styleUpdatesHovered.forEach(({ selector, styles }) => {
+						const element = otherCard.querySelector(selector);
+						if (element) {
+							Object.keys(styles).forEach((prop) => {
+								const nonHoveredStyle =
+									styleUpdatesNonHovered.find(
+										(item) => item.selector === selector,
+									);
+
+								if (
+									nonHoveredStyle &&
+									nonHoveredStyle.styles[prop] !== undefined
+								) {
+									element.style[prop] =
+										nonHoveredStyle.styles[prop];
+								} else {
+									element.style.removeProperty(prop);
+								}
+							});
+						}
+					});
+				}
+			});
+		};
+
+		const resetStyles = () => {
+			if (timeoutId) clearTimeout(timeoutId);
+			timeoutId = setTimeout(() => {
+				pCards.forEach((card) => {
+					["p", ".tags", ".imageCard"].forEach((selector) => {
+						const element = card.querySelector(selector);
+						if (element) {
+							element.style.removeProperty("font-size");
+							element.style.removeProperty("bottom");
+							element.style.removeProperty("opacity");
+							element.style.removeProperty("padding-bottom");
+							element.style.removeProperty("z-index");
+						}
+					});
+				});
+			}, 99);
+		};
+
+		const initCarousel = (card) => {
 			const images = card.querySelectorAll(".card_carousel img");
-			images[0].classList.add("active");
 			let currentIndex = 0;
 			let direction = 1;
-			let interval: number;
+			let interval;
 
 			const startCarousel = () => {
 				interval = setInterval(() => {
@@ -138,7 +348,7 @@ const processedTags = await Promise.all(
 
 					images[currentIndex].style.display = "block";
 					images[currentIndex].classList.add("active");
-				}, 1000);
+				}, 1500);
 			};
 
 			const stopCarousel = () => {
@@ -151,85 +361,13 @@ const processedTags = await Promise.all(
 				direction = 1;
 			};
 
-			const updateStyles = (hoveredCard) => {
-				const styleUpdatesHovered = [
-					{
-						selector: "p",
-						styles: { fontSize: "1rem" },
-					},
-					{
-						selector: ".tags",
-						styles: { bottom: "100px" },
-					},
-					{
-						selector: ".imageCard",
-						styles: { opacity: "0" },
-					},
-				];
+			return { startCarousel, stopCarousel };
+		};
 
-				const styleUpdatesNonHovered = [
-					{
-						selector: "p",
-						styles: { fontSize: "0" },
-					},
-				];
-
-				pCards.forEach((otherCard) => {
-					if (otherCard === hoveredCard) {
-						styleUpdatesHovered.forEach(({ selector, styles }) => {
-							const element = otherCard.querySelector(selector);
-							if (element) {
-								Object.keys(styles).forEach((prop) => {
-									element.style[prop] = styles[prop];
-								});
-							}
-						});
-					} else {
-						styleUpdatesHovered.forEach(({ selector, styles }) => {
-							const element = otherCard.querySelector(selector);
-							if (element) {
-								Object.keys(styles).forEach((prop) => {
-									const nonHoveredStyle =
-										styleUpdatesNonHovered.find(
-											(item) =>
-												item.selector === selector,
-										);
-
-									if (
-										nonHoveredStyle &&
-										nonHoveredStyle.styles[prop] !==
-											undefined
-									) {
-										element.style[prop] =
-											nonHoveredStyle.styles[prop];
-									} else {
-										element.style.removeProperty(prop);
-									}
-								});
-							}
-						});
-					}
-				});
-			};
-
-			const resetStyles = () => {
-				if (timeoutId) clearTimeout(timeoutId);
-				timeoutId = setTimeout(() => {
-					pCards.forEach((card) => {
-						["p", ".tags", ".imageCard"].forEach((selector) => {
-							const element = card.querySelector(selector);
-							if (element) {
-								(element as HTMLElement).style.removeProperty("font-size");
-								(element as HTMLElement).style.removeProperty("bottom");
-								(element as HTMLElement).style.removeProperty("opacity");
-							}
-						});
-					});
-				}, 99);
-			};
+		pCards.forEach((card) => {
+			const { startCarousel, stopCarousel } = initCarousel(card);
 
 			card.addEventListener("mouseover", () => {
-				debugger;
 				startCarousel();
 				if (timeoutId) clearTimeout(timeoutId);
 				updateStyles(card);
@@ -241,42 +379,9 @@ const processedTags = await Promise.all(
 			});
 		});
 
-		// Función para calcular dimensiones
-		const calculateDimensions = () => {
-			const cardsContainer = document.querySelector("#projects > div");
-			if (!cardsContainer) return;
-
-			const containerWidth = cardsContainer.clientWidth;
-			const totalCards = pCards.length;
-			const growFactor = 4;
-			const shrinkFactor = 1;
-			const totalFlex = (totalCards - 1) * shrinkFactor + growFactor;
-			const maxCardWidth = Math.round((containerWidth * growFactor) / totalFlex) - 9;
-
-			document.querySelectorAll(".card_carousel").forEach((carousel) => {
-				(carousel as HTMLElement).style.width = `${maxCardWidth}px`;
-			});
-
-			// Calcular altura máxima
-			let maxEstimatedHeight = 0;
-			document.querySelectorAll(".card_carousel").forEach((carousel) => {
-				carousel.querySelectorAll("img").forEach((img) => {
-					const aspectRatio = img.naturalHeight / img.naturalWidth;
-					maxEstimatedHeight = Math.max(maxEstimatedHeight, maxCardWidth * aspectRatio);
-				});
-			});
-
-			pCards.forEach((pCard) => {
-				(pCard as HTMLElement).style.setProperty("--carousel-height", `${maxEstimatedHeight}px`);
-			});
-		};
-
-		// Calcular dimensiones iniciales y en resize
 		calculateDimensions();
-		let resizeTimeout: number;
 		window.addEventListener("resize", () => {
-			clearTimeout(resizeTimeout);
-			resizeTimeout = setTimeout(calculateDimensions, 200);
+			setTimeoutWithKey("resizeDimensions", calculateDimensions, 99);
 		});
 	});
 </script>
@@ -318,18 +423,25 @@ const processedTags = await Promise.all(
 
 	.pCard p {
 		font-size: 1rem;
-		margin: 1rem;
+		left: 0;
+		right: 0;
+		padding: 0.5rem;
 		bottom: 0;
 		z-index: 10;
 	}
 
+	.pCard:hover p {
+		background-color: var(--bgColor);
+	}
+
 	.pCard .tags {
 		list-style: none;
-		padding: 0;
-		z-index: 8;
+		padding: 1rem;
+		margin: 0;
+		z-index: 3;
 		width: 100%;
-		height: 20px;
-		bottom: -20px;
+		bottom: 0;
 		background-color: var(--bgColor);
+		gap: 1rem;
 	}
 </style>

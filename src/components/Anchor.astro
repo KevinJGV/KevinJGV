@@ -3,15 +3,19 @@ interface Props {
 	text: string;
 	font_size: string;
 	href: string;
+	bgHeight: string;
+	fontFamClass?: string;
+	_blank?: boolean;
 	svgw?: number;
 	svgh?: number;
 	svg?: boolean;
 }
 
-const { text, font_size, href, svgh = 31, svgw = 30, svg = false } = Astro.props;
----
+const { text, font_size, href, bgHeight, fontFamClass ="Poppins-S", _blank=false, svgh = 31, svgw = 30, svg = false } = Astro.props;
 
-<a href={href} class="Anchor relative Poppins-S"
+---
+<a href={href} class:list={["Anchor", "relative", fontFamClass]} target={_blank ? "_blank" : "_self"} 
+rel={_blank ? "noopener noreferrer" : undefined}
 	>{text}<svg
 		class:list={["relative", { no_display: !svg }]}
 		width={svgw}
@@ -32,7 +36,7 @@ const { text, font_size, href, svgh = 31, svgw = 30, svg = false } = Astro.props
 	</svg><div class="Anbackground absolute"></div></a
 >
 
-<style define:vars={{font_size}}>
+<style define:vars={{font_size, bgHeight}}>
 	.Anchor {
 		font-size: var(--font_size);
 		height: 40px;
@@ -50,7 +54,7 @@ const { text, font_size, href, svgh = 31, svgw = 30, svg = false } = Astro.props
 	}
 
 	.Anchor:hover .Anbackground {
-		height: inherit;
+		height: var(--bgHeight);
 		width: 110%;
 		top: 47%;
 	}
