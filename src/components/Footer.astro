@@ -139,7 +139,7 @@ const { no_top_foot = false } = Astro.props;
                 </a>
             </div>
         </div>
-        <p>©2024 VIN-DEV</p>
+        <p>©<span id="curYear"></span> VIN-DEV</p>
     </section>
     <section id="bot_foot" class="text_center Poppins-R">
         Despegando al éxito 🚀... gracias a <Anchor
@@ -211,6 +211,9 @@ const { no_top_foot = false } = Astro.props;
                 "darkorange", "lightskyblue", "palevioletred", "mediumseagreen", "violet",
                 "salmon", "sandybrown", "darkcyan", "mediumslateblue", "goldenrod", "#3b82f6", "#8b5df6"
             ]);
+
+    const curYear = new Date().getFullYear();
+    document.querySelector("#curYear").textContent = curYear;
 </script>
 <style>
     #social_media > * {

@@ -291,6 +291,7 @@
 	}
 
 	.pCard .tags li * {
+		font-size: 1rem;
 		fill: var(--txtColor);
 		color: var(--txtColor);
 	}
@@ -299,4 +300,16 @@
 		width: 15px;
 		height: 15px;
 	}
+
+	.techs_container li > * {
+        top: 50% !important;
+		left: 50% !important;
+		transform: translate(-50%, -50%);
+        z-index: 1;
+        position: absolute;
+    }
+
+	.techs_container ul:hover .li_hidden {
+        opacity: 0.04;
+    }
 </style>

@@ -2,9 +2,12 @@
 import TextHighlighted from "./Highlighter.astro";
 import Card from "./Card.astro";
 import Anchor from "./Anchor.astro";
+import Hexagon from "./Hexagon.astro";
+
+const s = "120px", r = 1, mv = "5px"
 ---
 
-<!-- <article id="home1" class="home_article flex relative">
+<article id="home1" class="home_article flex relative">
     <section id="home1_text" class="flex_col j_se">
         <div id="home1_top" class="flex_col j_c">
             <span class="Dela">Hola, </span>
@@ -138,59 +141,66 @@ import Anchor from "./Anchor.astro";
         <blockquote class="text_center">
             <Anchor
                 href="https://github.com/KevinJGV?tab=repositories"
-                text="Más Proyectos"
-                font_size="4rem"
-                bgHeight="4.5rem"
+                text="Más "
+                font_size="7rem"
+                bgHeight="7.5rem"
                 _blank={true}
-                svgh={46}
-                svgw={45}
-                svg={true}
-            />
-        </blockquote>
-    </section> -->
-    <section id="techs">
-        <h2 class="Dela">
-            <span class="hidden_text">Main</span> TECHS | TOOLS
-        </h2>
-        <div class="techs_container grid">
-            <ul>
-                <li><svg width="50px" height="80px" viewBox="0 0 708 767" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#000000" opacity="1.00" d=" M 137.12 42.94 C 142.35 41.99 147.70 42.10 152.99 41.92 C 290.99 42.09 429.00 41.96 567.00 42.00 C 567.00 56.33 566.99 70.67 567.00 85.00 C 581.33 85.00 595.66 85.00 610.00 85.00 C 609.99 99.33 610.00 113.67 610.00 128.00 C 624.33 128.00 638.66 128.00 653.00 128.00 C 653.00 199.67 652.99 271.33 653.00 343.00 C 638.66 343.00 624.33 343.00 610.00 343.00 C 610.00 357.33 610.00 371.67 610.00 386.01 C 595.98 386.09 581.95 385.52 567.94 386.12 C 566.11 400.32 567.12 414.72 567.01 429.00 C 524.01 428.99 481.00 429.01 438.00 429.00 C 438.01 457.66 437.98 486.33 438.00 515.00 C 366.34 514.70 294.65 515.58 223.00 514.58 C 223.19 472.03 222.69 429.47 223.12 386.94 C 237.33 385.10 251.72 386.12 266.02 386.01 C 266.09 371.99 265.52 357.95 266.12 343.94 C 280.53 342.10 295.12 343.11 309.61 343.03 C 308.87 328.90 308.95 314.76 308.95 300.62 C 351.95 299.24 394.99 300.34 438.00 300.01 C 438.00 271.33 437.99 242.67 438.00 214.00 C 380.67 214.00 323.33 214.00 266.00 214.00 C 266.00 228.33 266.00 242.67 266.00 257.00 C 251.66 257.00 237.33 257.00 223.00 257.00 C 223.00 271.33 223.00 285.66 223.00 300.00 C 180.00 300.00 137.00 300.00 94.00 300.00 C 94.00 285.66 94.00 271.32 94.00 256.98 C 79.98 256.91 65.95 257.47 51.94 256.88 C 50.15 243.34 51.14 229.61 50.96 216.00 C 51.28 186.98 50.57 157.95 51.12 128.94 C 65.33 127.10 79.72 128.12 94.00 128.01 C 94.00 113.67 94.00 99.33 94.00 85.00 C 108.34 85.00 122.68 85.00 137.02 85.00 C 137.09 70.98 136.52 56.95 137.12 42.94 Z" />
-                    <path fill="#000000" opacity="1.00" d=" M 225.42 558.00 C 296.28 557.99 367.14 558.01 438.00 558.00 C 437.99 599.33 438.00 640.67 438.00 682.00 C 423.66 682.00 409.33 681.99 395.00 682.00 C 395.00 696.33 395.00 710.66 395.00 725.00 C 352.00 725.00 309.00 724.99 266.00 725.00 C 265.99 710.66 266.00 696.33 266.00 681.99 C 252.33 682.00 238.67 681.99 225.00 682.01 C 225.27 640.67 224.44 599.32 225.42 558.00 Z" />
-                    </g>
-                    </svg>
-                    </li>
-                <li><img src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1731913938/java-logo-1_mdrynk.png" alt="" /></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </div>
-        <blockquote class="text_center">
-            <Anchor
-                href="src/pages/me.astro"
-                text="Sobre mí"
-                font_size="4rem"
-                bgHeight="4.5rem"
-                svgh={46}
-                svgw={45}
+                svgh={76}
+                svgw={75}
                 svg={true}
             />
         </blockquote>
     </section>
-</article>
+<section id="techs">
+    <h2 class="Dela">
+        <span class="hidden_text">Main</span> TECHS | TOOLS
+    </h2>
+    <div class="techs_container grid unselected">
+        <ul>
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/v1732069030/free-java-59-1174952_rcoapt.webp" title="Java" />
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732071507/1200px-Typescript_logo_2020.svg_umjkft.png" title="TypeScript"/>
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/v1732070256/gratis-png-jira-atlassian-software-de-computadora-confluencia-desarrollo-de-software-jira_ijbp0y.png" title="Jira"/>
+            <Hexagon />
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732069645/git_plain_wordmark_logo_icon_146508_lxcqzm.png" title="git"/>
+            <Hexagon />
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/v1732070653/340px-CSS3_logo_and_wordmark.svg_elok7l.png"title="CSS"/>
+            <Hexagon />
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732068544/1711525883305_prjgih.png" title="Python"/>
+            <Hexagon />
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732070853/image_rnyojd.png" title="MarkDown"/>
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732071297/Notion_app_logo_f6uixh.png" title="Notion"/>
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/v1732069390/1656604745399_m4wyx5.png" title="Spring Boot"/>
+            <Hexagon />
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732071011/pngwing.com_bpat9e.png" title="PostgreSQL"/>
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732071136/postman-logo-0087CA0D15-seeklogo.com_dajchv.png" title="Postman"/>
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732068739/JavaScript-logo_mpgu9l.png" title="Javascript"/>
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732071705/1_nLbfO_PdTSpeCdZQuUr8RQ_wvcppy.png" title="Astro Framework"/>
+            <Hexagon />
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732069752/Figma-logo_jsyern.svg" title="Figma"/>
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732071224/insomnia-logo-A35E09EB19-seeklogo.com_jujkam.png"title="Insomnia"/>
+            <Hexagon />
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732069295/mysql_PNG23_rlknax.png" title="MySQL"/>
+            <Hexagon />
+            <Hexagon />
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732070581/HTML5_logo_and_wordmark_njrary.png"title="HTML"/>
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/t_Thumbnail/v1732071368/sonarlint-icon-logo-0161BCE8AD-seeklogo.com_l2ardn.png" title="SonarLint"/>
+            <Hexagon />
+            <Hexagon />
+            <Hexagon src="https://res.cloudinary.com/dqgxt985j/image/upload/v1732071874/1200px-Tux.svg_xjz7da.png" title="Linux"/>
+        </ul>
+    </div>
+</section>
+<blockquote class="text_center">
+    <Anchor
+        href="src/pages/me.astro"
+        text="Sobre mí "
+        font_size="7rem"
+        bgHeight="7.5rem"
+        svgh={76}
+        svgw={75}
+        svg={true}
+    />
+</blockquote>
 
 <script is:inline>
     document.addEventListener("DOMContentLoaded", () => {
@@ -207,7 +217,7 @@ import Anchor from "./Anchor.astro";
     });
 </script>
 
-<style>
+<style define:vars={{s,r,mv}}>
     #home1 {
         gap: 20rem;
     }
@@ -280,8 +290,9 @@ import Anchor from "./Anchor.astro";
         margin-block: 4rem;
     }
 
-    #home2 blockquote {
+    #home2 #projects blockquote {
         margin-block: 4rem;
+        padding-top: calc(var(--s) * var(--r) + var(--mv));
     }
 
     #home2 {
@@ -289,13 +300,13 @@ import Anchor from "./Anchor.astro";
     }
 
     .techs_container {
-        --s: 120px;
-        --r: 1;
+        --s: var(--s);
+        --r: var(--r);
         --h: 0.5;
         --v: 0.29;
         --hc: calc(clamp(0, var(--h), 0.5) * var(--s));
         --vc: calc(clamp(0, var(--v), 0.5) * var(--s) * var(--r));
-        --mv: 5px;
+        --mv: var(--mv);
         --mh: calc(var(--mv) + (var(--s) - 2 * var(--hc)) / 2);
         --f: calc(
             2 * var(--s) * var(--r) + 4 * var(--mv) - 2 * var(--vc) - 2px
@@ -318,66 +329,5 @@ import Anchor from "./Anchor.astro";
         );
     }
 
-    .techs_container ul li {
-        position: relative;
-        --x-px: calc(var(--x) * 1px);
-        --y-px: calc(var(--y) * 1px);
-        --border: 2px;
-        background: rgba(255, 255, 255, 0.125);
-        overflow: hidden;
-        width: var(--s);
-        margin: var(--mv) var(--mh);
-        height: calc(var(--s) * var(--r));
-        display: inline-block;
-        font-size: initial;
-        clip-path: polygon(
-            var(--hc) 0,
-            calc(100% - var(--hc)) 0,
-            100% var(--vc),
-            100% calc(100% - var(--vc)),
-            calc(100% - var(--hc)) 100%,
-            var(--hc) 100%,
-            0 calc(100% - var(--vc)),
-            0 var(--vc)
-        );
-        margin-bottom: calc(var(--mv) - var(--vc));
-    }
-
-    .techs_container li:before,
-    .techs_container li:after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        inset: 0px;
-        background: radial-gradient(
-            800px circle at var(--x-px) var(--y-px),
-            rgba(255, 255, 255, 0.3),
-            transparent 20%
-        );
-    }
-
-    .techs_container li:before {
-        z-index: 1;
-    }
-
-    .techs_container li:after {
-        opacity: 0;
-        z-index: 2;
-    }
-
-    .techs_container li:hover:after {
-        opacity: 1;
-    }
-
-    .techs_container li > * {
-        top: 50% !important;
-		left: 50% !important;
-		transform: translate(-50%, -50%);
-        z-index: 1;
-        position: absolute;
-    }
+    
 </style>

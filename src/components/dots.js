@@ -31,7 +31,7 @@ export const generateDots = () => {
                 ? "#" + Math.floor(Math.random() * 16777215).toString(16)
                 : "#6c8c65",
             scale: withScale ? Math.random() + 0.25 : 1,
-            filter: withBlur ? "blur(2rem)" : "unset"
+            filter: withBlur ? "blur(1rem)" : "unset"
         });
     });
     // Animación
