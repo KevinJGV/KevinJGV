@@ -151,69 +151,118 @@ const { no_top_foot = false } = Astro.props;
     </section>
 </footer>
 <script>
-    function consoleText(words, id, colors) {
-        if (colors === undefined) colors = ["#fff"];
-        let visible = true;
-        let con = document.querySelector("#console");
-        let letterCount = 1;
-        let x = 1;
-        let waiting = false;
-        let target = document.querySelector(id);
-        target.setAttribute("style", "color:" + colors[Math.floor(Math.random() * colors.length)]);
-        window.setInterval(function () {
-            if (letterCount === 0 && waiting === false) {
-                waiting = true;
-                target.innerHTML = words[0].substring(0, letterCount);
-                window.setTimeout(function () {
-                    let usedColor = colors.shift();
-                    colors.push(usedColor);
-                    let usedWord = words.shift();
-                    words.push(usedWord);
-                    x = 1;
-                    target.setAttribute("style", "color:" + colors[Math.floor(Math.random() * colors.length)]);
+    document.addEventListener("astro:page-load", () => {
+        function consoleText(words, id, colors) {
+            if (colors === undefined) colors = ["#fff"];
+            let visible = true;
+            let con = document.querySelector("#console");
+            let letterCount = 1;
+            let x = 1;
+            let waiting = false;
+            let target = document.querySelector(id);
+            target.setAttribute(
+                "style",
+                "color:" + colors[Math.floor(Math.random() * colors.length)]
+            );
+            window.setInterval(function () {
+                if (letterCount === 0 && waiting === false) {
+                    waiting = true;
+                    target.innerHTML = words[0].substring(0, letterCount);
+                    window.setTimeout(function () {
+                        let usedColor = colors.shift();
+                        colors.push(usedColor);
+                        let usedWord = words.shift();
+                        words.push(usedWord);
+                        x = 1;
+                        target.setAttribute(
+                            "style",
+                            "color:" +
+                                colors[
+                                    Math.floor(Math.random() * colors.length)
+                                ]
+                        );
+                        letterCount += x;
+                        waiting = false;
+                    }, 1000);
+                } else if (
+                    letterCount === words[0].length + 1 &&
+                    waiting === false
+                ) {
+                    waiting = true;
+                    window.setTimeout(function () {
+                        x = -1;
+                        letterCount += x;
+                        waiting = false;
+                    }, 1000);
+                } else if (waiting === false) {
+                    target.innerHTML = words[0].substring(0, letterCount);
                     letterCount += x;
-                    waiting = false;
-                }, 1000);
-            } else if (
-                letterCount === words[0].length + 1 &&
-                waiting === false
-            ) {
-                waiting = true;
-                window.setTimeout(function () {
-                    x = -1;
-                    letterCount += x;
-                    waiting = false;
-                }, 1000);
-            } else if (waiting === false) {
-                target.innerHTML = words[0].substring(0, letterCount);
-                letterCount += x;
-            }
-        }, 120);
-        window.setInterval(function () {
-            if (visible === true) {
-				con.id = "console";
-                con.className = "hidden";
-                visible = false;
-            } else {
-				con.id = "console";
-				con.className = "";
-                visible = true;
-            }
-        }, 400);
-    }
+                }
+            }, 120);
+            window.setInterval(function () {
+                if (visible === true) {
+                    con.id = "console";
+                    con.className = "hidden";
+                    visible = false;
+                } else {
+                    con.id = "console";
+                    con.className = "";
+                    visible = true;
+                }
+            }, 400);
+        }
 
-	consoleText(["Marca.", "Negocio.", "Valor.", "Potencial."], "#dinamic_text", [
-                "fuchsia", "lime", "yellow", "blue", "aqua", "orange", "hotpink",
-                "lawngreen", "cyan", "magenta", "springgreen", "dodgerblue", "deeppink",
-                "chartreuse", "mediumspringgreen", "limegreen", "crimson", "tomato",
-                "gold", "coral", "orangered", "greenyellow", "mediumturquoise", "royalblue",
-                "mediumorchid", "mediumpurple", "yellowgreen", "turquoise", "mediumvioletred",
-                "darkorange", "lightskyblue", "palevioletred", "mediumseagreen", "violet",
-                "salmon", "sandybrown", "darkcyan", "mediumslateblue", "goldenrod", "#3b82f6", "#8b5df6"
-            ]);
+        consoleText(
+            ["Marca.", "Negocio.", "Valor.", "Potencial."],
+            "#dinamic_text",
+            [
+                "fuchsia",
+                "lime",
+                "yellow",
+                "blue",
+                "aqua",
+                "orange",
+                "hotpink",
+                "lawngreen",
+                "cyan",
+                "magenta",
+                "springgreen",
+                "dodgerblue",
+                "deeppink",
+                "chartreuse",
+                "mediumspringgreen",
+                "limegreen",
+                "crimson",
+                "tomato",
+                "gold",
+                "coral",
+                "orangered",
+                "greenyellow",
+                "mediumturquoise",
+                "royalblue",
+                "mediumorchid",
+                "mediumpurple",
+                "yellowgreen",
+                "turquoise",
+                "mediumvioletred",
+                "darkorange",
+                "lightskyblue",
+                "palevioletred",
+                "mediumseagreen",
+                "violet",
+                "salmon",
+                "sandybrown",
+                "darkcyan",
+                "mediumslateblue",
+                "goldenrod",
+                "#3b82f6",
+                "#8b5df6",
+            ]
+        );
 
-    const curYear = new Date().getFullYear();
-    document.querySelector("#curYear").textContent = curYear;
+        const curYear = new Date().getFullYear();
+        document.querySelector("#curYear").textContent = curYear;
+    });
 </script>
 <style>
     #social_media > * {
@@ -249,7 +298,7 @@ const { no_top_foot = false } = Astro.props;
     #top_foot svg:hover {
         animation-play-state: paused;
     }
-    
+
     #mid_foot {
         padding: 30px 20px 0;
         border-top: 1px solid var(--border);

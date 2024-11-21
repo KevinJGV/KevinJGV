@@ -1,145 +1,149 @@
 ---
 interface Props {
-	hrefs: {[key:string]:string}
+    hrefs: { [key: string]: string };
 }
 
 const { hrefs } = Astro.props;
 ---
 
 <nav id="sandwich" class="x-cursor fixed centrar_absolutoX">
-	<hr />
-	<hr />
+    <hr />
+    <hr />
 </nav>
 <section id="menu" class="fixed flex_col centrar_absolutoX">
-	<div id="top-menu" class="flex">
-		<div></div>
-		<ul class="flex_col j_c">
-			{
-				Object.entries(hrefs).map(([label, url]) => (
-					<li>
-						<a href={url} class="Dela">
-							{label}
-						</a>
-					</li>
-				))
-			}
-		</ul>
-	</div>
-	<div id="bot-menu" class="flex_col text_center x-cursor">
-		<hr />
-		<hr />
-	</div>
+    <div id="top-menu" class="flex">
+        <div></div>
+        <ul class="flex_col j_c">
+            {
+                Object.entries(hrefs).map(([label, url]) => (
+                    <li>
+                        <a href={url} class="Dela">
+                            {label}
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+    <div id="bot-menu" class="flex_col text_center x-cursor">
+        <hr />
+        <hr />
+    </div>
 </section>
 
 <script>
-	document.addEventListener("DOMContentLoaded", () => {
-		const botMenu = document.getElementById("bot-menu");
-		const menu = document.getElementById("menu");
+    document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("astro:page-load", () => {
+            const botMenu = document.getElementById("bot-menu");
+            const menu = document.getElementById("menu");
 
-		botMenu.addEventListener("mouseover", () => {
-			menu.classList.add("hovered");
-		});
+            botMenu.addEventListener("mouseover", () => {
+                menu.classList.add("hovered");
+            });
 
-		botMenu.addEventListener("mouseout", () => {
-			menu.classList.remove("hovered");
-		});
+            botMenu.addEventListener("mouseout", () => {
+                menu.classList.remove("hovered");
+            });
 
-		botMenu.addEventListener("click", () => {
-			menu.classList.toggle("open");
-			menu.classList.remove("hovered");
-		});
+            botMenu.addEventListener("click", () => {
+                menu.classList.toggle("open");
+                menu.classList.remove("hovered");
+            });
 
-		document.querySelector("#sandwich").addEventListener("click", () => {
-			menu.classList.toggle("open");
-		});
+            document
+                .querySelector("#sandwich")
+                .addEventListener("click", () => {
+                    menu.classList.toggle("open");
+                });
 
-		document.querySelectorAll("#menu li").forEach((li) => {
-			li.classList.add("hover-li");
-		});
-	});
+            document.querySelectorAll("#menu li").forEach((li) => {
+                li.classList.add("hover-li");
+            });
+        });
+    });
 </script>
 
 <style>
-	hr {
-		width: 200px;
-	}
+    hr {
+        width: 200px;
+    }
 
-	#sandwich {
-		top: 15px;
-		width: 200px;
-		padding: 10px;
-		z-index: 30;
-	}
+    #sandwich {
+        top: 15px;
+        width: 200px;
+        padding: 10px;
+        z-index: 30;
+    }
 
-	#sandwich hr {
-		border: 1px var(--text-color) solid;
-	}
+    #sandwich hr {
+        border: 1px var(--text-color) solid;
+    }
 
-	#sandwich:hover {
-		filter: drop-shadow(0px 5px 6px #fff);
-	}
+    #sandwich:hover {
+        filter: drop-shadow(0px 5px 6px #fff);
+    }
 
-	#menu,
-	#menu * {
-		color: var(--bg-color);
-	}
+    #menu,
+    #menu * {
+        color: var(--bg-color);
+    }
 
-	#menu {
-		overflow: hidden;
-		z-index: 100;
-		width: 96vw;
-		height: 96vh;
-		top: -96vh;
-		background-color: #fff;
-		border-radius: 0 0 20px 20px;
-	}
+    #menu {
+        overflow: hidden;
+        z-index: 100;
+        width: 96vw;
+        height: 96vh;
+        top: -96vh;
+        background-color: #fff;
+        border-radius: 0 0 20px 20px;
+    }
 
-	#top-menu {
-		flex-grow: 4;
-	}
+    #top-menu {
+        flex-grow: 4;
+    }
 
-	#top-menu div {
-		flex-grow: 1;
-		flex-shrink: 0;
-	}
+    #top-menu div {
+        flex-grow: 1;
+        flex-shrink: 0;
+    }
 
-	#top-menu ul {
-		gap: 20px;
-		flex-shrink: 0;
-		flex-grow: 1;
-		padding: 0;
-		margin: 0;
-	}
+    #top-menu ul {
+        gap: 20px;
+        flex-shrink: 0;
+        flex-grow: 1;
+        padding: 0;
+        margin: 0;
+    }
 
-	#top-menu li {
-		font-size: 5rem;
-		width: fit-content;
-		list-style: none;
-	}
+    #top-menu li {
+        font-size: 5rem;
+        width: fit-content;
+        list-style: none;
+    }
 
-	.hover-li:hover {
-		transform: translateX(20px);
-		list-style: disclosure-closed !important;
-	}
+    .hover-li:hover {
+        transform: translateX(20px);
+        list-style: disclosure-closed !important;
+    }
 
-	#bot-menu {
-		flex-grow: 1;
-		flex-shrink: 0;
-		place-content: center;
-		width: fit-content;
-		align-self: center;
-	}
+    #bot-menu {
+        flex-grow: 1;
+        flex-shrink: 0;
+        place-content: center;
+        width: fit-content;
+        align-self: center;
+    }
 
-	#menu hr {
-		border: 1px var(--bg-color) solid;
-		margin: 4px;
-	}
+    #menu hr {
+        border: 1px var(--bg-color) solid;
+        margin: 4px;
+    }
 
-	#menu.hovered {
-		top: -20px !important;
-	}
+    #menu.hovered {
+        top: -20px !important;
+    }
 
-	#menu.open {
-		top: 0;
-	}
+    #menu.open {
+        top: 0;
+    }
 </style>
