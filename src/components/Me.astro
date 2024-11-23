@@ -2,7 +2,7 @@
 
 ---
 
-<article class="article flex relative j_sb">
+<article id="me1" class="article flex relative j_sb">
     <section class="text-content flex_col">
         <section class="top-section flex_col">
             <h1 class="Alumni_I">¿Sobre mí?</h1>
@@ -121,14 +121,14 @@
                 mi valor y exito profesional sin importar la empresa.</q
             >
             <p class="Poppins-R">
-                Ser aquel sujeto al cual sueles recurrir, gracias a la
+                Personalmente aquel sujeto al cual sueles recurrir, gracias a la
                 experiencia y conocimiento en todas las tecnologias y areas de
                 su interes, ante un "Gridlock".<br />Alguien a quien puedas
                 definir como especialista en el campo capaz de escribir <a
                     href="https://es.javascript.info/ninja-code"
                     target="_blank">Código Ninja</a
                 > a su conveniencia.<br />
-                Así como el CEO de un, o varios, productos distintivos utiles e impactantes
+                Profesionalmente, con una solida carrera, experiencia y conocimientos tecnologicos,<br>el CEO de un, o varios, productos distintivos utiles e impactantes
                 en el dia a dia de las sociedades.
             </p>
         </section>
@@ -147,7 +147,7 @@
     <div class="Poppins-R flex_col">
         <div class="flex alignI_c">
             <h3>Qué amo</h3>
-            <svg
+            <svg id="love"
                 xmlns="http://www.w3.org/2000/svg"
                 width="143"
                 height="143"
@@ -159,25 +159,26 @@
                     d="M40.219 58.792a6.703 6.703 0 1 0 13.406 0 6.703 6.703 0 0 0-13.406 0Zm49.156 0a6.703 6.703 0 1 0 13.406 0 6.703 6.703 0 0 0-13.406 0ZM71.5 8.937C36.951 8.938 8.937 36.951 8.937 71.5c0 34.549 28.014 62.562 62.563 62.562 34.549 0 62.562-28.013 62.562-62.562 0-34.549-28.013-62.563-62.562-62.563Zm36.728 99.291a51.947 51.947 0 0 1-16.52 11.143c-6.383 2.71-13.184 4.078-20.208 4.078-7.024 0-13.825-1.368-20.221-4.078a51.715 51.715 0 0 1-16.52-11.143 51.955 51.955 0 0 1-11.144-16.52C20.919 85.324 19.55 78.523 19.55 71.5c0-7.024 1.368-13.825 4.078-20.221a51.725 51.725 0 0 1 11.143-16.52 51.952 51.952 0 0 1 16.52-11.144c6.383-2.696 13.184-4.064 20.208-4.064 7.024 0 13.825 1.368 20.221 4.078a51.735 51.735 0 0 1 16.521 11.143 51.96 51.96 0 0 1 11.143 16.52c2.696 6.383 4.064 13.184 4.064 20.208 0 7.024-1.368 13.825-4.078 20.221a51.506 51.506 0 0 1-11.143 16.507ZM92.727 74.433h-6.718c-.586 0-1.089.446-1.13 1.033-.531 6.913-6.327 12.373-13.379 12.373s-12.862-5.46-13.378-12.373a1.128 1.128 0 0 0-1.132-1.033h-6.717a1.117 1.117 0 0 0-1.117 1.173c.615 11.772 10.404 21.17 22.344 21.17 11.94 0 21.73-9.398 22.344-21.17a1.119 1.119 0 0 0-1.117-1.173Z"
                 ></path>
             </svg>
-            <ul class="flex wrap">
+            <ul class="flex">
                 <li>Color negro</li>
                 <li>Produccion de contenidos audiovisuales</li>
                 <li>Animaciones</li>
                 <li>Videojuegos</li>
-                <li>Mi moto<span>( Enduros Brum brummms )</span></li>
+                <li>Mi moto <span>(Enduros)</span></li>
                 <li>Admirar personas</li>
-                <li>Aconseja</li>
+                <li>Aconsejar</li>
                 <li>Gatos</li>
-                <li>Las chicas <span>(I mean, i´m not Simp)</span></li>
-                <li>Cocinar <span>(Aunque me da pereza)</span></li>
-                <li>Solitud <span></span>(Staying-at-home)</li>
+                <li>Cocinar <span>(Sí me anímo)</span></li>
+                <li>Solitud <span>(Staying-at-home)</span></li>
                 <li>Climas frios</li>
                 <li>Trabajar en equipo <span>(Y el co-working)</span></li>
                 <li>Conocer nuevos sitios</li>
             </ul>
         </div>
+        <hr>
         <div class="flex alignI_c">
             <h3>Qué no tanto</h3><svg
+                id="hate"
                 xmlns="http://www.w3.org/2000/svg"
                 width="143"
                 height="143"
@@ -193,9 +194,9 @@
             </svg>
             <ul class="flex">
                 <li>Resultados incompletos</li>
-                <li>Out of money</li>
+                <li>Quedarme sin dinero</li>
                 <li>Climas muy calientes</li>
-                <li>Simps</li>
+                <li>Simps <span>(Personas sin valor)</span></li>
                 <li>Gente que no soporta mi sentido del humor</li>
                 <li>Cafe puro</li>
                 <li>Falta de empatia</li>
@@ -362,6 +363,10 @@
         flex-direction: row-reverse;
     }
 
+    #me2 p{
+        transform: rotateZ(4deg);
+    }
+
     #me2 .top-section {
         text-align: right;
     }
@@ -415,7 +420,23 @@
         flex-shrink: 0;
     }
 
+    #love {
+        transform: rotateZ(45deg)
+    }
+
+    #hate {
+        transform: rotateZ(315deg)
+    }
+
+    #me4 hr {
+        width: 100%;
+        border: 1px 0 0 0 solid;
+        border-color: var(--border);
+        margin: 0;
+    }
+
     #me4 ul {
+        flex-wrap: wrap;
         gap: 1rem;
         list-style-type: none;
         padding: 0;
@@ -427,5 +448,10 @@
         padding: 5px 8px;
         border: var(--border) 1px solid;
         border-radius: 50px;
+    }
+
+    #me4 li span{
+        color: #666;
+        font-size: 0.8rem;
     }
 </style>
