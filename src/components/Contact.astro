@@ -1,3 +1,185 @@
 ---
 
 ---
+
+<article id="contact1" class="Poppins-R flex_col j_c wrap">
+  <h1 class="Poppins-S flex all_c">Dame tu contacto</h1>
+  <p>
+    Siempre estoy abierto a propuestas, ¿tienes alguna?
+  </p>
+  <form target="_blank" action="https://formsubmit.co/vin-dev@outlook.com" method="POST" class="flex_col j_c wrap">
+    <div class="flex all_c">
+      <div class="inputBox relative">
+        <input
+          type="text"
+          name="nombre"
+          id="nombre"
+          maxlength="25"
+          minlength="1"
+          required=""
+          placeholder=" "
+        />
+        <label for="nombre">Nombre</label>
+      </div>
+      <div class="inputBox relative">
+        <input
+          type="email"
+          name="email"
+          id="email"
+          required=""
+          placeholder=" "
+        />
+        <label for="email">E-mail</label>
+      </div>
+    </div>
+    <div class="inputBox relative">
+      <textarea
+        name="descripcion"
+        id="descripcion"
+        maxlength="500"
+        minlength="1"
+        placeholder="Cuentame el chisme"
+        cols="10"
+        rows="5" required=""></textarea>
+    </div>
+    <button id="mensaje" class="Poppins-S" type="submit">Enviar</button>
+  </form>
+</article>
+
+<article id="contact2" class="Poppins-R flex_col j_c wrap">
+  <h1 class="Poppins-S">... O enviame un e-mail</h1>
+  <p>
+    Puede tardar un poco en que recibas mi respuesta, pero seguro que mas de una
+    semana no vas a tener que esperar<br /><span>(si no es spam, claro)</span>.
+  </p>
+  <a
+    class="Dela all_c"
+    href="mailto:noseasapo@sapo.com?subject=¡Hola%20Kevin!%20Estoy%20interesad@%20en%20comunicarme%20contigo."
+    >vin-dev@outlook.com</a
+  >
+</article>
+
+<style>
+
+  #contact1 {
+    margin-top: 150px
+  }
+
+  #contact2 {
+    margin-bottom: 150px
+  }
+  article {
+    text-align: center;
+    width: 100%;
+  }
+
+  article h1 {
+    font-size: clamp(1rem, 0.6774rem + 3.7936vw, 5rem);
+    margin: 0;
+  }
+
+  article a {
+    font-size: clamp(1rem, 0.6774rem + 3.7936vw, 6rem);
+    text-decoration: none;
+  }
+
+  article a:hover {
+    text-decoration: underline;
+  }
+
+  form {
+    gap: 5px;
+  }
+
+  form > div {
+    padding-block: 20px;
+  }
+
+  .inputBox {
+    flex-grow: 1;
+    padding-inline: 50px;
+  }
+
+  input {
+    padding: 5px;
+    width: 100%;
+    font-size: 1rem;
+    color: #fff;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+  }
+
+  input::selection {
+    background: rgba(133, 133, 133, 0.776);
+  }
+
+  input::-moz-selection {
+    background: rgba(133, 133, 133, 0.776);
+  }
+
+  input::-webkit-selection {
+    background: rgba(133, 133, 133, 0.776);
+  }
+
+  label {
+    position: absolute;
+    bottom: 5px;
+    left: 55px;
+    font-size: 1rem;
+    color: #858585;
+    pointer-events: none;
+    transition: 0.5s;
+  }
+
+  input:focus ~ label,
+  input:not(:placeholder-shown) ~ label {
+    bottom: 100%;
+    color: #fff;
+    font-size: 12px;
+  }
+
+  textarea {
+    padding: 1rem;
+    width: 100%;
+    background: #1717174a;
+    border-radius: 5px;
+    backdrop-filter: blur(0.2rem);
+    resize: none;
+    border: 1px solid;
+  }
+
+  textarea::selection {
+    background: rgba(133, 133, 133, 0.776);
+  }
+
+  textarea:focus {
+    outline: rgba(255, 0, 0, 0.55) solid;
+    border: transparent 1px solid;
+  }
+
+  textarea::-moz-selection {
+    background: rgba(133, 133, 133, 0.776);
+  }
+
+  textarea::-webkit-selection {
+    background: rgba(133, 133, 133, 0.776);
+  }
+
+  button {
+    color: black;
+    font-size: 1.2rem;
+    place-self: center;
+  }
+
+  article span {
+    font-size: 0.8rem;
+    margin-inline: 0;
+    background: transparent;
+    border-radius: 0;
+    border: none;
+    padding: 0;
+    color: #858585;
+  }
+</style>

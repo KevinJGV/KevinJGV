@@ -3,7 +3,7 @@ import GlobalStyles from "../styles/GlobalStyles.astro";
 import { ViewTransitions } from "astro:transitions";
 
 interface Props {
-    title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
@@ -11,140 +11,146 @@ const { title } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="description" content="Astro description" />
-        <meta name="viewport" content="width=device-width" />
-        <link id="icon" rel="icon" type="image/svg+xml" href="/circle.svg" />
-        <meta name="generator" content={Astro.generator} />
-        <title>{title}</title>
-        <GlobalStyles />
-        <ViewTransitions />
-    </head>
-    <body class="noise flex j_sb dot-container">
-        <div id="dot-container" class="fixed" transition:persist></div>
-        <audio
-            id="audio-player"
-            transition:persist
-            src="/VIN.mp3"
-            autoplay
-            loop
-            muted></audio>
-        <slot name="navbar" data-astro-transition="swap" />
-        <section id="side-container" class="relative flex" transition:persist>
-            <slot name="sidebar" data-astro-transition="persist" />
-        </section>
-        <section id="content-container" class="relative">
-            <main class="flex_col view-transition">
-                <slot name="main" data-astro-transition="swap" />
-            </main>
-            <slot
-                name="footer"
-                data-astro-transition="persist"
-                transition:animate="fade"
-            />
-        </section>
-    </body><script>
-        const activeIcon: string = "/circle.svg";
-        const inactiveIcon: string = "/cross.svg";
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link id="icon" rel="icon" type="image/svg+xml" href="/circle.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <GlobalStyles />
+    <ViewTransitions />
+  </head>
+  <body class="noise flex j_sb dot-container">
+    <div id="dot-container" class="fixed" transition:persist></div>
+    <audio
+      id="audio-player"
+      transition:persist
+      src="/VIN.ogg"
+      autoplay
+      loop
+      preload="auto"
+      muted></audio>
+    <slot name="navbar" data-astro-transition="swap" />
+    <section id="side-container" class="relative flex" transition:persist>
+      <slot name="sidebar" data-astro-transition="persist" />
+    </section>
+    <section id="content-container" class="relative">
+      <main class="flex_col view-transition">
+        <slot name="main" data-astro-transition="swap" />
+      </main>
+      <slot
+        name="footer"
+        data-astro-transition="persist"
+        transition:animate="fade"
+      />
+    </section>
+  </body><script>
+    const activeIcon: string = "/circle.svg";
+    const inactiveIcon: string = "/cross.svg";
 
-        function changeFavicon(iconURL: string): void {
-            const favicon = document.getElementById("icon") as HTMLLinkElement;
-            if (favicon) {
-                favicon.href = iconURL;
-            }
-        }
+    function changeFavicon(iconURL: string): void {
+      const favicon = document.getElementById("icon") as HTMLLinkElement;
+      if (favicon) {
+        favicon.href = iconURL;
+      }
+    }
 
-        document.addEventListener("visibilitychange", () => {
-            if (document.visibilityState === "visible") {
-                changeFavicon(activeIcon);
-            } else {
-                changeFavicon(inactiveIcon);
-            }
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        changeFavicon(activeIcon);
+      } else {
+        changeFavicon(inactiveIcon);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const sidebarRef = document.querySelector(
+        "#side-container"
+      ) as HTMLElement;
+      const aside = sidebarRef.querySelector("aside");
+      const { width, height } = aside.getBoundingClientRect();
+      sidebarRef.style.width = `${width}px`;
+      sidebarRef.style.height = `${height}px`;
+
+      const audioPlayer = document.querySelector("#audio-player");
+
+      audioPlayer.addEventListener("ended", function () {
+        this.currentTime = 0;
+        this.play();
+      });
+
+      const tryPlayAudio = () => {
+        audioPlayer.muted = false;
+        audioPlayer.play().catch((error) => {
+          console.log("Reproducción bloqueada:", error);
         });
+      };
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const sidebarRef = document.querySelector(
-                "#side-container"
-            ) as HTMLElement;
-            const aside = sidebarRef.querySelector("aside");
-            const { width, height } = aside.getBoundingClientRect();
-            sidebarRef.style.width = `${width}px`;
-            sidebarRef.style.height = `${height}px`;
+      const enableAudioOnInteraction = () => {
+        const events = [
+          "click",
+          "dblclick",
+          "mousemove",
+          "mouseup",
+          "mousedown",
+          "scroll",
+          "keydown",
+          "keyup",
+          "keypress",
+          "touchstart",
+          "touchend",
+          "visibilitychange",
+          "focus",
+          "blur",
+          "pointerdown",
+          "pointerup",
+          "contextmenu",
+          "dragstart",
+          "dragend",
+        ];
 
-            const audioPlayer = document.getElementById("audio-player");
-
-            const tryPlayAudio = () => {
-                audioPlayer.muted = false;
-                audioPlayer.play().catch((error) => {
-                    console.log("Reproducción bloqueada:", error);
-                });
-            };
-
-            const enableAudioOnInteraction = () => {
-                const events = [
-                    "click",
-                    "dblclick",
-                    "mousemove",
-                    "mouseup",
-                    "mousedown",
-                    "scroll",
-                    "keydown",
-                    "keyup",
-                    "keypress",
-                    "touchstart",
-                    "touchend",
-                    "visibilitychange",
-                    "focus",
-                    "blur",
-                    "pointerdown",
-                    "pointerup",
-                    "contextmenu",
-                    "dragstart",
-                    "dragend"
-                ];
-
-                events.forEach((event) => {
-                    document.addEventListener(
-                        event,
-                        () => {
-                            tryPlayAudio();
-                        },
-                        { once: true }
-                    );
-                });
-            };
-
-            enableAudioOnInteraction();
-            setTimeout(() => {
-                audioPlayer.muted = false;
-                audioPlayer.play();
-            }, 1000);
+        events.forEach((event) => {
+          document.addEventListener(
+            event,
+            () => {
+              tryPlayAudio();
+            },
+            { once: true }
+          );
         });
-    </script>
-    <script src="/src/components/dots.js"></script>
+      };
+
+      enableAudioOnInteraction();
+      setTimeout(() => {
+        audioPlayer.muted = false;
+        audioPlayer.play();
+      }, 1000);
+    });
+  </script>
+  <script src="/src/components/dots.js"></script>
 </html>
 <style>
-    #dot-container {
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        overflow: hidden;
-    }
+  #dot-container {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
 
-    #side-container {
-        z-index: 20;
-        margin: 5px;
-        flex-shrink: 0;
-    }
+  #side-container {
+    z-index: 20;
+    margin: 5px;
+    flex-shrink: 0;
+  }
 
-    #content-container {
-        z-index: 10;
-        flex-grow: 2;
-    }
+  #content-container {
+    z-index: 10;
+    flex-grow: 2;
+  }
 
-    main {
-        gap: 5rem;
-    }
+  main {
+    gap: 5rem;
+  }
 </style>
