@@ -54,6 +54,15 @@
 		font-family: "AudioWide";
 	}
 
+	@font-face {
+		font-family: "Ansterdam";
+		src: url("/fonts/Amsterdam-four.ttf");
+	}
+
+	.Ansterdam {
+		font-family: "Ansterdam";
+	}
+
 	:root {
 		--font-color-sub: rgba(255, 255, 255, 0.26);
 		--bg-color: #000000;
@@ -331,4 +340,20 @@
 	#home1_bot p,#me1 .top-section p, #me3 p {
         transform: rotateZ(357deg);
     }
+
+	@media screen and (max-width: 768px) {
+
+.curzr-motion {
+  display: 	none;
+}
+}
+
+@media screen and (min-width: 768px) {
+* {
+cursor: none;
+}
+a,nav , #bot-menu {
+cursor: none !important;
+}
+}
 </style>

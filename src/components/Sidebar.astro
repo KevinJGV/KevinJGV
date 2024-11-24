@@ -3,12 +3,12 @@
 ---
 
 <aside class="flex relative fixed j_sb unselected glass0">
-	<a href="/me" id="vin" class="Alumni relative">
+	<a href="/me" id="vin" class="Alumni relative flex">
 		<span class="relative">.:</span>
 		<span>VIN</span>
 	</a>
 	<slot name="side-component" />
-	<a href="/contact" id="avilable" class="Poppins-R">
+	<a href="/contact" id="avilable" class="Poppins-R flex">
 		<strong>•</strong>
 		<span>Disponible</span>
 	</a>
@@ -46,11 +46,18 @@
 		line-height: 0;
 	}
 
-	#avilable {
+	#avilable, #vin {
 		align-self: center;
+		align-items: center;
 	}
 
 	#avilable > * {
 		color: var(--green);
+	}
+
+	@media screen and (max-width: 1075px) { 
+		aside {
+			display: none;
+		}
 	}
 </style>

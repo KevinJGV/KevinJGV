@@ -59,6 +59,15 @@
   >
 </article>
 
+<script>
+document.querySelector("form").addEventListener("submit", (event) => {
+  setTimeout(() => {
+    event.target.reset();
+  }, 1000);
+});
+
+</script>
+
 <style>
 
   #contact1 {
@@ -81,6 +90,7 @@
   article a {
     font-size: clamp(1rem, 0.6774rem + 3.7936vw, 6rem);
     text-decoration: none;
+    min-inline-size: max-content;
   }
 
   article a:hover {
@@ -181,5 +191,24 @@
     border: none;
     padding: 0;
     color: #858585;
+  }
+
+  @media screen and (max-width: 625px) {
+    form div:first-child {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .inputBox {
+      padding: 0;
+    }
+
+    label {
+      left: 5px;
+    }
+
+    form div:last-child {
+      align-content: normal;
+    }
   }
 </style>

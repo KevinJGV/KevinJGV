@@ -1,73 +1,133 @@
 ---
 interface Props {
-	text: string;
-	font_size: string;
-	href: string;
-	bgHeight: string;
-	fontFamClass?: string;
-	_blank?: boolean;
-	svgw?: number;
-	svgh?: number;
-	svg?: boolean;
+  text: string;
+  max_font_size: string;
+  min_font_size: string;
+  href: string;
+  bgHeight: string;
+  fontFamClass?: string;
+  _blank?: boolean;
+  svgw?: number;
+  svgh?: number;
+  svg?: boolean;
+  responsive?: boolean;
 }
 
-const { text, font_size, href, bgHeight, fontFamClass ="Poppins-S", _blank=false, svgh = 31, svgw = 30, svg = false } = Astro.props;
+const {
+  text,
+  max_font_size,
+  min_font_size,
+  href,
+  bgHeight,
+  fontFamClass = "Poppins-S",
+  _blank = false,
+  svgh = 31,
+  svgw = 30,
+  svg = false,
+  responsive = false,
+} = Astro.props;
 
 ---
-<a href={href} class:list={["Anchor", "relative", fontFamClass]} target={_blank ? "_blank" : "_self"} 
-rel={_blank ? "noopener noreferrer" : undefined}
-	>{text}<svg
-		class:list={["relative", { no_display: !svg }]}
-		width={svgw}
-		height={svgh}
-		viewBox="0 0 21 21"
-		fill="none"
-		xmlns="http://www.w3.org/2000/svg">
-		<g clip-path="url(#clip0_58_408)">
-			<path
-				d="M5.40518 0.0046875L0.95498 4.36875H13.2002L-3.5 20.7281L-0.159961 24L16.5402 7.64062V19.6359L20.9952 15.2766L21 0L5.40518 0.0046875Z"
-				fill="white"></path>
-		</g>
-		<defs>
-			<clipPath id="clip0_58_408">
-				<rect width="21" height="21" fill="white"></rect>
-			</clipPath>
-		</defs>
-	</svg><div class="Anbackground absolute"></div></a
+
+<a
+  href={href}
+  class:list={["Anchor", "relative", fontFamClass, {responsiveA:responsive}]}
+  target={_blank ? "_blank" : "_self"}
+  rel={_blank ? "noopener noreferrer" : undefined}
+  >{text}<svg
+    class:list={["relative", { no_display: !svg }]}
+    width={svgw}
+    height={svgh}
+    viewBox="0 0 21 21"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_58_408)">
+      <path
+        d="M5.40518 0.0046875L0.95498 4.36875H13.2002L-3.5 20.7281L-0.159961 24L16.5402 7.64062V19.6359L20.9952 15.2766L21 0L5.40518 0.0046875Z"
+        fill="white"></path>
+    </g>
+    <defs>
+      <clipPath id="clip0_58_408">
+        <rect width="21" height="21" fill="white"></rect>
+      </clipPath>
+    </defs>
+  </svg><div class="Anbackground absolute"></div></a
 >
 
-<style define:vars={{font_size, bgHeight}}>
-	.Anchor {
-		font-size: var(--font_size);
-		height: 40px;
-		line-height: 40px;
-	}
+{responsive && (
+	<script>
+	  (() => {
+		const updateStyles = (matches) => {
+		  const as = document.querySelectorAll('.responsiveA');
+		  if (as) {
+			if (matches) {
+				as.forEach(a => {
+			  a.style.setProperty('--bg-height', '5.5rem');
+			  a.style.setProperty('--svg-height', '45px');
+			  a.style.setProperty('--svg-width', '44px');
+				})
+			} else {
+				as.forEach(a => {
+			  a.style.removeProperty('--bg-height');
+			  a.style.removeProperty('--svg-height');
+			  a.style.removeProperty('--svg-width');
+				})
+			}
+		  }
+		};
+  
+		const mediaQuery = window.matchMedia("(max-width: 650px)");
+		mediaQuery.addEventListener("change", (e) => updateStyles(e.matches));
+		updateStyles(mediaQuery.matches);
+	  })();
+	</script>
+  )}
+  
 
-	.Anchor svg {
-		margin: 0 0 5px 10px;
-	}
+<style define:vars={{ max_font_size, min_font_size, bgHeight }}>
+  .Anchor {
+	--max-font: var(--max_font_size);
+    --min-font: var(--min_font_size);
+    --bg-height: var(--bgHeight);
+    --svg-height: var(--svgh);
+    --svg-width: var(--svgw);
+    font-size: clamp(
+      var(--min-font),
+      1.0774rem + 2.7936vw,
+      var(--max-font)
+    );
+    height: 40px;
+    line-height: 40px;
+  }
 
-	.Anchor:hover,
-	.Anchor:hover path {
-		color: var(--bg-color);
-		fill: var(--bg-color);
-	}
+  .Anchor svg {
+	height: var(--svg-height);
+	width: var(--svg-width);
+    margin: 0 0 5px 10px;
+  }
 
-	.Anchor:hover .Anbackground {
-		height: var(--bgHeight);
-		width: 110%;
-		top: 47%;
-	}
+  .Anchor:hover,
+  .Anchor:hover path {
+    color: var(--bg-color);
+    fill: var(--bg-color);
+  }
 
-	.Anchor .Anbackground {
-		top: 100%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		height: 3px;
-		width: 100%;
-		background-color: var(--text-color);
-		z-index: -1;
-		border-radius: 5px;
-		transition: all 0.3s;
-	}
+  .Anchor:hover .Anbackground {
+    height: var(--bg-height);
+    width: 110%;
+    top: 47%;
+  }
+
+  .Anchor .Anbackground {
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 3px;
+    width: 100%;
+    background-color: var(--text-color);
+    z-index: -1;
+    border-radius: 5px;
+    transition: all 0.3s;
+  }
 </style>

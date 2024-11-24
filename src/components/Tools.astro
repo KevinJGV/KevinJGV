@@ -1,0 +1,98 @@
+---
+
+---
+
+<aside id="tools" class="flex fixed j_sa glass1">
+  <section class="tool"></section>
+  <section class="tool">
+    <p>@Tik Tok</p>
+    <a>Follow</a>
+  </section>
+</aside>
+
+<style>
+  #tools {
+    width: fit-content;
+    top: 15px;
+    right: 15px;
+    height: 50px;
+    /* gap: 1.2rem; */
+    border-radius: 115px;
+    padding-inline: 15px;
+    /* align-items: center; */
+  }
+
+  .tool {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: white;
+    font-weight: bold;
+    font-size: small;
+  }
+
+  .tool > p {
+    --var: -0%;
+    position: absolute;
+    top: var(--var);
+    transition: all 0.7s;
+    background-color: dodgerblue;
+    border-radius: 7px;
+    opacity: 0;
+    padding-inline: 7px;
+    padding-block: 3px;
+    width: max-content;
+  }
+  .tool > p::after {
+    content: "";
+    position: absolute;
+    border-top: 10px solid dodgerblue;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%);
+  }
+  .tool > a {
+    --var: -0%;
+    position: absolute;
+    bottom: var(--var);
+    width: max-content;
+    transition: all 0.7s;
+    opacity: 0;
+    padding-inline: 7px;
+    padding-block: 3px;
+    background-color: crimson;
+    border-radius: 7px;
+  }
+  .tool > a::after {
+    content: "";
+    position: absolute;
+    border-bottom: 10px solid crimson;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%);
+  }
+
+  .tool:hover > a,
+  .tool:hover > p {
+    --var: -65%;
+    opacity: 1;
+  }
+
+  .tool:hover {
+    z-index: 15;
+  }
+
+  #tools:hover > .tool:not(:hover) {
+    filter: blur(3px);
+    transform: scale(0.8);
+  }
+
+  #tools svg {
+    height: 30px;
+  }
+</style>

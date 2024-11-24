@@ -90,9 +90,9 @@ const { hrefs } = Astro.props;
     #menu {
         overflow: hidden;
         z-index: 100;
-        width: 96vw;
-        height: 96vh;
-        top: -96vh;
+        width: 96%;
+        height: 96%;
+        top: -100%;
         background-color: #fff;
         border-radius: 0 0 20px 20px;
     }
@@ -115,7 +115,7 @@ const { hrefs } = Astro.props;
     }
 
     #top-menu li {
-        font-size: 5rem;
+        font-size: clamp(3rem, 1.0774rem + 3.7936vw, 5rem);
         width: fit-content;
         list-style: none;
     }
@@ -144,5 +144,17 @@ const { hrefs } = Astro.props;
 
     #menu.open {
         top: 0;
+    }
+
+    @media screen and (max-width: 600px) {
+        #menu {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+
+    #top-menu ul {
+        justify-content: space-evenly;
+    }
     }
 </style>

@@ -67,9 +67,10 @@
     </section>
     <section class="image-section">
         <img
-            src="https://res.cloudinary.com/dqgxt985j/image/upload/v1732158457/Me_nhlhpt.png"
+            src="https://res.cloudinary.com/dqgxt985j/image/upload/v1732430464/Me_nhlhpt.png"
             alt="me"
             class="photo unselected relative"
+            draggable="false"
         />
     </section>
 </article>
@@ -229,10 +230,13 @@
         font-size: clamp(1rem, 0.0774rem + 1.7936vw, 1.2rem);
     }
 
+    .image-section, .image-section * {
+        z-index: -1
+    }
+
     .photo {
-        right: -65px;
+        right: -16%;
         width: 600px;
-        transform: rotate(3deg);
     }
 
     .bottom-section {
@@ -398,14 +402,15 @@
 
     #me4 h2 {
         font-weight: normal;
-        font-size: 2rem;
+        font-size: clamp(1.3rem, 0.0774rem + 2.7936vw, 2rem);
     }
 
     #me4 > div {
         border: var(--border) 1px solid;
         border-radius: 8px;
-        padding: 4rem;
+        padding: 1rem 4rem;
         gap: 2rem;
+        width: fit-content;
     }
 
     #me4 > div div {
@@ -447,11 +452,80 @@
         white-space: nowrap;
         padding: 5px 8px;
         border: var(--border) 1px solid;
-        border-radius: 50px;
+        border-radius: 20px;
+        place-self: center;
+        text-align: center;
     }
 
     #me4 li span{
         color: #666;
         font-size: 0.8rem;
+    }
+
+    @media screen and (min-width: 1719px) {
+        #me3 p {
+            transform: rotateZ(360deg);
+        }
+    }
+
+    @media screen and (max-width: 1075px) {
+        article {
+            flex-direction: column;
+        }
+
+        #me1 .image-section,
+        #me2 .image-section,
+        #me3 .image-section{
+            position: absolute;
+            top: 0;
+        }
+
+        #me1 .image-section,
+        #me3 .image-section{
+            right: 0;
+        }
+
+        #me2 .image-section{
+            left: 0;
+        }
+        .photo {
+            width: 280px
+        }
+
+        #me2 svg {
+            width: 10rem;
+            height: 10.5rem;
+        }
+
+        #me2 svg * {
+            fill: var(--border);
+            opacity: 0.5;
+        }
+
+        #me4 div div {
+            flex-direction:column;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .bottom-section {
+            flex-direction: column;
+        }
+
+        #me4 > div {
+            padding-inline: 1rem;
+        }
+
+        #me4 ul {
+            gap: 0.5rem;
+            justify-content: space-evenly;
+        }
+
+        #me4 li {
+            white-space:wrap;
+            max-width: 40%;
+            
+        }
+
     }
 </style>
