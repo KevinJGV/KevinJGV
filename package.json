@@ -15,5 +15,8 @@
     "astro": "^4.16.8",
     "findup-sync": "^5.0.0",
     "gsap": "^3.12.5"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
