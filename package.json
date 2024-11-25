@@ -18,5 +18,8 @@
   },
   "engines": {
     "node": "18.x"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.3"
   }
 }
