@@ -1,14 +1,37 @@
-export default class MotionBlur {
-    constructor() {
+// src/components/motion-cursor.js
+export default class MotionCursor {
+  constructor() {
+      // Verificar que estamos en el navegador
+      if (typeof window === 'undefined') return;
+      
+      // Inicializar el cursor
+      this.init();
+  }
+
+  init() {
       this.root = document.body;
       this.cursor = document.querySelector(".curzr-motion");
       this.filter = document.querySelector(".curzr-motion .curzr-motion-blur");
-  
+
+      if (!this.cursor || !this.filter) {
+          console.error("Cursor elements not found");
+          return;
+      }
+
+      // Inicializar propiedades
+      this.setupProperties();
+      // Configurar estilos
+      this.setupStyles();
+      // Configurar event listeners
+      this.setupEventListeners();
+  }
+
+  setupProperties() {
       this.position = {
-        distanceX: 0,
-        distanceY: 0,
-        pointerX: 0,
-        pointerY: 0,
+          distanceX: 0,
+          distanceY: 0,
+          pointerX: 0,
+          pointerY: 0,
       };
       this.previousPointerX = 0;
       this.previousPointerY = 0;
@@ -18,153 +41,169 @@ export default class MotionBlur {
       this.degrees = 57.296;
       this.cursorSize = 15;
       this.moving = false;
-      this.isHovered = false; 
-      this.isPressed = false; 
-      
-      this.cursorStyle = {
-        boxSizing: "border-box",
-        position: "fixed",
-        top: `${this.cursorSize / -2}px`,
-        left: `${this.cursorSize / -2}px`,
-        zIndex: "2147483647",
-        width: `${this.cursorSize}px`,
-        height: `${this.cursorSize}px`,
-        borderRadius: "50%",
-        overflow: "visible",
-        transition: "200ms, transform 20ms",
-        userSelect: "none",
-        pointerEvents: "none",
+      this.isHovered = false;
+      this.isPressed = false;
+  }
+
+  setupStyles() {
+      const cursorStyle = {
+          opacity: 1,
+          position: 'fixed',
+          boxSizing: 'border-box',
+          top: `${this.cursorSize / -2}px`,
+          left: `${this.cursorSize / -2}px`,
+          zIndex: '2147483647',
+          width: `${this.cursorSize}px`,
+          height: `${this.cursorSize}px`,
+          borderRadius: '50%',
+          overflow: 'visible',
+          transition: '200ms, transform 20ms',
+          userSelect: 'none',
+          pointerEvents: 'none'
       };
-  
-      this.init(this.cursor, this.cursorStyle);
-      this.setupHoverEffect();
-      this.setupClickEffect(); 
-    }
-  
-    init(el, style) {
-      Object.assign(el.style, style);
-      setTimeout(() => {
-        this.cursor.removeAttribute("hidden");
-      }, 500);
-      this.cursor.style.opacity = 1;
-    }
-  
-    move(event) {
-      this.previousPointerX = this.position.pointerX;
-      this.previousPointerY = this.position.pointerY;
-      this.position.pointerX = event.pageX + this.root.getBoundingClientRect().x;
-      this.position.pointerY = event.pageY + this.root.getBoundingClientRect().y;
-      this.position.distanceX = Math.min(
-        Math.max(this.previousPointerX - this.position.pointerX, -20),
-        20
-      );
-      this.position.distanceY = Math.min(
-        Math.max(this.previousPointerY - this.position.pointerY, -20),
-        20
-      );
-  
-      this.updateTransform();
-      this.rotate(this.position);
-      this.moving ? this.stop() : (this.moving = true);
-    }
-  
-    rotate(position) {
-      let unsortedAngle =
-        Math.atan(Math.abs(position.distanceY) / Math.abs(position.distanceX)) *
-        this.degrees;
-  
-      if (isNaN(unsortedAngle)) {
-        this.angle = this.previousAngle;
-      } else {
-        if (unsortedAngle <= 45) {
-          if (position.distanceX * position.distanceY >= 0) {
-            this.angle = +unsortedAngle;
-          } else {
-            this.angle = -unsortedAngle;
-          }
-          this.filter.setAttribute(
-            "stdDeviation",
-            `${Math.abs(this.position.distanceX / 2)}, 0`
-          );
-        } else {
-          if (position.distanceX * position.distanceY <= 0) {
-            this.angle = 180 - unsortedAngle;
-          } else {
-            this.angle = unsortedAngle;
-          }
-          this.filter.setAttribute(
-            "stdDeviation",
-            `${Math.abs(this.position.distanceY / 2)}, 0`
-          );
-        }
-      }
-      this.cursor.style.transform += ` rotate(${this.angle}deg)`;
-      this.previousAngle = this.angle;
-    }
-  
-    stop() {
-      setTimeout(() => {
-        this.filter.setAttribute("stdDeviation", "0, 0");
-        this.moving = false;
-      }, 50);
-    }
-  
-    hidden() {
-      this.cursor.style.opacity = 0;
-      setTimeout(() => {
-        this.cursor.setAttribute("hidden", "hidden");
-      }, 500);
-    }
-  
-    setupHoverEffect() {
-        const targets = [...document.querySelectorAll("a"), document.querySelector("nav"), document.querySelector("#bot-menu")];
-        console.log(document.querySelector("#tools"));
-        targets.forEach(target => {
-          if (target) {
-            target.addEventListener("mouseenter", () => {
+
+      Object.assign(this.cursor.style, cursorStyle);
+      this.cursor.removeAttribute("hidden");
+  }
+
+  setupEventListeners() {
+      // Limpiar listeners anteriores si existen
+      this.clearEventListeners();
+
+      // Seleccionar elementos interactivos
+      const interactiveElements = [
+          ...document.querySelectorAll("a, button, input, select, textarea"),
+          document.querySelector("nav"),
+          document.querySelector("#bot-menu")
+      ].filter(Boolean);
+
+      // Configurar eventos para elementos interactivos
+      interactiveElements.forEach(element => {
+          element.addEventListener("mouseenter", () => {
               this.isHovered = true;
               this.updateTransform();
-            });
-            target.addEventListener("mouseleave", () => {
+          });
+
+          element.addEventListener("mouseleave", () => {
               this.isHovered = false;
               this.updateTransform();
-            });
-          }
-        });
-      }
+          });
+      });
 
-      setupClickEffect() {
-        document.addEventListener("mousedown", () => {
+      // Configurar eventos de click
+      document.addEventListener("mousedown", () => {
           this.isPressed = true;
           this.updateTransform();
-        });
-  
-        document.addEventListener("mouseup", () => {
+      });
+
+      document.addEventListener("mouseup", () => {
           this.isPressed = false;
           this.updateTransform();
-        });
-  
-        
-        document.addEventListener("mouseleave", () => {
+      });
+
+      document.addEventListener("mouseleave", () => {
           this.isPressed = false;
           this.updateTransform();
-        });
-      }
+      });
+  }
+
+  clearEventListeners() {
+      const elements = document.querySelectorAll("a, button, input, select, textarea, nav, #bot-menu");
+      elements.forEach(element => {
+          element?.replaceWith(element.cloneNode(true));
+      });
+  }
+
+  move(event) {
+      if (!this.cursor || !this.filter) return;
+
+      // Calcular posición
+      this.previousPointerX = this.position.pointerX;
+      this.previousPointerY = this.position.pointerY;
       
-  
-      updateTransform() {
-        let scale = "scale(1)";
-        
-        if (this.isHovered) {
-          scale = " scale(2)";
-        }
-        if (this.isPressed) {
-          scale = " scale(0.8)"; 
-        }
-        if (this.isHovered && this.isPressed) {
-          scale = " scale(1.5)"; 
-        }
-  
-        this.cursor.style.transform = `translate3d(${this.position.pointerX}px, ${this.position.pointerY}px, 0)${scale} rotate(${this.angle}deg)`;
+      // Ajustar posición considerando el scroll
+      this.position.pointerX = event.pageX - window.scrollX;
+      this.position.pointerY = event.pageY - window.scrollY;
+      
+      // Calcular distancia
+      this.position.distanceX = Math.min(
+          Math.max(this.previousPointerX - this.position.pointerX, -20),
+          20
+      );
+      this.position.distanceY = Math.min(
+          Math.max(this.previousPointerY - this.position.pointerY, -20),
+          20
+      );
+
+      // Actualizar cursor
+      this.updateTransform();
+      this.rotate(this.position);
+      
+      // Manejar movimiento
+      if (this.moving) {
+          this.stop();
+      } else {
+          this.moving = true;
       }
   }
+
+  rotate(position) {
+      if (!this.cursor || !this.filter) return;
+
+      const unsortedAngle = Math.atan(
+          Math.abs(position.distanceY) / Math.abs(position.distanceX)
+      ) * this.degrees;
+
+      if (isNaN(unsortedAngle)) {
+          this.angle = this.previousAngle;
+      } else {
+          if (unsortedAngle <= 45) {
+              this.angle = position.distanceX * position.distanceY >= 0
+                  ? +unsortedAngle
+                  : -unsortedAngle;
+              this.filter.setAttribute(
+                  "stdDeviation",
+                  `${Math.abs(this.position.distanceX / 2)}, 0`
+              );
+          } else {
+              this.angle = position.distanceX * position.distanceY <= 0
+                  ? 180 - unsortedAngle
+                  : unsortedAngle;
+              this.filter.setAttribute(
+                  "stdDeviation",
+                  `${Math.abs(this.position.distanceY / 2)}, 0`
+              );
+          }
+      }
+
+      this.cursor.style.transform += ` rotate(${this.angle}deg)`;
+      this.previousAngle = this.angle;
+  }
+
+  stop() {
+      if (!this.filter) return;
+      
+      setTimeout(() => {
+          this.filter.setAttribute("stdDeviation", "0, 0");
+          this.moving = false;
+      }, 50);
+  }
+
+  updateTransform() {
+      if (!this.cursor) return;
+
+      let scale = "scale(1)";
+      
+      if (this.isHovered) {
+          scale = " scale(2)";
+      }
+      if (this.isPressed) {
+          scale = " scale(0.8)";
+      }
+      if (this.isHovered && this.isPressed) {
+          scale = " scale(1.5)";
+      }
+
+      this.cursor.style.transform = `translate3d(${this.position.pointerX}px, ${this.position.pointerY}px, 0)${scale} rotate(${this.angle}deg)`;
+  }
+}

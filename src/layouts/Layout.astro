@@ -2,6 +2,7 @@
 import GlobalStyles from "../styles/GlobalStyles.astro";
 // import Tools from "../components/Tools.astro";
 import { ViewTransitions } from "astro:transitions";
+import CustomCursor from '../components/CustomCursor.astro';
 
 interface Props {
   title: string;
@@ -23,6 +24,7 @@ const { title } = Astro.props;
     <ViewTransitions />
   </head>
   <body class="noise flex j_sb">
+    <CustomCursor data-astro-transition="swap" />
     <div id="dot-container" class="fixed" transition:persist></div>
     <audio
       id="audio-player"
@@ -47,16 +49,6 @@ const { title } = Astro.props;
         transition:animate="fade"
       />
     </section>
-    <svg class="curzr-motion">
-      <filter id="motionblur" x="-100%" y="-100%" width="400%" height="400%">
-        <feGaussianBlur class="curzr-motion-blur" stdDeviation="0, 0"
-        ></feGaussianBlur>
-      </filter>
-      <circle cx="50%" cy="50%" r="6" fill="#fff" filter="url(#motionblur)"
-      ></circle>
-      <circle cx="50%" cy="50%" r="5" fill="#000" filter="url(#motionblur)"
-      ></circle>
-    </svg>
   </body>
 </html>
 <script>
@@ -167,20 +159,6 @@ const { title } = Astro.props;
   });
 </script>
 <script src="/src/components/dots.js"></script>
-<script is:inline type="module">
-  import MotionCursor from "/src/components/motion-cursor.js";
-  document.addEventListener("DOMContentLoaded", () => {
-    document.addEventListener("astro:page-load", () => {
-      const cursor = new MotionCursor();
-      document.onmousemove = function (event) {
-        cursor.move(event);
-      };
-      document.ontouchmove = function (event) {
-        cursor.move(event.touches[0]);
-      };
-    });
-  });
-</script>
 <style>
   #dot-container {
     top: 0;
@@ -205,9 +183,7 @@ const { title } = Astro.props;
     gap: 5rem;
   }
 
-  .curzr-motion {
-    width: 75px;
-  }
+  
 
   @media screen and (min-width: 1440px) {
     main {

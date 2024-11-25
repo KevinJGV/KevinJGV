@@ -1,0 +1,37 @@
+---
+
+---
+
+<svg class="curzr-motion">
+  <filter id="motionblur" x="-100%" y="-100%" width="400%" height="400%">
+    <feGaussianBlur class="curzr-motion-blur" stdDeviation="0, 0"
+    ></feGaussianBlur>
+  </filter>
+  <circle cx="50%" cy="50%" r="6" fill="#fff" filter="url(#motionblur)"
+  ></circle>
+  <circle cx="50%" cy="50%" r="5" fill="#000" filter="url(#motionblur)"
+  ></circle>
+</svg>
+<script is:inline type="module" >
+  document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const { default: MotionCursor } = await import("/src/components/motion-cursor.js");
+        document.addEventListener("astro:page-load", () => {
+      const cursor = new MotionCursor();
+      document.onmousemove = function (event) {
+        cursor.move(event);
+      };
+      document.ontouchmove = function (event) {
+        cursor.move(event.touches[0]);
+      };
+    });
+    } catch (error) {
+        console.error("Error loading cursor:", error);
+    }
+  });
+</script>
+<style>
+  .curzr-motion {
+    width: 0;
+  }
+</style>
