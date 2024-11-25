@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
+    "@astrojs/vercel": "^7.8.2",
     "astro": "^4.16.8",
     "findup-sync": "^5.0.0",
     "gsap": "^3.12.5",
