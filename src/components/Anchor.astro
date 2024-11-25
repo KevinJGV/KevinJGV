@@ -58,7 +58,7 @@ const {
 {responsive && (
 	<script>
 	  (() => {
-		const updateStyles = (matches) => {
+		const updateStyles = (matches: boolean) => {
 		  const as = document.querySelectorAll<HTMLElement>('.responsiveA');
 		  if (as) {
 			if (matches) {

@@ -1,6 +1,6 @@
 ---
 import GlobalStyles from "../styles/GlobalStyles.astro";
-import Tools from "../components/Tools.astro";
+// import Tools from "../components/Tools.astro";
 import { ViewTransitions } from "astro:transitions";
 
 interface Props {
@@ -60,8 +60,8 @@ const { title } = Astro.props;
   </body>
 </html>
 <script>
-  const activeIcon: string = "/circle.svg";
-  const inactiveIcon: string = "/cross.svg";
+  const activeIcon: string = "public/circle.svg";
+  const inactiveIcon: string = "public/cross.svg";
 
   function changeFavicon(iconURL: string): void {
     const favicon = document.getElementById("icon") as HTMLLinkElement;
@@ -99,7 +99,7 @@ const { title } = Astro.props;
 
     const mediaQuery = window.matchMedia("(max-width: 1075px)");
 
-    const handleMediaChange = (event) => {
+    const handleMediaChange = (event: MediaQueryListEvent) => {
       if (event.matches) {
         sidebarRef.style.display = "none";
       } else {
@@ -109,7 +109,7 @@ const { title } = Astro.props;
     };
 
     mediaQuery.addEventListener("change", handleMediaChange);
-    handleMediaChange(mediaQuery);
+    handleMediaChange({ matches: mediaQuery.matches } as MediaQueryListEvent);
 
     const audioPlayer = document.querySelector("#audio-player") as HTMLAudioElement;
 
@@ -167,7 +167,7 @@ const { title } = Astro.props;
   });
 </script>
 <script src="/src/components/dots.js"></script>
-<script type="module">
+<script is:inline type="module">
   import MotionCursor from "/src/components/motion-cursor.js";
   document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("astro:page-load", () => {

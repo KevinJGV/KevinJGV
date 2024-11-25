@@ -196,7 +196,11 @@ const processedTags = await Promise.all(
       let timeoutId: NodeJS.Timeout | null = null;
       const timeouts: { [key: string]: NodeJS.Timeout } = {};
 
-      const setTimeoutWithKey = (key: string, callback: Function, delay: number) => {
+      const setTimeoutWithKey = (
+        key: string,
+        callback: Function,
+        delay: number
+      ) => {
         if (timeouts[key]) clearTimeout(timeouts[key]);
         timeouts[key] = setTimeout(() => {
           callback();
@@ -205,7 +209,9 @@ const processedTags = await Promise.all(
       };
 
       const calculateDimensions = () => {
-        const cardsContainer = document.querySelector("#projects > div") as HTMLElement | null;
+        const cardsContainer = document.querySelector(
+          "#projects > div"
+        ) as HTMLElement | null;
         if (!cardsContainer) return;
 
         const containerWidth = cardsContainer.clientWidth;
@@ -216,21 +222,25 @@ const processedTags = await Promise.all(
         const maxCardWidth =
           Math.round((containerWidth * growFactor) / totalFlex) - 9;
         [".tags", ".card_carousel"].forEach((clase) =>
-          document.querySelectorAll<HTMLElement>(clase).forEach((bunch_elements) => {
-            bunch_elements.style.width = `${maxCardWidth}px`;
-          })
+          document
+            .querySelectorAll<HTMLElement>(clase)
+            .forEach((bunch_elements) => {
+              bunch_elements.style.width = `${maxCardWidth}px`;
+            })
         );
 
         let maxEstimatedHeight = 0;
-        document.querySelectorAll<HTMLElement>(".card_carousel").forEach((carousel) => {
-          carousel.querySelectorAll("img").forEach((img) => {
-            const aspectRatio = img.naturalHeight / img.naturalWidth;
-            maxEstimatedHeight = Math.max(
-              maxEstimatedHeight,
-              maxCardWidth * aspectRatio
-            );
+        document
+          .querySelectorAll<HTMLElement>(".card_carousel")
+          .forEach((carousel) => {
+            carousel.querySelectorAll("img").forEach((img) => {
+              const aspectRatio = img.naturalHeight / img.naturalWidth;
+              maxEstimatedHeight = Math.max(
+                maxEstimatedHeight,
+                maxCardWidth * aspectRatio
+              );
+            });
           });
-        });
 
         pCards.forEach((pCard) => {
           pCard.style.setProperty(
@@ -240,45 +250,53 @@ const processedTags = await Promise.all(
         });
       };
 
-      interface StyleProps {
-  fontSize?: string;
-  paddingBottom?: string;
-  zIndex?: number;
-  opacity?: string;
-}
-
       const updateStyles = (hoveredCard: HTMLElement) => {
-        const styleUpdatesHovered = [
+        type CSSProperties = {
+          fontSize: string;
+          paddingBottom: string;
+          zIndex: string;
+          opacity: string;
+          // ... otras propiedades que necesites
+        };
+
+        interface StyleUpdate {
+          selector: string;
+          styles: Partial<CSSProperties>;
+        }
+
+        // El código con los tipos correctos
+        const styleUpdatesHovered: StyleUpdate[] = [
           {
             selector: "p",
             styles: {
               fontSize: "1rem",
               paddingBottom: `${hoveredCard.querySelector<HTMLElement>(".tags")!.offsetHeight - parseFloat(getComputedStyle(document.documentElement).fontSize)}px`,
-            }  as StyleProps,
+            },
           },
           {
             selector: ".tags",
-            styles: { zIndex: 11 }  as StyleProps,
+            styles: { zIndex: "11" },
           },
           {
             selector: ".imageCard",
             styles: {
               opacity:
-                hoveredCard.querySelector(".card_carousel")!.children.length !== 0
+                hoveredCard.querySelector(".card_carousel")!.children.length !==
+                0
                   ? "0"
                   : "1",
-            }  as StyleProps,
+            },
           },
         ];
 
-        const styleUpdatesNonHovered = [
+        const styleUpdatesNonHovered: StyleUpdate[] = [
           {
             selector: "p",
-            styles: { fontSize: "0" } as StyleProps,
+            styles: { fontSize: "0" },
           },
           {
             selector: ".tags",
-            styles: { zIndex: 3 } as StyleProps,
+            styles: { zIndex: "3" },
           },
         ];
 
@@ -288,7 +306,10 @@ const processedTags = await Promise.all(
               const element = otherCard.querySelector<HTMLElement>(selector);
               if (element) {
                 Object.keys(styles).forEach((prop) => {
-                  element.style[prop] = styles[prop];
+                  const value = styles[prop as keyof CSSProperties];
+                  if (value !== undefined) {
+                    element.style[prop] = String(value);
+                  }
                 });
               }
             });
@@ -413,7 +434,6 @@ const processedTags = await Promise.all(
   });
 </script>
 
-
 <style define:vars={{ bgColor, txtColor }}>
   .card_carousel img {
     transition: opacity 0.5s ease;
@@ -474,16 +494,18 @@ const processedTags = await Promise.all(
   }
 
   @media screen and (max-width: 1075px) {
-    .pCard, .tags, .card_carousel {
-        width: 100% !important;
+    .pCard,
+    .tags,
+    .card_carousel {
+      width: 100% !important;
     }
 
     .pCard p {
-        opacity: 0;
+      opacity: 0;
     }
 
     .pCard:hover p {
-        opacity: 1;
+      opacity: 1;
     }
   }
 </style>

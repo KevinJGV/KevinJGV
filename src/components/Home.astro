@@ -397,23 +397,26 @@ const s = "120px",
   }
 
   @media screen and (max-width: 780px) {
-    #home1_img {
-      position: absolute;
-      left: 50%;
-      width: 0;
-      opacity: 0.4;
-      top: 40%;
-      transform: scale(0.5);
-      z-index: -1;
+    #home1_top i {
+      padding-top: 2rem;
     }
-    /* #home1_img {
-        position: absolute;
-        left: 50%;
-        width: 0;
-        opacity: 0.4;
-        top: 0;
-        z-index: -1;
-      } */
+
+    #home1_bot p {
+      transform: unset;
+    }
+    #home1_img {
+    position: absolute;
+    width: 0;
+    top: 695px;
+    right: 48px;
+    opacity: 0.4;
+    transform: scale(0.5);
+    z-index: -1;
+}
+
+    #photo {
+      width: 315px
+    }
     .hidden_text {
       opacity: 0.5;
     }

@@ -152,14 +152,14 @@ const { no_top_foot = false } = Astro.props;
 </footer>
 <script>
   document.addEventListener("astro:page-load", () => {
-    function consoleText(words, id, colors) {
+    function consoleText(words:string[], id:string, colors:string[]) {
       if (colors === undefined) colors = ["#fff"];
       let visible = true;
       let con = document.querySelector("#console")!;
       let letterCount = 1;
       let x = 1;
       let waiting = false;
-      let target = document.querySelector(id);
+      let target = document.querySelector(id)!;
       target.setAttribute(
         "style",
         "color:" + colors[Math.floor(Math.random() * colors.length)]
@@ -169,9 +169,9 @@ const { no_top_foot = false } = Astro.props;
           waiting = true;
           target.innerHTML = words[0].substring(0, letterCount);
           window.setTimeout(function () {
-            let usedColor = colors.shift();
+            let usedColor = colors.shift()!;
             colors.push(usedColor);
-            let usedWord = words.shift();
+            let usedWord = words.shift()!;
             words.push(usedWord);
             x = 1;
             target.setAttribute(
