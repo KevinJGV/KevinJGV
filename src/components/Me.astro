@@ -137,8 +137,8 @@
     <section class="image-section">
         <img
             src="https://res.cloudinary.com/dqgxt985j/image/upload/v1732247039/sparkles_t2ddaa.gif"
-            alt="me"
-            class="photo unselected relative"
+            alt=""
+            class="unselected relative"
         />
     </section>
 </article>
@@ -235,7 +235,6 @@
     }
 
     .photo {
-        right: -16%;
         width: 600px;
     }
 
@@ -525,6 +524,11 @@
             white-space:wrap;
             max-width: 40%;
             
+        }
+
+        #me4 li span::before {
+            content: "";
+            display: block;
         }
 
     }
