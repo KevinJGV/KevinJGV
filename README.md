@@ -4,7 +4,7 @@
   [![](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white&labelColor=4752C4&color=4752C4)](https://discordapp.com/users/356763345283710986)
   [![](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kejogodev/)
   [![](https://img.shields.io/badge/stackoverflow-C45F0E?style=for-the-badge&logo=stackoverflow&logoColor=white&labelColor=C45F0E&color=C45F0E)](https://stackoverflow.com/users/26126865/kejogo-dev)
-  [![](https://img.shields.io/badge/Página_Web-yelow?style=for-the-badge&logo=icloud&logoColor=white)](https://kevinjgv.github.io/KevinJGV/)
+  [![](https://img.shields.io/badge/Página_Web-yelow?style=for-the-badge&logo=icloud&logoColor=white)](https://www.vin-dev.tech/)
 </div>
 
 <h1 align="center">
@@ -19,7 +19,7 @@
 ## 💫 Hi there
 
 Excited and interested in everything I realize I have yet to learn. Mostly strong in Backend with good Frontend skills.<br><br>
-👂 My full name is _Kevin Johan González Velandia_<br>🔭 I’m currently training on [🧑‍🚀Campuslands](https://www.linkedin.com/company/campuslands/)<br>👯 I’m looking to collaborate on backend related projects<br>🌱 I’m currently learning Java | PostgreSQL | SpringBoot | Soft Skills<br>📫 Contact me ➜ [vin-dev@outlook.com](mailto:vin-dev@outlook.com)<br>👨‍💻 All of my projects are available at [my portfolio](https://kevinjgv.github.io/KevinJGV/)<br>💬 Ask me about places to visit in my city<br>❤️ I love videogames | learn spiritual things/knowledge<br>⚡ Fun fact: I believe i have 4 nipples 🫣🌰
+👂 My full name is _Kevin Johan González Velandia_<br>🔭 I’m currently training on [🧑‍🚀Campuslands](https://www.linkedin.com/company/campuslands/)<br>👯 I’m looking to collaborate on backend related projects<br>🌱 I’m currently learning Java | PostgreSQL | SpringBoot | Soft Skills<br>📫 Contact me ➜ [vin-dev@outlook.com](mailto:vin-dev@outlook.com)<br>👨‍💻 All of my projects are available at [my portfolio](https://www.vin-dev.tech/)<br>💬 Ask me about places to visit in my city<br>❤️ I love videogames | learn spiritual things/knowledge<br>⚡ Fun fact: I believe i have 4 nipples 🫣🌰
 
 <!-- ### 🎧 What am i listening now?
 [![Spotify](spotify-readme-8vvrd1fn5-kevinjgvs-projects.vercel.app)](https://open.spotify.com/user/22xnxi2j2d3vra2qhozf3bzsa) -->
