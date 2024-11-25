@@ -34,8 +34,8 @@ const { hrefs } = Astro.props;
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener("astro:page-load", () => {
-            const botMenu = document.getElementById("bot-menu");
-            const menu = document.getElementById("menu");
+            const botMenu = document.getElementById("bot-menu")!;
+            const menu = document.getElementById("menu")!;
 
             botMenu.addEventListener("mouseover", () => {
                 menu.classList.add("hovered");
@@ -51,7 +51,7 @@ const { hrefs } = Astro.props;
             });
 
             document
-                .querySelector("#sandwich")
+                .querySelector("#sandwich")!
                 .addEventListener("click", () => {
                     menu.classList.toggle("open");
                 });

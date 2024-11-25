@@ -1,13 +1,13 @@
 import gsap from "gsap";
 
-// Configuración
+
 const dotCount = 10;
 const maxSize = 30;
 const withScale = true;
 const withBlur = true;
 const randColour = false;
 
-// Generación y animación de puntos
+
 export const generateDots = () => {
     for (let i = 0; i < dotCount; i++) {
         const el = document.createElement("div");
@@ -34,7 +34,7 @@ export const generateDots = () => {
             filter: withBlur ? "blur(1rem)" : "unset"
         });
     });
-    // Animación
+    
     gsap.timeline({ defaults: { ease: "none", repeat: -1 } })
         .to(dots, {
             xPercent: "random(-100, 100)",

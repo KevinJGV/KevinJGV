@@ -4,10 +4,13 @@
 
 <article id="contact1" class="Poppins-R flex_col j_c wrap">
   <h1 class="Poppins-S flex all_c">Dame tu contacto</h1>
-  <p>
-    Siempre estoy abierto a propuestas, ¿tienes alguna?
-  </p>
-  <form target="_blank" action="https://formsubmit.co/vin-dev@outlook.com" method="POST" class="flex_col j_c wrap">
+  <p>Siempre estoy abierto a propuestas, ¿tienes alguna?</p>
+  <form
+    target="_blank"
+    action="https://formsubmit.co/vin-dev@outlook.com"
+    method="POST"
+    class="flex_col j_c wrap"
+  >
     <div class="flex all_c">
       <div class="inputBox relative">
         <input
@@ -40,7 +43,8 @@
         minlength="1"
         placeholder="Cuentame el chisme"
         cols="10"
-        rows="5" required=""></textarea>
+        rows="5"
+        required=""></textarea>
     </div>
     <button id="mensaje" class="Poppins-S" type="submit">Enviar</button>
   </form>
@@ -60,22 +64,22 @@
 </article>
 
 <script>
-document.querySelector("form").addEventListener("submit", (event) => {
-  setTimeout(() => {
-    event.target.reset();
-  }, 1000);
-});
+  document.querySelector("form")?.addEventListener("submit", (event) => {
+    const form = event.target as HTMLFormElement;
 
+    setTimeout(() => {
+      form.reset();
+    }, 1000);
+  });
 </script>
 
 <style>
-
   #contact1 {
-    margin-top: 150px
+    margin-top: 150px;
   }
 
   #contact2 {
-    margin-bottom: 150px
+    margin-bottom: 150px;
   }
   article {
     text-align: center;

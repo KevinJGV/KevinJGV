@@ -35,8 +35,8 @@ async function readSvgFile(svgPath: string) {
 async function tagItem(
   key: string,
   svgContent: string,
-  bgColor: string,
-  color_fill: string
+  bgColor?: string,
+  color_fill?: string
 ) {
   const svg = await readSvgFile(svgContent);
   return `
@@ -192,11 +192,11 @@ const processedTags = await Promise.all(
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("astro:page-load", () => {
-      const pCards = document.querySelectorAll(".pCard");
-      let timeoutId = null;
-      const timeouts = {};
+      const pCards = document.querySelectorAll<HTMLElement>(".pCard");
+      let timeoutId: NodeJS.Timeout | null = null;
+      const timeouts: { [key: string]: NodeJS.Timeout } = {};
 
-      const setTimeoutWithKey = (key, callback, delay) => {
+      const setTimeoutWithKey = (key: string, callback: Function, delay: number) => {
         if (timeouts[key]) clearTimeout(timeouts[key]);
         timeouts[key] = setTimeout(() => {
           callback();
@@ -205,7 +205,7 @@ const processedTags = await Promise.all(
       };
 
       const calculateDimensions = () => {
-        const cardsContainer = document.querySelector("#projects > div");
+        const cardsContainer = document.querySelector("#projects > div") as HTMLElement | null;
         if (!cardsContainer) return;
 
         const containerWidth = cardsContainer.clientWidth;
@@ -216,13 +216,13 @@ const processedTags = await Promise.all(
         const maxCardWidth =
           Math.round((containerWidth * growFactor) / totalFlex) - 9;
         [".tags", ".card_carousel"].forEach((clase) =>
-          document.querySelectorAll(clase).forEach((bunch_elements) => {
+          document.querySelectorAll<HTMLElement>(clase).forEach((bunch_elements) => {
             bunch_elements.style.width = `${maxCardWidth}px`;
           })
         );
 
         let maxEstimatedHeight = 0;
-        document.querySelectorAll(".card_carousel").forEach((carousel) => {
+        document.querySelectorAll<HTMLElement>(".card_carousel").forEach((carousel) => {
           carousel.querySelectorAll("img").forEach((img) => {
             const aspectRatio = img.naturalHeight / img.naturalWidth;
             maxEstimatedHeight = Math.max(
@@ -240,45 +240,52 @@ const processedTags = await Promise.all(
         });
       };
 
-      const updateStyles = (hoveredCard) => {
+      interface StyleProps {
+  fontSize?: string;
+  paddingBottom?: string;
+  zIndex?: number;
+  opacity?: string;
+}
+
+      const updateStyles = (hoveredCard: HTMLElement) => {
         const styleUpdatesHovered = [
           {
             selector: "p",
             styles: {
               fontSize: "1rem",
-              paddingBottom: `${hoveredCard.querySelector(".tags").offsetHeight - parseFloat(getComputedStyle(document.documentElement).fontSize)}px`,
-            },
+              paddingBottom: `${hoveredCard.querySelector<HTMLElement>(".tags")!.offsetHeight - parseFloat(getComputedStyle(document.documentElement).fontSize)}px`,
+            }  as StyleProps,
           },
           {
             selector: ".tags",
-            styles: { zIndex: 11 },
+            styles: { zIndex: 11 }  as StyleProps,
           },
           {
             selector: ".imageCard",
             styles: {
               opacity:
-                hoveredCard.querySelector(".card_carousel").children.length != 0
+                hoveredCard.querySelector(".card_carousel")!.children.length !== 0
                   ? "0"
                   : "1",
-            },
+            }  as StyleProps,
           },
         ];
 
         const styleUpdatesNonHovered = [
           {
             selector: "p",
-            styles: { fontSize: "0" },
+            styles: { fontSize: "0" } as StyleProps,
           },
           {
             selector: ".tags",
-            styles: { zIndex: 3 },
+            styles: { zIndex: 3 } as StyleProps,
           },
         ];
 
         pCards.forEach((otherCard) => {
           if (otherCard === hoveredCard) {
             styleUpdatesHovered.forEach(({ selector, styles }) => {
-              const element = otherCard.querySelector(selector);
+              const element = otherCard.querySelector<HTMLElement>(selector);
               if (element) {
                 Object.keys(styles).forEach((prop) => {
                   element.style[prop] = styles[prop];
@@ -287,7 +294,7 @@ const processedTags = await Promise.all(
             });
           } else {
             styleUpdatesHovered.forEach(({ selector, styles }) => {
-              const element = otherCard.querySelector(selector);
+              const element = otherCard.querySelector<HTMLElement>(selector);
               if (element) {
                 Object.keys(styles).forEach((prop) => {
                   const nonHoveredStyle = styleUpdatesNonHovered.find(
@@ -314,7 +321,7 @@ const processedTags = await Promise.all(
         timeoutId = setTimeout(() => {
           pCards.forEach((card) => {
             ["p", ".tags", ".imageCard"].forEach((selector) => {
-              const element = card.querySelector(selector);
+              const element = card.querySelector<HTMLElement>(selector);
               if (element) {
                 element.style.removeProperty("font-size");
                 element.style.removeProperty("bottom");
@@ -327,11 +334,11 @@ const processedTags = await Promise.all(
         }, 99);
       };
 
-      const initCarousel = (card) => {
-        const images = card.querySelectorAll(".card_carousel img");
+      const initCarousel = (card: HTMLElement) => {
+        const images = card.querySelectorAll<HTMLElement>(".card_carousel img");
         let currentIndex = 0;
         let direction = 1;
-        let interval;
+        let interval: NodeJS.Timeout;
 
         const startCarousel = () => {
           interval = setInterval(() => {
@@ -367,7 +374,7 @@ const processedTags = await Promise.all(
 
       const mediaQuery = window.matchMedia("(min-width: 425px)");
 
-      const applyMediaQueryStyles = (matches) => {
+      const applyMediaQueryStyles = (matches: boolean) => {
         pCards.forEach((card) => {
           if (matches) {
             calculateDimensions();
@@ -405,6 +412,7 @@ const processedTags = await Promise.all(
     });
   });
 </script>
+
 
 <style define:vars={{ bgColor, txtColor }}>
   .card_carousel img {

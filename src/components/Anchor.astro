@@ -59,7 +59,7 @@ const {
 	<script>
 	  (() => {
 		const updateStyles = (matches) => {
-		  const as = document.querySelectorAll('.responsiveA');
+		  const as = document.querySelectorAll<HTMLElement>('.responsiveA');
 		  if (as) {
 			if (matches) {
 				as.forEach(a => {

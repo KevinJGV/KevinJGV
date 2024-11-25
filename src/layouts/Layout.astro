@@ -23,7 +23,7 @@ const { title } = Astro.props;
     <ViewTransitions />
   </head>
   <body class="noise flex j_sb">
-    <!-- <div id="dot-container" class="fixed" transition:persist></div> -->
+    <div id="dot-container" class="fixed" transition:persist></div>
     <audio
       id="audio-player"
       transition:persist
@@ -90,7 +90,7 @@ const { title } = Astro.props;
       "#side-container"
     ) as HTMLElement;
     const updateSidebarSize = () => {
-      const aside = sidebarRef.querySelector("aside");
+      const aside = sidebarRef.querySelector("aside")!;
 
       const { width, height } = aside.getBoundingClientRect();
       sidebarRef.style.width = `${width}px`;
@@ -111,7 +111,7 @@ const { title } = Astro.props;
     mediaQuery.addEventListener("change", handleMediaChange);
     handleMediaChange(mediaQuery);
 
-    const audioPlayer = document.querySelector("#audio-player");
+    const audioPlayer = document.querySelector("#audio-player") as HTMLAudioElement;
 
     audioPlayer.addEventListener("ended", function () {
       this.currentTime = 0;

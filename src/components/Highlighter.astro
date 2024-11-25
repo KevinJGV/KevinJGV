@@ -1,20 +1,25 @@
 ---
 interface Props {
-    el?:string,
-    font_size?:string
-    text:string,
-    bg_Color?:string,
-    txt_Color?:string,
-    font?:string
+  el?: string;
+  font_size?: string;
+  text: string;
+  bg_Color?: string;
+  txt_Color?: string;
+  font?: string;
 };
 
-const {text, font_size = "1rem", el = "p", bg_Color = "#fff", txt_Color = "#000", font = "Dela"} = Astro.props
+const { text, font_size = "1rem", el = "p", bg_Color = "#fff", txt_Color = "#000", font = "Dela" } = Astro.props;
 
 const validItems = ['p', 'i', 'strong', 'span', 'q', 'h1', 'h2', 'h3', 'h4'];
-const Elem = validItems.includes(el) ? el : 'p';
+const Element = validItems.includes(el) ? el : 'p';
 ---
 
-<Elem class:list={["elem", "relative",font]} style={`--font_size: ${font_size}; --bg_Color: ${bg_Color}; --txt_Color: ${txt_Color};`}>{text}<div class="background absolute"></div></Elem>
+<Fragment set:html={`
+  <${Element} class="elem relative ${font}" style="--font_size: ${font_size}; --bg_Color: ${bg_Color}; --txt_Color: ${txt_Color};">
+    ${text}
+    <div class="background absolute"></div>
+  </${Element}>
+`} />
 
 <style define:vars={{font_size, bg_Color, txt_Color}}>
     .elem {
