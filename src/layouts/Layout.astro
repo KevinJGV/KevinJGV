@@ -39,7 +39,7 @@ const { title } = Astro.props;
     <section id="side-container" class="relative flex" transition:persist>
       <slot name="sidebar" data-astro-transition="persist" />
     </section>
-    <section id="content-container" class="relative">
+    <section id="content-container" class="relative flex_col">
       <main class="flex_col view-transition">
         <slot name="main" data-astro-transition="swap" />
       </main>
@@ -52,8 +52,8 @@ const { title } = Astro.props;
   </body>
 </html>
 <script>
-  const activeIcon: string = "public/circle.svg";
-  const inactiveIcon: string = "public/cross.svg";
+  const activeIcon: string = "/circle.svg";
+  const inactiveIcon: string = "/cross.svg";
 
   function changeFavicon(iconURL: string): void {
     const favicon = document.getElementById("icon") as HTMLLinkElement;
@@ -181,14 +181,12 @@ const { title } = Astro.props;
 
   main {
     gap: 5rem;
+    justify-self: center;
   }
-
-  
 
   @media screen and (min-width: 1440px) {
     main {
       width: 1200px;
-      justify-self: center;
     }
   }
 
