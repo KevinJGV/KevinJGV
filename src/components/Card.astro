@@ -19,137 +19,137 @@ const {
   tags = {},
 } = Astro.props;
 
-if (import.meta.env.SSR) {
-  const path = require("path");
-  const { readFile } = require("fs/promises");
-  async function readSvgFile(svgPath: string) {
-    try {
-      const fullPath = path.join("public/", svgPath);
-      const svgContent = await readFile(fullPath, "utf-8");
-      return svgContent;
-    } catch (error) {
-      console.error(`Error reading SVG file: ${error}`);
-    }
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+
+async function readSvgFile(svgPath: string) {
+  try {
+    const fullPath = path.join("public/", svgPath);
+    const svgContent = await readFile(fullPath, "utf-8");
+    return svgContent;
+  } catch (error) {
+    console.error(`Error reading SVG file: ${error}`);
   }
-  async function tagItem(
-    key: string,
-    svgContent: string,
-    bgColor?: string,
-    color_fill?: string
-  ) {
-    const svg = await readSvgFile(svgContent);
-    return `
+}
+
+async function tagItem(
+  key: string,
+  svgContent: string,
+  bgColor?: string,
+  color_fill?: string
+) {
+  const svg = await readSvgFile(svgContent);
+  return `
 		<li class="Alumni flex all_c" style="--bgColor: ${bgColor}; --txtColor: ${color_fill}">
 			${svg}
 			<span>${key}</span>
 		</li>
 	`;
-  }
-
-  async function renderTagItem(key: string, setting: string) {
-    if (!key.startsWith("template")) {
-      return await tagItem(key, setting);
-    }
-
-    const tagConfigs = {
-      "e-commerce": {
-        label: "E-commerce",
-        path: "tags/function/cart.svg",
-        bgColor: "#264653",
-        txtColor: "#fff",
-      },
-      technology: {
-        label: "Technologia",
-        path: "tags/purpose/technology.svg",
-        bgColor: "#6c8c65",
-        txtColor: "#000",
-      },
-      frontend: {
-        label: "Frontend",
-        path: "tags/role/frontend.svg",
-        bgColor: "#6f1d1b",
-        txtColor: "#fff",
-      },
-      uiux: {
-        label: "UI/UX",
-        path: "tags/role/uiux.svg",
-        bgColor: "#f4d35e",
-        txtColor: "#000",
-      },
-      entertainment: {
-        label: "Entretenimiento",
-        path: "tags/purpose/entertainment.svg",
-        bgColor: "#2a9d8f",
-        txtColor: "#000",
-      },
-      api: {
-        label: "API",
-        path: "tags/type/api.svg",
-        bgColor: "#000000",
-        txtColor: "#fff",
-      },
-      manager: {
-        label: "Administrador",
-        path: "tags/function/manager.svg",
-        bgColor: "#8d99ae",
-        txtColor: "#000",
-      },
-      dashboard: {
-        label: "DashBoard",
-        path: "tags/type/dashboard.svg",
-        bgColor: "#ff6d00",
-        txtColor: "#000",
-      },
-      modeling: {
-        label: "Modelado",
-        path: "tags/function/modeling.svg",
-        bgColor: "#042a2b",
-        txtColor: "#fff",
-      },
-      business: {
-        label: "Negocio",
-        path: "tags/purpose/business.svg",
-        bgColor: "#ff6b6b",
-        txtColor: "#000",
-      },
-      leadership: {
-        label: "Líderazgo",
-        path: "tags/role/leadership.svg",
-        bgColor: "#7a9e9f",
-        txtColor: "#000",
-      },
-      mysql: {
-        label: "MySql",
-        path: "tags/tech/mysql.svg",
-        bgColor: "#04a777",
-        txtColor: "#000",
-      },
-      db: {
-        label: "DB",
-        path: "tags/type/db.svg",
-        bgColor: "#f0f0c9",
-        txtColor: "#000",
-      },
-    };
-
-    const config = tagConfigs[setting as keyof typeof tagConfigs];
-    if (config) {
-      return await tagItem(
-        config.label,
-        config.path,
-        config.bgColor,
-        config.txtColor
-      );
-    }
-    return "";
-  }
-
-  const processedTags = await Promise.all(
-    Object.entries(tags).map(
-      async ([key, setting]) => await renderTagItem(key, setting)
-    )
-  );
 }
+
+async function renderTagItem(key: string, setting: string) {
+  if (!key.startsWith("template")) {
+    return await tagItem(key, setting);
+  }
+
+  const tagConfigs = {
+    "e-commerce": {
+      label: "E-commerce",
+      path: "tags/function/cart.svg",
+      bgColor: "#264653",
+      txtColor: "#fff",
+    },
+    technology: {
+      label: "Technologia",
+      path: "tags/purpose/technology.svg",
+      bgColor: "#6c8c65",
+      txtColor: "#000",
+    },
+    frontend: {
+      label: "Frontend",
+      path: "tags/role/frontend.svg",
+      bgColor: "#6f1d1b",
+      txtColor: "#fff",
+    },
+    uiux: {
+      label: "UI/UX",
+      path: "tags/role/uiux.svg",
+      bgColor: "#f4d35e",
+      txtColor: "#000",
+    },
+    entertainment: {
+      label: "Entretenimiento",
+      path: "tags/purpose/entertainment.svg",
+      bgColor: "#2a9d8f",
+      txtColor: "#000",
+    },
+    api: {
+      label: "API",
+      path: "tags/type/api.svg",
+      bgColor: "#000000",
+      txtColor: "#fff",
+    },
+    manager: {
+      label: "Administrador",
+      path: "tags/function/manager.svg",
+      bgColor: "#8d99ae",
+      txtColor: "#000",
+    },
+    dashboard: {
+      label: "DashBoard",
+      path: "tags/type/dashboard.svg",
+      bgColor: "#ff6d00",
+      txtColor: "#000",
+    },
+    modeling: {
+      label: "Modelado",
+      path: "tags/function/modeling.svg",
+      bgColor: "#042a2b",
+      txtColor: "#fff",
+    },
+    business: {
+      label: "Negocio",
+      path: "tags/purpose/business.svg",
+      bgColor: "#ff6b6b",
+      txtColor: "#000",
+    },
+    leadership: {
+      label: "Líderazgo",
+      path: "tags/role/leadership.svg",
+      bgColor: "#7a9e9f",
+      txtColor: "#000",
+    },
+    mysql: {
+      label: "MySql",
+      path: "tags/tech/mysql.svg",
+      bgColor: "#04a777",
+      txtColor: "#000",
+    },
+    db: {
+      label: "DB",
+      path: "tags/type/db.svg",
+      bgColor: "#f0f0c9",
+      txtColor: "#000",
+    },
+  };
+
+  const config = tagConfigs[setting as keyof typeof tagConfigs];
+  if (config) {
+    return await tagItem(
+      config.label,
+      config.path,
+      config.bgColor,
+      config.txtColor
+    );
+  }
+  return "";
+}
+
+const processedTags = await Promise.all(
+  Object.entries(tags).map(
+    async ([key, setting]) => await renderTagItem(key, setting)
+  )
+);
 ---
 
 <a
@@ -196,11 +196,7 @@ if (import.meta.env.SSR) {
       let timeoutId: NodeJS.Timeout | null = null;
       const timeouts: { [key: string]: NodeJS.Timeout } = {};
 
-      const setTimeoutWithKey = (
-        key: string,
-        callback: Function,
-        delay: number
-      ) => {
+      const setTimeoutWithKey = (key: string, callback: Function, delay: number) => {
         if (timeouts[key]) clearTimeout(timeouts[key]);
         timeouts[key] = setTimeout(() => {
           callback();
@@ -209,9 +205,7 @@ if (import.meta.env.SSR) {
       };
 
       const calculateDimensions = () => {
-        const cardsContainer = document.querySelector(
-          "#projects > div"
-        ) as HTMLElement | null;
+        const cardsContainer = document.querySelector("#projects > div") as HTMLElement | null;
         if (!cardsContainer) return;
 
         const containerWidth = cardsContainer.clientWidth;
@@ -222,25 +216,21 @@ if (import.meta.env.SSR) {
         const maxCardWidth =
           Math.round((containerWidth * growFactor) / totalFlex) - 9;
         [".tags", ".card_carousel"].forEach((clase) =>
-          document
-            .querySelectorAll<HTMLElement>(clase)
-            .forEach((bunch_elements) => {
-              bunch_elements.style.width = `${maxCardWidth}px`;
-            })
+          document.querySelectorAll<HTMLElement>(clase).forEach((bunch_elements) => {
+            bunch_elements.style.width = `${maxCardWidth}px`;
+          })
         );
 
         let maxEstimatedHeight = 0;
-        document
-          .querySelectorAll<HTMLElement>(".card_carousel")
-          .forEach((carousel) => {
-            carousel.querySelectorAll("img").forEach((img) => {
-              const aspectRatio = img.naturalHeight / img.naturalWidth;
-              maxEstimatedHeight = Math.max(
-                maxEstimatedHeight,
-                maxCardWidth * aspectRatio
-              );
-            });
+        document.querySelectorAll<HTMLElement>(".card_carousel").forEach((carousel) => {
+          carousel.querySelectorAll("img").forEach((img) => {
+            const aspectRatio = img.naturalHeight / img.naturalWidth;
+            maxEstimatedHeight = Math.max(
+              maxEstimatedHeight,
+              maxCardWidth * aspectRatio
+            );
           });
+        });
 
         pCards.forEach((pCard) => {
           pCard.style.setProperty(
@@ -251,11 +241,11 @@ if (import.meta.env.SSR) {
       };
 
       interface StyleProps {
-        fontSize?: string;
-        paddingBottom?: string;
-        zIndex?: number;
-        opacity?: string;
-      }
+  fontSize?: string;
+  paddingBottom?: string;
+  zIndex?: number;
+  opacity?: string;
+}
 
       const updateStyles = (hoveredCard: HTMLElement) => {
         const styleUpdatesHovered = [
@@ -264,21 +254,20 @@ if (import.meta.env.SSR) {
             styles: {
               fontSize: "1rem",
               paddingBottom: `${hoveredCard.querySelector<HTMLElement>(".tags")!.offsetHeight - parseFloat(getComputedStyle(document.documentElement).fontSize)}px`,
-            } as StyleProps,
+            }  as StyleProps,
           },
           {
             selector: ".tags",
-            styles: { zIndex: 11 } as StyleProps,
+            styles: { zIndex: 11 }  as StyleProps,
           },
           {
             selector: ".imageCard",
             styles: {
               opacity:
-                hoveredCard.querySelector(".card_carousel")!.children.length !==
-                0
+                hoveredCard.querySelector(".card_carousel")!.children.length !== 0
                   ? "0"
                   : "1",
-            } as StyleProps,
+            }  as StyleProps,
           },
         ];
 
@@ -424,6 +413,7 @@ if (import.meta.env.SSR) {
   });
 </script>
 
+
 <style define:vars={{ bgColor, txtColor }}>
   .card_carousel img {
     transition: opacity 0.5s ease;
@@ -484,18 +474,16 @@ if (import.meta.env.SSR) {
   }
 
   @media screen and (max-width: 1075px) {
-    .pCard,
-    .tags,
-    .card_carousel {
-      width: 100% !important;
+    .pCard, .tags, .card_carousel {
+        width: 100% !important;
     }
 
     .pCard p {
-      opacity: 0;
+        opacity: 0;
     }
 
     .pCard:hover p {
-      opacity: 1;
+        opacity: 1;
     }
   }
 </style>
