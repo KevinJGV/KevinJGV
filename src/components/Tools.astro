@@ -3,10 +3,12 @@
 ---
 
 <aside id="tools" class="flex fixed j_sa glass1">
-  <section class="tool"></section>
-  <section class="tool">
-    <p>@Tik Tok</p>
-    <a>Follow</a>
+  <section class="tool" id="audio-control">
+    <button id="mute-button" aria-label="Silenciar/Activar música">
+      <svg id="volume-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+      </svg>
+    </button>
   </section>
 </aside>
 
@@ -17,9 +19,18 @@
     right: 15px;
     height: 50px;
     /* gap: 1.2rem; */
+    z-index: 99;
     border-radius: 115px;
     padding-inline: 15px;
     /* align-items: center; */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+
+  #tools.visible {
+    opacity: 1;
+    visibility: visible;
   }
 
   .tool {
@@ -95,4 +106,227 @@
   #tools svg {
     height: 30px;
   }
+
+  #audio-control button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #audio-control button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+  }
+
+  #audio-control.muted #volume-icon {
+    opacity: 0.5;
+  }
+
 </style>
+
+<script>
+  // Variable global para evitar doble inicialización
+  let audioControlInitialized = false;
+  let toolsVisible = false;
+  
+  // Función para mostrar Tools después de la primera interacción
+  function showToolsOnFirstInteraction() {
+    if (toolsVisible) return;
+    
+    const toolsElement = document.getElementById('tools');
+    if (toolsElement) {
+      toolsElement.classList.add('visible');
+      toolsVisible = true;
+    }
+  }
+  
+  // Agregar listeners para detectar primera interacción
+  function setupFirstInteractionDetection() {
+    // Solo eventos que son reconocidos como gestos válidos del usuario para autoplay
+    const interactionEvents = [
+      'click',
+      'dblclick',
+      'mousedown',
+      'mouseup',
+      'keydown',
+      'keyup',
+      'touchstart',
+      'touchend',
+      'pointerdown',
+      'pointerup'
+    ];
+    
+    const handleFirstInteraction = () => {
+      showToolsOnFirstInteraction();
+      
+      // Remover todos los listeners después de la primera interacción
+      interactionEvents.forEach(eventType => {
+        document.removeEventListener(eventType, handleFirstInteraction);
+      });
+    };
+    
+    // Agregar listeners para todos los eventos de interacción
+    interactionEvents.forEach(eventType => {
+      document.addEventListener(eventType, handleFirstInteraction, { once: true });
+    });
+  }
+  
+  // Script mejorado para control de audio que funciona con las transiciones de Astro
+  function initAudioControl() {
+    // Evitar doble inicialización
+    if (audioControlInitialized) {
+      return;
+    }
+    
+    const muteButton = document.getElementById('mute-button');
+    const volumeIcon = document.getElementById('volume-icon');
+    const audioControl = document.getElementById('audio-control');
+
+    if (!muteButton || !volumeIcon || !audioControl) {
+      return;
+    }
+    
+    audioControlInitialized = true;
+    
+    // Función para obtener el elemento de audio con reintentos
+    function getAudioPlayer() {
+      return document.querySelector('#audio-player') as HTMLAudioElement;
+    }
+    
+    // Función para actualizar el estado visual
+    function updateAudioStatus(isMuted: boolean) {
+      
+      if (isMuted) {
+        audioControl.classList.add('muted');
+        volumeIcon.innerHTML = `
+          <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+        `;
+      } else {
+        audioControl.classList.remove('muted');
+        volumeIcon.innerHTML = `
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        `;
+      }
+    }
+    
+    // Función para alternar el estado del audio
+    function toggleAudio() {
+      const audioPlayer = getAudioPlayer();
+      
+      if (audioPlayer) {
+        const newMutedState = !audioPlayer.muted;
+        audioPlayer.muted = newMutedState;
+        updateAudioStatus(newMutedState);
+        
+      } 
+    }
+    
+    // Event listener para el botón
+    muteButton.addEventListener('click', toggleAudio);
+    
+    // Función para sincronizar el estado del UI con el audio
+    function syncAudioState() {
+      const audioPlayer = getAudioPlayer();
+      if (audioPlayer) {
+        updateAudioStatus(audioPlayer.muted);
+        return true;
+      }
+      return false;
+    }
+    
+    // Función para establecer el estado inicial del audio
+    function setInitialAudioState() {
+      const audioPlayer = getAudioPlayer();
+      if (!audioPlayer) return false;
+      
+      // Siempre iniciar con audio activo (no silenciado)
+      audioPlayer.muted = false;
+      updateAudioStatus(false);
+      
+      return true;
+    }
+    
+    // Observador para detectar cambios en el estado del audio
+    let observer = null;
+    function createAudioObserver() {
+      const audioPlayer = getAudioPlayer();
+      if (!audioPlayer) return;
+      
+      // Limpiar observador anterior si existe
+      if (observer) {
+        clearInterval(observer);
+      }
+      
+      // Monitorear cambios en la propiedad muted
+      let lastMutedState = audioPlayer.muted;
+      
+      const checkAudioState = () => {
+        if (audioPlayer.muted !== lastMutedState) {
+          lastMutedState = audioPlayer.muted;
+          updateAudioStatus(audioPlayer.muted);
+        }
+      };
+      
+      // Verificar cambios cada 500ms (menos frecuente)
+      observer = setInterval(checkAudioState, 500);
+      
+      // También escuchar eventos del audio
+      audioPlayer.addEventListener('volumechange', () => {
+        updateAudioStatus(audioPlayer.muted);
+      });
+    }
+    
+    // Función principal de inicialización
+    function initialize() {
+      // Intentar establecer estado inicial inmediatamente
+      if (setInitialAudioState()) {
+        createAudioObserver();
+      } else {
+        // Reintentar después de un delay si el audio no está listo
+        setTimeout(() => {
+          if (setInitialAudioState()) {
+            createAudioObserver();
+          } else {
+            setTimeout(() => {
+              setInitialAudioState();
+              createAudioObserver();
+            }, 1000);
+          }
+        }, 500);
+      }
+    }
+    
+    // Inicializar
+    initialize();
+  }
+  
+  // Función para limpiar al salir de la página
+  function cleanupAudioControl() {
+    audioControlInitialized = false;
+    toolsVisible = false;
+  }
+  
+  // Función principal de inicialización de Tools
+  function initializeTools() {
+    setupFirstInteractionDetection();
+    initAudioControl();
+  }
+  
+  // Ejecutar cuando el DOM esté listo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeTools);
+  } else {
+    initializeTools();
+  }
+  
+  // También ejecutar en transiciones de página de Astro
+  document.addEventListener('astro:page-load', initializeTools);
+  document.addEventListener('astro:before-preparation', cleanupAudioControl);
+</script>

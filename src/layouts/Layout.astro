@@ -1,6 +1,6 @@
 ---
 import GlobalStyles from "../styles/GlobalStyles.astro";
-// import Tools from "../components/Tools.astro";
+import Tools from "../components/Tools.astro";
 import { ViewTransitions } from "astro:transitions";
 import CustomCursor from '../components/CustomCursor.astro';
 
@@ -32,10 +32,9 @@ const { title } = Astro.props;
       src="/VIN.ogg"
       autoplay
       loop
-      preload="auto"
-      muted></audio>
+      preload="auto"></audio>
     <slot name="navbar" data-astro-transition="swap" />
-    <!-- <Tools /> -->
+    <Tools />
     <section id="side-container" class="relative flex" transition:persist>
       <slot name="sidebar" data-astro-transition="persist" />
     </section>
@@ -152,10 +151,21 @@ const { title } = Astro.props;
     };
 
     enableAudioOnInteraction();
-    setTimeout(() => {
+    
+    // Función para intentar reproducir con manejo de errores
+    const safePlay = () => {
+      // Siempre iniciar con audio activo
       audioPlayer.muted = false;
-      audioPlayer.play();
-    }, 1000);
+      
+      audioPlayer.play().catch((error) => {
+        // No mostrar error si es solo por falta de interacción del usuario
+        if (error.name !== 'NotAllowedError') {
+          console.log("Error de reproducción:", error);
+        }
+      });
+    };
+    
+    setTimeout(safePlay, 1000);
   });
 </script>
 <script src="/src/components/dots.js"></script>
