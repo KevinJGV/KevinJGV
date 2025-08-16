@@ -2,7 +2,7 @@
 import GlobalStyles from "../styles/GlobalStyles.astro";
 import Tools from "../components/Tools.astro";
 import { ViewTransitions } from "astro:transitions";
-import CustomCursor from '../components/CustomCursor.astro';
+// import CustomCursor from '../components/CustomCursor.astro';
 
 interface Props {
   title: string;
@@ -24,7 +24,7 @@ const { title } = Astro.props;
     <ViewTransitions />
   </head>
   <body class="noise flex j_sb">
-    <CustomCursor data-astro-transition="swap" />
+    <!-- <CustomCursor data-astro-transition="swap" /> -->
     <div id="dot-container" class="fixed" transition:persist></div>
     <audio
       id="audio-player"

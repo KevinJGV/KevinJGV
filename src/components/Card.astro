@@ -19,115 +19,83 @@ const {
   tags = {},
 } = Astro.props;
 
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-
-async function readSvgFile(svgPath: string) {
-  try {
-    const fullPath = path.join("public/", svgPath);
-    const svgContent = await readFile(fullPath, "utf-8");
-    return svgContent;
-  } catch (error) {
-    console.error(`Error reading SVG file: ${error}`);
-  }
-}
-
-async function tagItem(
-  key: string,
-  svgContent: string,
-  bgColor?: string,
-  color_fill?: string
-) {
-  const svg = await readSvgFile(svgContent);
+// Función para crear items de tags sin imágenes
+function tagItem(key: string, bgColor?: string, color_fill?: string) {
   return `
-		<li class="Alumni flex all_c" style="--bgColor: ${bgColor}; --txtColor: ${color_fill}">
-			${svg}
+		<li class="Alumni flex all_c" style="--bgColor: ${bgColor}; --txtColor: ${color_fill};">
 			<span>${key}</span>
 		</li>
 	`;
 }
 
-async function renderTagItem(key: string, setting: string) {
+function renderTagItem(key: string, setting: string) {
   if (!key.startsWith("template")) {
-    return await tagItem(key, setting);
+    return tagItem(key);
   }
 
   const tagConfigs = {
     "e-commerce": {
       label: "E-commerce",
-      path: "/tags/function/cart.svg",
       bgColor: "#264653",
       txtColor: "#fff",
     },
     technology: {
       label: "Technologia",
-      path: "/tags/purpose/technology.svg",
       bgColor: "#6c8c65",
       txtColor: "#000",
     },
     frontend: {
       label: "Frontend",
-      path: "/tags/role/frontend.svg",
       bgColor: "#6f1d1b",
       txtColor: "#fff",
     },
     uiux: {
       label: "UI/UX",
-      path: "/tags/role/uiux.svg",
       bgColor: "#f4d35e",
       txtColor: "#000",
     },
     entertainment: {
       label: "Entretenimiento",
-      path: "/tags/purpose/entertainment.svg",
       bgColor: "#2a9d8f",
       txtColor: "#000",
     },
     api: {
       label: "API",
-      path: "/tags/type/api.svg",
       bgColor: "#000000",
       txtColor: "#fff",
     },
     manager: {
       label: "Administrador",
-      path: "/tags/function/manager.svg",
       bgColor: "#8d99ae",
       txtColor: "#000",
     },
     dashboard: {
       label: "DashBoard",
-      path: "/tags/type/dashboard.svg",
       bgColor: "#ff6d00",
       txtColor: "#000",
     },
     modeling: {
       label: "Modelado",
-      path: "/tags/function/modeling.svg",
       bgColor: "#042a2b",
       txtColor: "#fff",
     },
     business: {
       label: "Negocio",
-      path: "/tags/purpose/business.svg",
       bgColor: "#ff6b6b",
       txtColor: "#000",
     },
     leadership: {
       label: "Líderazgo",
-      path: "/tags/role/leadership.svg",
       bgColor: "#7a9e9f",
       txtColor: "#000",
     },
     mysql: {
       label: "MySql",
-      path: "/tags/tech/mysql.svg",
       bgColor: "#04a777",
       txtColor: "#000",
     },
     db: {
       label: "DB",
-      path: "/tags/type/db.svg",
       bgColor: "#f0f0c9",
       txtColor: "#000",
     },
@@ -135,20 +103,13 @@ async function renderTagItem(key: string, setting: string) {
 
   const config = tagConfigs[setting as keyof typeof tagConfigs];
   if (config) {
-    return await tagItem(
-      config.label,
-      config.path,
-      config.bgColor,
-      config.txtColor
-    );
+    return tagItem(config.label, config.bgColor, config.txtColor);
   }
   return "";
 }
 
-const processedTags = await Promise.all(
-  Object.entries(tags).map(
-    async ([key, setting]) => await renderTagItem(key, setting)
-  )
+const processedTags = Object.entries(tags).map(([key, setting]) =>
+  renderTagItem(key, setting)
 );
 ---
 
@@ -491,6 +452,42 @@ const processedTags = await Promise.all(
     bottom: 0;
     background-color: var(--bgColor);
     gap: 1rem;
+  }
+
+  .tags li {
+    /* Mantener las propiedades originales del tag */
+    background-color: var(--bgColor);
+    color: var(--txtColor);
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Añadir flexbox para alinear imagen y texto */
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .tags li img {
+    width: 1rem;
+    height: 1rem;
+    filter: brightness(0) invert(1);
+    flex-shrink: 0;
+  }
+
+  .tags li span {
+    /* Resetear estilos que puedan heredarse de .pCard span */
+    min-width: unset;
+    padding: 0;
+    text-align: left;
+    transform: none;
+    transition: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: inherit;
   }
 
   @media screen and (max-width: 1075px) {
