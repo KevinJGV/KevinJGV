@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   output: 'server',
@@ -8,7 +8,6 @@ export default defineConfig({
       enabled: true,
     },
     includeFiles: ["src",
-      'src/components/motion-cursor.js',
       'public'
     ],
   
@@ -24,22 +23,12 @@ export default defineConfig({
     middleware: true,
   }),
   vite: {
-  
     build: {
       rollupOptions: {
         output: {
-        
-          manualChunks(id) {
-            if (id.includes('motion-cursor.js')) {
-              return 'cursor';
-            }
-          }
+          // Configuraciones de chunks si es necesario
         }
       }
-    },
-  
-    optimizeDeps: {
-      include: ['motion-cursor.js']
     }
   }
 });
