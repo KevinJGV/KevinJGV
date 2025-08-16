@@ -19,7 +19,6 @@ const {
   tags = {},
 } = Astro.props;
 
-// Función para crear items de tags sin imágenes
 function tagItem(key: string, bgColor?: string, color_fill?: string) {
   return `
 		<li class="Alumni flex all_c" style="--bgColor: ${bgColor}; --txtColor: ${color_fill};">
@@ -217,7 +216,6 @@ const processedTags = Object.entries(tags).map(([key, setting]) =>
           paddingBottom: string;
           zIndex: string;
           opacity: string;
-          // ... otras propiedades que necesites
         };
 
         interface StyleUpdate {
@@ -225,7 +223,6 @@ const processedTags = Object.entries(tags).map(([key, setting]) =>
           styles: Partial<CSSProperties>;
         }
 
-        // El código con los tipos correctos
         const styleUpdatesHovered: StyleUpdate[] = [
           {
             selector: "p",

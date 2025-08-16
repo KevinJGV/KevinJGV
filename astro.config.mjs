@@ -26,7 +26,6 @@ export default defineConfig({
     build: {
       rollupOptions: {
         output: {
-          // Configuraciones de chunks si es necesario
         }
       }
     }

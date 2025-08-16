@@ -1,7 +1,5 @@
-// src/components/motion-cursor.js
 export default class MotionCursor {
   constructor() {
-      // Verificar que estamos en el navegador
       if (typeof window === 'undefined') return;
       
       // Inicializar el cursor

@@ -132,11 +132,9 @@
 </style>
 
 <script>
-  // Variable global para evitar doble inicialización
   let audioControlInitialized = false;
   let toolsVisible = false;
   
-  // Función para mostrar Tools después de la primera interacción
   function showToolsOnFirstInteraction() {
     if (toolsVisible) return;
     
@@ -144,12 +142,26 @@
     if (toolsElement) {
       toolsElement.classList.add('visible');
       toolsVisible = true;
+      sessionStorage.setItem('toolsVisible', 'true');
     }
   }
   
-  // Agregar listeners para detectar primera interacción
+  function restoreToolsVisibility() {
+    const savedVisibility = sessionStorage.getItem('toolsVisible');
+    if (savedVisibility === 'true') {
+      const toolsElement = document.getElementById('tools');
+      if (toolsElement) {
+        toolsElement.classList.add('visible');
+        toolsVisible = true;
+      }
+    }
+  }
+  
   function setupFirstInteractionDetection() {
-    // Solo eventos que son reconocidos como gestos válidos del usuario para autoplay
+    restoreToolsVisibility();
+    
+    if (toolsVisible) return;
+    
     const interactionEvents = [
       'click',
       'dblclick',
@@ -166,21 +178,17 @@
     const handleFirstInteraction = () => {
       showToolsOnFirstInteraction();
       
-      // Remover todos los listeners después de la primera interacción
       interactionEvents.forEach(eventType => {
         document.removeEventListener(eventType, handleFirstInteraction);
       });
     };
     
-    // Agregar listeners para todos los eventos de interacción
     interactionEvents.forEach(eventType => {
       document.addEventListener(eventType, handleFirstInteraction, { once: true });
     });
   }
   
-  // Script mejorado para control de audio que funciona con las transiciones de Astro
   function initAudioControl() {
-    // Evitar doble inicialización
     if (audioControlInitialized) {
       return;
     }
@@ -195,12 +203,10 @@
     
     audioControlInitialized = true;
     
-    // Función para obtener el elemento de audio con reintentos
     function getAudioPlayer() {
       return document.querySelector('#audio-player') as HTMLAudioElement;
     }
     
-    // Función para actualizar el estado visual
     function updateAudioStatus(isMuted: boolean) {
       
       if (isMuted) {
@@ -216,22 +222,25 @@
       }
     }
     
-    // Función para alternar el estado del audio
     function toggleAudio() {
       const audioPlayer = getAudioPlayer();
       
       if (audioPlayer) {
         const newMutedState = !audioPlayer.muted;
-        audioPlayer.muted = newMutedState;
-        updateAudioStatus(newMutedState);
         
+        if ((window as any).audioController) {
+          (window as any).audioController.setMuted(newMutedState);
+        } else {
+          audioPlayer.muted = newMutedState;
+          sessionStorage.setItem('audioMuted', newMutedState.toString());
+        }
+        
+        updateAudioStatus(newMutedState);
       } 
     }
     
-    // Event listener para el botón
     muteButton.addEventListener('click', toggleAudio);
     
-    // Función para sincronizar el estado del UI con el audio
     function syncAudioState() {
       const audioPlayer = getAudioPlayer();
       if (audioPlayer) {
@@ -241,30 +250,33 @@
       return false;
     }
     
-    // Función para establecer el estado inicial del audio
     function setInitialAudioState() {
       const audioPlayer = getAudioPlayer();
       if (!audioPlayer) return false;
       
-      // Siempre iniciar con audio activo (no silenciado)
-      audioPlayer.muted = false;
-      updateAudioStatus(false);
+      const savedMutedState = sessionStorage.getItem('audioMuted');
+      const shouldBeMuted = savedMutedState === 'true';
+      
+      if ((window as any).audioController) {
+        (window as any).audioController.setMuted(shouldBeMuted);
+      } else {
+        audioPlayer.muted = shouldBeMuted;
+      }
+      
+      updateAudioStatus(shouldBeMuted);
       
       return true;
     }
     
-    // Observador para detectar cambios en el estado del audio
     let observer = null;
     function createAudioObserver() {
       const audioPlayer = getAudioPlayer();
       if (!audioPlayer) return;
       
-      // Limpiar observador anterior si existe
       if (observer) {
         clearInterval(observer);
       }
       
-      // Monitorear cambios en la propiedad muted
       let lastMutedState = audioPlayer.muted;
       
       const checkAudioState = () => {
@@ -274,22 +286,18 @@
         }
       };
       
-      // Verificar cambios cada 500ms (menos frecuente)
       observer = setInterval(checkAudioState, 500);
       
-      // También escuchar eventos del audio
       audioPlayer.addEventListener('volumechange', () => {
         updateAudioStatus(audioPlayer.muted);
+        sessionStorage.setItem('audioMuted', audioPlayer.muted.toString());
       });
     }
     
-    // Función principal de inicialización
     function initialize() {
-      // Intentar establecer estado inicial inmediatamente
       if (setInitialAudioState()) {
         createAudioObserver();
       } else {
-        // Reintentar después de un delay si el audio no está listo
         setTimeout(() => {
           if (setInitialAudioState()) {
             createAudioObserver();
@@ -303,30 +311,29 @@
       }
     }
     
-    // Inicializar
     initialize();
   }
   
-  // Función para limpiar al salir de la página
   function cleanupAudioControl() {
     audioControlInitialized = false;
-    toolsVisible = false;
   }
   
-  // Función principal de inicialización de Tools
   function initializeTools() {
+    restoreToolsVisibility();
     setupFirstInteractionDetection();
     initAudioControl();
   }
   
-  // Ejecutar cuando el DOM esté listo
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeTools);
   } else {
     initializeTools();
   }
   
-  // También ejecutar en transiciones de página de Astro
   document.addEventListener('astro:page-load', initializeTools);
   document.addEventListener('astro:before-preparation', cleanupAudioControl);
+
+  setTimeout(() => {
+    restoreToolsVisibility();
+  }, 100);
 </script>
