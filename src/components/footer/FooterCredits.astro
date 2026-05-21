@@ -1,0 +1,36 @@
+---
+import Anchor from "../Anchor.astro";
+---
+
+<p>©<span id="curYear"></span> VIN-DEV</p>
+
+<section id="bot_foot" class="text_center Poppins-R">
+  Despegando al éxito 🚀... gracias a <Anchor
+    href="https://astro.build/"
+    max_font_size="1rem"
+    min_font_size="1rem"
+    text="Astro"
+    bgHeight="1.2rem"
+  /> y algo de café ☕
+</section>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const curYearEl = document.querySelector("#curYear");
+    if (curYearEl) {
+      curYearEl.textContent = new Date().getFullYear().toString();
+    }
+  });
+</script>
+
+<style>
+  p {
+    align-self: flex-end;
+    margin-right: 30px;
+  }
+
+  #bot_foot {
+    color: var(--border);
+    margin-bottom: 30px;
+  }
+</style>
