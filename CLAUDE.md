@@ -25,6 +25,25 @@ Portafolio personal. Astro 5 SSR + TypeScript + GSAP. Deploy en Vercel.
 - CSS scoped por defecto (Astro lo hace solo). Usar `is:global` solo cuando sea estrictamente necesario.
 - No agregar dependencias sin razón concreta — el proyecto es deliberadamente liviano.
 
+## Convención `.astro` vs `.tsx`
+
+| Caso | Usar |
+|---|---|
+| Contenido estático, layout, sección sin estado | `.astro` |
+| Animación GSAP simple disparada en load/scroll | `.astro` (script vanilla) |
+| Estado local complejo (formulario multi-paso, filtros, búsqueda en vivo) | `.tsx` con `client:load` o `client:visible` |
+| Fetch de API en el navegador con render reactivo | `.tsx` con `client:visible` |
+| Microinteracción aislada sin estado | `.astro` con vanilla JS — no justifica una isla |
+
+- Componentes `.astro` viven en `src/components/` (raíz) o `src/components/<page>/` si son específicos de una página.
+- Componentes React viven en `src/components/react/` con extensión `.tsx`.
+- **Directiva de hidratación por defecto:** `client:visible` salvo razón concreta para `client:load`.
+- Tipar `Props` siempre: `interface Props { ... }` en frontmatter `.astro` o tipos explícitos en `.tsx`.
+
+## Datos hardcodeados
+
+Listas de datos (proyectos, tecnologías, configuraciones de tags) viven en `src/data/*.ts` con tipos explícitos. Markup importa esos datos y mapea sobre ellos.
+
 ## Docs de librerías → usa el MCP context7
 
 Antes de escribir o modificar código que toque APIs de **Astro, GSAP, Vercel, @astrojs/***, tu primera acción debe ser:
