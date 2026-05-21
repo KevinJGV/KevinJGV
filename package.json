@@ -13,8 +13,6 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/react": "^5.0.5",
     "@astrojs/vercel": "^8.0.4",
-    "@types/react": "^19.2.15",
-    "@types/react-dom": "^19.2.3",
     "astro": "^5.13.2",
     "findup-sync": "^5.0.0",
     "gsap": "^3.12.5",
@@ -26,6 +24,8 @@
     "node": ">=18.x"
   },
   "devDependencies": {
-    "@types/node": "^22.9.3"
+    "@types/node": "^22.9.3",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3"
   }
 }
