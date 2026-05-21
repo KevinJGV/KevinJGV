@@ -1,7 +1,7 @@
 ---
+import Anchor from "./Anchor.astro";
 import FooterTypewriter from "./footer/FooterTypewriter.astro";
 import FooterSocial from "./footer/FooterSocial.astro";
-import FooterCredits from "./footer/FooterCredits.astro";
 
 interface Props {
   no_top_foot?: boolean;
@@ -14,14 +14,42 @@ const { no_top_foot = false } = Astro.props;
   {!no_top_foot && <FooterTypewriter />}
   <section id="mid_foot" class="flex j_sb Poppins-R">
     <FooterSocial />
-    <FooterCredits />
+    <p class="copyright">©<span id="curYear"></span> VIN-DEV</p>
+  </section>
+  <section id="bot_foot" class="text_center Poppins-R">
+    Despegando al éxito 🚀... gracias a <Anchor
+      href="https://astro.build/"
+      max_font_size="1rem"
+      min_font_size="1rem"
+      text="Astro"
+      bgHeight="1.2rem"
+    /> y algo de café ☕
   </section>
 </footer>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const curYearEl = document.querySelector("#curYear");
+    if (curYearEl) {
+      curYearEl.textContent = new Date().getFullYear().toString();
+    }
+  });
+</script>
 
 <style>
   #mid_foot {
     padding: 30px 20px 0;
     border-top: 1px solid var(--border);
+  }
+
+  .copyright {
+    align-self: flex-end;
+    margin-right: 30px;
+  }
+
+  #bot_foot {
+    color: var(--border);
+    margin-bottom: 30px;
   }
 
   @media screen and (max-width: 600px) {
