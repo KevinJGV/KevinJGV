@@ -1,0 +1,137 @@
+---
+import TextHighlighted from "../Highlighter.astro";
+---
+
+<article id="home1" class="home_article flex relative">
+  <section id="home1_text" class="flex_col j_se">
+    <div id="home1_top" class="flex_col j_c">
+      <span class="Dela">Hola, </span>
+      <h1 class="Dela">Soy Kevin</h1>
+      <i>
+        <span class="Ansterdam">Fullstack Software Developer</span>
+        <span class="Poppins-R">&</span>
+        <TextHighlighted
+          text="Empanada Lover"
+          el="span"
+          font_size="2rem"
+          bg_Color="#6c8c65"
+        />
+      </i>
+      <p class="Poppins-S">
+        Activo Desde SEP '23<br /><a href="/contact">HABLEMOS</a>
+      </p>
+    </div>
+    <div id="home1_bot" class="Poppins-R">
+      <p>
+        Disciplina en el back-end, pasión por el front-end.
+        <br />
+        Amo la lógica y la creatividad de la programación.
+        <br />
+        ¿Por qué?
+        <br />
+        Porque me siento como un dios creando cosas, definiendo sus atributos y comportamientos.
+        <br />
+        Ambición por comprender los sistemas informáticos y crear experiencias de
+        usuario impresionantes.
+        <br />
+        Cuando no estoy aprendiendo sobre nuevas tecnologías, probablemente estoy
+        pensando en el futuro o siendo el consejero de mis amigos.
+      </p>
+    </div>
+  </section>
+  <section id="home1_img" class="sticky">
+    <img
+      id="photo"
+      src="https://res.cloudinary.com/dqgxt985j/image/upload/v1731282091/photo_xmglr7.png"
+      alt="Kevin"
+      srcset=""
+      class="unselected relative"
+      draggable="false"
+    />
+  </section>
+</article>
+
+<style>
+  #home1 {
+    gap: 20rem;
+  }
+
+  #home1_text {
+    gap: 200px;
+  }
+
+  #home1_top {
+    height: 100vh;
+    padding-top: 200px;
+  }
+
+  #home1_top span {
+    font-size: clamp(4rem, 1.0774rem + 3.7936vw, 5rem);
+    line-height: 0.9;
+  }
+
+  #home1_top h1 {
+    font-size: clamp(5rem, 1.0774rem + 3.7936vw, 7rem);
+    margin: 0;
+  }
+
+  #home1_top i {
+    font-size: clamp(1.5rem, 0.0774rem + 1.7936vw, 2rem);
+    margin-bottom: 3rem;
+  }
+
+  #home1_top i span {
+    font-size: clamp(2rem, 0.0774rem + 1.7936vw, 3rem);
+  }
+
+  #home1_top a {
+    text-decoration: underline;
+  }
+
+  #home1_img {
+    top: 150px;
+    width: 0;
+    height: fit-content;
+  }
+
+  #home1_bot p {
+    font-size: clamp(1rem, 0.0774rem + 1.7936vw, 1.5rem);
+  }
+
+  #photo {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%) rotate(3deg);
+    width: 450px;
+  }
+
+  @media screen and (max-width: 780px) {
+    #home1_top i {
+      padding-top: 2rem;
+    }
+
+    #home1_bot p {
+      transform: unset;
+    }
+
+    #home1_img {
+      position: absolute;
+      width: 0;
+      top: 695px;
+      right: 50%;
+      opacity: 0.4;
+      transform: scale(0.5);
+      z-index: -1;
+    }
+
+    #photo {
+      width: 315px;
+    }
+  }
+
+  @media screen and (max-width: 460px) {
+    .Ansterdam {
+      font-family: "Times New Roman", Times, serif;
+    }
+  }
+</style>

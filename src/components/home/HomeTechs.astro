@@ -1,0 +1,101 @@
+---
+import Hexagon from "../Hexagon.astro";
+import Anchor from "../Anchor.astro";
+import { hexagonSlots } from "../../data/technologies";
+
+const s = "120px";
+const r = 1;
+const mv = "5px";
+---
+
+<section id="techs">
+  <h2 class="Dela">
+    <span class="hidden_text">Main</span> TECHS | TOOLS
+  </h2>
+  <div class="techs_container grid unselected">
+    <ul>
+      {hexagonSlots.map((slot) =>
+        slot ? <Hexagon src={slot.src} title={slot.title} /> : <Hexagon />
+      )}
+    </ul>
+  </div>
+</section>
+
+<blockquote class="text_center">
+  <Anchor
+    href="/me"
+    text="Sobre mí "
+    max_font_size="7rem"
+    min_font_size="2rem"
+    bgHeight="7.5rem"
+    svgh={76}
+    svgw={75}
+    svg={true}
+    responsive={true}
+  />
+</blockquote>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const techsList = document.querySelector(".techs_container ul");
+    techsList?.addEventListener("pointermove", (ev) => {
+      const target = (ev.target as HTMLElement).closest("li");
+      if (target) {
+        const rect = target.getBoundingClientRect();
+        const mouseEv = ev as PointerEvent;
+        target.style.setProperty("--x", String(mouseEv.clientX - rect.left));
+        target.style.setProperty("--y", String(mouseEv.clientY - rect.top));
+      }
+    });
+  });
+</script>
+
+<style define:vars={{ s, r, mv }}>
+  .hidden_text {
+    opacity: 0;
+  }
+
+  h2:hover .hidden_text {
+    opacity: 0.5;
+  }
+
+  .techs_container {
+    --s: var(--s);
+    --r: var(--r);
+    --h: 0.5;
+    --v: 0.29;
+    --hc: calc(clamp(0, var(--h), 0.5) * var(--s));
+    --vc: calc(clamp(0, var(--v), 0.5) * var(--s) * var(--r));
+    --mv: var(--mv);
+    --mh: calc(var(--mv) + (var(--s) - 2 * var(--hc)) / 2);
+    --f: calc(2 * var(--s) * var(--r) + 4 * var(--mv) - 2 * var(--vc) - 2px);
+  }
+
+  .techs_container ul {
+    font-size: 0;
+    padding-bottom: calc(var(--s) * var(--r) + var(--mv));
+  }
+
+  .techs_container ul::before {
+    content: "";
+    width: calc(var(--s) / 2 + var(--mh));
+    float: left;
+    height: 140%;
+    shape-outside: repeating-linear-gradient(
+      #0000 0 calc(var(--f) - 2px),
+      #000 0 var(--f)
+    );
+  }
+
+  @media screen and (max-width: 780px) {
+    .hidden_text {
+      opacity: 0.5;
+    }
+  }
+
+  @media screen and (max-width: 460px) {
+    .techs_container ul {
+      padding-bottom: 600px;
+    }
+  }
+</style>

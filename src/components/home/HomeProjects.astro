@@ -1,0 +1,85 @@
+---
+import Card from "../Card.astro";
+import Anchor from "../Anchor.astro";
+import { projects } from "../../data/projects";
+---
+
+<section id="projects">
+  <h2 class="Dela"><span class="hidden_text">Short</span> PREVIEW</h2>
+  <div class="flex">
+    {projects.map((project) => (
+      <Card
+        text={project.text}
+        href={project.href}
+        cover={project.cover}
+        bgColor={project.bgColor}
+        txtColor={project.txtColor}
+        hrefImages={project.hrefImages}
+        tags={project.tags}
+      />
+    ))}
+  </div>
+  <blockquote class="text_center">
+    <Anchor
+      href="https://github.com/KevinJGV?tab=repositories"
+      text="Más "
+      max_font_size="7rem"
+      min_font_size="3rem"
+      bgHeight="7.5rem"
+      _blank={true}
+      svgh={76}
+      svgw={75}
+      svg={true}
+      responsive={true}
+    />
+  </blockquote>
+</section>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const projectsContainer = document.querySelector<HTMLElement>("#projects > div");
+    if (projectsContainer) {
+      projectsContainer.style.setProperty(
+        "--calculated-height",
+        `${projectsContainer.children.length * 150}px`
+      );
+    }
+  });
+</script>
+
+<style>
+  .hidden_text {
+    opacity: 0;
+  }
+
+  h2:hover .hidden_text {
+    opacity: 0.5;
+  }
+
+  #projects > div {
+    flex-grow: 1;
+    height: 254px;
+    border-radius: 4px;
+    display: flex;
+    gap: 5px;
+    padding: 0.4em;
+  }
+
+  #projects blockquote {
+    margin-block: 4rem;
+    padding-top: calc(var(--s) * var(--r) + var(--mv));
+  }
+
+  @media screen and (max-width: 1075px) {
+    #projects > div {
+      flex-direction: column;
+      height: var(--calculated-height);
+    }
+  }
+
+  @media screen and (max-width: 780px) {
+    .hidden_text {
+      opacity: 0.5;
+    }
+  }
+</style>
