@@ -1,5 +1,6 @@
 ---
 import { tagConfigs } from "../data/tag-configs";
+import { DEFAULT_CARD_COVER } from "../data/card-defaults";
 
 interface Props {
   text: string;
@@ -15,7 +16,7 @@ const {
   text,
   href,
   hrefImages,
-  cover = `<svg xmlns="http://www.w3.org/2000/svg" width="" height="" viewBox="0 0 32 32"><defs><filter id="inset-shadow"><feOffset dx="0" dy="0" /><feGaussianBlur stdDeviation="1" result="offset-blur" /><feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" /><feFlood flood-color="#838383" flood-opacity="0.8" result="color" /><feComposite operator="in" in="color" in2="inverse" result="shadow" /></filter></defs><g filter="url(#inset-shadow)"><path fill="#fff" d="M20.42 21.157l2.211 2.211L30 16l-7.369-7.369l-2.211 2.212L25.58 16ZM11.58 10.843L9.369 8.631 2 16l7.369 7.369 2.211-2.211L6.42 16Zm5.831-3.166l1.6.437-4.42 16.209-1.6-.437z" /></g></svg>`,
+  cover = DEFAULT_CARD_COVER,
   txtColor = "#fff",
   bgColor = "#fff3",
   tags = {},
@@ -83,245 +84,9 @@ const processedTags = Object.entries(tags).map(([key, setting]) =>
 </a>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    document.addEventListener("astro:page-load", () => {
-      const pCards = document.querySelectorAll<HTMLElement>(".pCard");
-      let timeoutId: NodeJS.Timeout | null = null;
-      const timeouts: { [key: string]: NodeJS.Timeout } = {};
-
-      const setTimeoutWithKey = (
-        key: string,
-        callback: Function,
-        delay: number
-      ) => {
-        if (timeouts[key]) clearTimeout(timeouts[key]);
-        timeouts[key] = setTimeout(() => {
-          callback();
-          delete timeouts[key];
-        }, delay);
-      };
-
-      const calculateDimensions = () => {
-        const cardsContainer = document.querySelector(
-          "#projects > div"
-        ) as HTMLElement | null;
-        if (!cardsContainer) return;
-
-        const containerWidth = cardsContainer.clientWidth;
-        const totalCards = pCards.length;
-        const growFactor = 4;
-        const shrinkFactor = 1;
-        const totalFlex = (totalCards - 1) * shrinkFactor + growFactor;
-        const maxCardWidth =
-          Math.round((containerWidth * growFactor) / totalFlex) - 9;
-        [".tags", ".card_carousel"].forEach((clase) =>
-          document
-            .querySelectorAll<HTMLElement>(clase)
-            .forEach((bunch_elements) => {
-              bunch_elements.style.width = `${maxCardWidth}px`;
-            })
-        );
-
-        let maxEstimatedHeight = 0;
-        document
-          .querySelectorAll<HTMLElement>(".card_carousel")
-          .forEach((carousel) => {
-            carousel.querySelectorAll("img").forEach((img) => {
-              const aspectRatio = img.naturalHeight / img.naturalWidth;
-              maxEstimatedHeight = Math.max(
-                maxEstimatedHeight,
-                maxCardWidth * aspectRatio
-              );
-            });
-          });
-
-        pCards.forEach((pCard) => {
-          pCard.style.setProperty(
-            "--carousel-height",
-            `${maxEstimatedHeight}px`
-          );
-        });
-      };
-
-      const updateStyles = (hoveredCard: HTMLElement) => {
-        type CSSProperties = {
-          fontSize: string;
-          paddingBottom: string;
-          zIndex: string;
-          opacity: string;
-        };
-
-        interface StyleUpdate {
-          selector: string;
-          styles: Partial<CSSProperties>;
-        }
-
-        const styleUpdatesHovered: StyleUpdate[] = [
-          {
-            selector: "p",
-            styles: {
-              fontSize: "1rem",
-              paddingBottom: `${hoveredCard.querySelector<HTMLElement>(".tags")!.offsetHeight - parseFloat(getComputedStyle(document.documentElement).fontSize)}px`,
-            },
-          },
-          {
-            selector: ".tags",
-            styles: { zIndex: "11" },
-          },
-          {
-            selector: ".imageCard",
-            styles: {
-              opacity:
-                hoveredCard.querySelector(".card_carousel")!.children.length !==
-                0
-                  ? "0"
-                  : "1",
-            },
-          },
-        ];
-
-        const styleUpdatesNonHovered: StyleUpdate[] = [
-          {
-            selector: "p",
-            styles: { fontSize: "0" },
-          },
-          {
-            selector: ".tags",
-            styles: { zIndex: "3" },
-          },
-        ];
-
-        pCards.forEach((otherCard) => {
-          if (otherCard === hoveredCard) {
-            styleUpdatesHovered.forEach(({ selector, styles }) => {
-              const element = otherCard.querySelector<HTMLElement>(selector);
-              if (element) {
-                Object.keys(styles).forEach((prop) => {
-                  const value = styles[prop as keyof CSSProperties];
-                  if (value !== undefined) {
-                    element.style[prop] = String(value);
-                  }
-                });
-              }
-            });
-          } else {
-            styleUpdatesHovered.forEach(({ selector, styles }) => {
-              const element = otherCard.querySelector<HTMLElement>(selector);
-              if (element) {
-                Object.keys(styles).forEach((prop) => {
-                  const nonHoveredStyle = styleUpdatesNonHovered.find(
-                    (item) => item.selector === selector
-                  );
-
-                  if (
-                    nonHoveredStyle &&
-                    nonHoveredStyle.styles[prop] !== undefined
-                  ) {
-                    element.style[prop] = nonHoveredStyle.styles[prop];
-                  } else {
-                    element.style.removeProperty(prop);
-                  }
-                });
-              }
-            });
-          }
-        });
-      };
-
-      const resetStyles = () => {
-        if (timeoutId) clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-          pCards.forEach((card) => {
-            ["p", ".tags", ".imageCard"].forEach((selector) => {
-              const element = card.querySelector<HTMLElement>(selector);
-              if (element) {
-                element.style.removeProperty("font-size");
-                element.style.removeProperty("bottom");
-                element.style.removeProperty("opacity");
-                element.style.removeProperty("padding-bottom");
-                element.style.removeProperty("z-index");
-              }
-            });
-          });
-        }, 99);
-      };
-
-      const initCarousel = (card: HTMLElement) => {
-        const images = card.querySelectorAll<HTMLElement>(".card_carousel img");
-        let currentIndex = 0;
-        let direction = 1;
-        let interval: NodeJS.Timeout;
-
-        const startCarousel = () => {
-          interval = setInterval(() => {
-            images[currentIndex].style.display = "none";
-            images[currentIndex].classList.remove("active");
-            currentIndex += direction;
-
-            if (currentIndex >= images.length) {
-              currentIndex = images.length - 2;
-              direction = -1;
-            } else if (currentIndex < 0) {
-              currentIndex = 1;
-              direction = 1;
-            }
-
-            images[currentIndex].style.display = "block";
-            images[currentIndex].classList.add("active");
-          }, 1500);
-        };
-
-        const stopCarousel = () => {
-          clearInterval(interval);
-          images.forEach((img, index) => {
-            img.style.display = index === 0 ? "block" : "none";
-            img.classList.toggle("active", index === 0);
-          });
-          currentIndex = 0;
-          direction = 1;
-        };
-
-        return { startCarousel, stopCarousel };
-      };
-
-      const mediaQuery = window.matchMedia("(min-width: 425px)");
-
-      const applyMediaQueryStyles = (matches: boolean) => {
-        pCards.forEach((card) => {
-          if (matches) {
-            calculateDimensions();
-            window.addEventListener("resize", resizeHandler);
-          } else {
-            window.removeEventListener("resize", resizeHandler);
-          }
-        });
-      };
-
-      pCards.forEach((card) => {
-        const { startCarousel, stopCarousel } = initCarousel(card);
-
-        card.addEventListener("mouseover", () => {
-          startCarousel();
-          if (timeoutId) clearTimeout(timeoutId);
-          updateStyles(card);
-        });
-
-        card.addEventListener("mouseout", () => {
-          stopCarousel();
-          resetStyles();
-        });
-      });
-
-      const resizeHandler = () => {
-        setTimeoutWithKey("resizeDimensions", calculateDimensions, 99);
-      };
-
-      mediaQuery.addEventListener("change", (e) =>
-        applyMediaQueryStyles(e.matches)
-      );
-
-      applyMediaQueryStyles(mediaQuery.matches);
-    });
+  import { initCards } from "./card-interactions";
+  document.addEventListener("astro:page-load", () => {
+    initCards();
   });
 </script>
 
@@ -385,7 +150,6 @@ const processedTags = Object.entries(tags).map(([key, setting]) =>
   }
 
   .tags li {
-    /* Mantener las propiedades originales del tag */
     background-color: var(--bgColor);
     color: var(--txtColor);
     padding: 0.4rem 0.6rem;
@@ -395,7 +159,6 @@ const processedTags = Object.entries(tags).map(([key, setting]) =>
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    /* Añadir flexbox para alinear imagen y texto */
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -409,7 +172,6 @@ const processedTags = Object.entries(tags).map(([key, setting]) =>
   }
 
   .tags li span {
-    /* Resetear estilos que puedan heredarse de .pCard span */
     min-width: unset;
     padding: 0;
     text-align: left;
