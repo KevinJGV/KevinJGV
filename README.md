@@ -9,7 +9,7 @@
 
 <h1 align="center">
 
-[![](https://visitcount.itsvg.in/api?id=KevinJGV&icon=5&color=8)](https://visitcount.itsvg.in)
+[![](https://img.shields.io/github/last-commit/KevinJGV/KevinJGV?style=for-the-badge&color=8957e5&logo=github&logoColor=white)](https://github.com/KevinJGV/KevinJGV)
 <br>
 ¡Kevin al habla! ¡Nice to meet you!
 <img decoding="async" src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30px"/>
