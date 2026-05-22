@@ -1,5 +1,5 @@
 ---
-
+const formSecurityAttrs = { rel: "noopener noreferrer" } as Record<string, string>;
 ---
 
 <article id="contact1" class="Poppins-R flex_col j_c wrap">
@@ -7,6 +7,7 @@
   <p>Siempre estoy abierto a propuestas, ¿tienes alguna?</p>
   <form
     target="_blank"
+    {...formSecurityAttrs}
     action="https://formsubmit.co/vin-dev@outlook.com"
     method="POST"
     class="flex_col j_c wrap"
@@ -66,9 +67,6 @@
 <script>
   const form = document.querySelector("form");
   if (form) {
-    // Set rel attribute to provide window.opener isolation for target="_blank"
-    form.setAttribute("rel", "noopener noreferrer");
-
     form.addEventListener("submit", (event) => {
       const form = event.target as HTMLFormElement;
 
