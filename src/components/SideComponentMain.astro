@@ -17,22 +17,26 @@
         "Gamer"
     ];
 
-    const carousel = document.querySelector("#carousel")!;
+    function initCarousel() {
+        const carousel = document.querySelector<HTMLElement>("#carousel");
+        if (!carousel) return;
 
-    function fadeText() {
-        carousel.classList.remove("fade-in-text");
-        carousel.classList.add("fade-out-text");
+        carousel.textContent = nouns[Math.floor(Math.random() * nouns.length)];
+        carousel.classList.add("fade-in-text");
 
-        setTimeout(() => {
-            carousel.textContent = nouns[Math.floor(Math.random() * nouns.length)];
-            carousel.classList.remove("fade-out-text");
-            carousel.classList.add("fade-in-text");
-        }, 3000);
+        setInterval(() => {
+            carousel.classList.remove("fade-in-text");
+            carousel.classList.add("fade-out-text");
+
+            setTimeout(() => {
+                carousel.textContent = nouns[Math.floor(Math.random() * nouns.length)];
+                carousel.classList.remove("fade-out-text");
+                carousel.classList.add("fade-in-text");
+            }, 3000);
+        }, 20000);
     }
 
-    carousel.textContent = nouns[Math.floor(Math.random() * nouns.length)];
-    carousel.classList.add("fade-in-text");
-    setInterval(fadeText, 20000);
+    document.addEventListener("astro:page-load", initCarousel);
 </script>
 
 <style>
