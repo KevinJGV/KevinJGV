@@ -1,0 +1,127 @@
+.flex {
+  display: flex;
+}
+
+.flex_col {
+  display: flex;
+  flex-flow: column;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid_text_center {
+  justify-content: center;
+  place-items: center;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.text_center {
+  text-align: center;
+}
+
+.all_c {
+  justify-content: center;
+  justify-self: center;
+  justify-items: center;
+  align-content: center;
+  align-self: center;
+  align-items: center;
+}
+
+.j_sb {
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+.j_se {
+  justify-content: space-evenly;
+  align-content: space-evenly;
+}
+
+.j_sa {
+  justify-content: space-around;
+  align-content: space-around;
+}
+
+.j_c {
+  justify-content: center;
+  align-content: center;
+}
+
+.alignI_c {
+  align-items: center;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.sticky {
+  position: sticky;
+}
+
+.centrar_absolutoX {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.centrar_absolutoY {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.centrar_absoluto {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%);
+}
+
+.unselected,
+.unselected * {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+
+.no_display {
+  display: none;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.noise {
+  background: black url('http://assets.iceable.com/img/noise-transparent.png') repeat 0 0;
+  background-repeat: repeat;
+}
+
+.glass0 {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.glass1 {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}

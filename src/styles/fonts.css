@@ -1,0 +1,63 @@
+@font-face {
+  font-family: "Dela";
+  src: url("/fonts/DelaGothicOne-Regular.ttf");
+}
+
+.Dela {
+  font-family: "Dela";
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "Poppins-R";
+  src: url("/fonts/Poppins-Regular.ttf");
+}
+
+.Poppins-R {
+  font-family: "Poppins-R";
+}
+
+@font-face {
+  font-family: "Poppins-S";
+  src: url("/fonts/Poppins-SemiBold.ttf");
+}
+
+.Poppins-S {
+  font-family: "Poppins-S";
+}
+
+@font-face {
+  font-family: "Alumni";
+  src: url("/fonts/AlumniSans-VariableFont_wght.ttf");
+}
+
+.Alumni {
+  font-family: "Alumni";
+}
+
+@font-face {
+  font-family: "Alumni Italic";
+  src: url("/fonts/AlumniSans-Italic-VariableFont_wght.ttf");
+}
+
+.Alumni_I {
+  font-family: "Alumni Italic";
+}
+
+@font-face {
+  font-family: "AudioWide";
+  src: url("/fonts/Audiowide-Regular.ttf");
+}
+
+.AudioWide {
+  font-family: "AudioWide";
+}
+
+@font-face {
+  font-family: "Ansterdam";
+  src: url("/fonts/Amsterdam-four.ttf");
+}
+
+.Ansterdam {
+  font-family: "Ansterdam";
+}

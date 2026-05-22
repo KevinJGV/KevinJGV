@@ -1,0 +1,79 @@
+.dot {
+  position: absolute;
+  border-radius: 50%;
+  z-index: -10;
+}
+
+#top-menu {
+  flex-grow: 2;
+}
+
+#top-menu div {
+  flex-grow: 1;
+}
+
+#top-menu ul {
+  flex-grow: 1;
+  list-style: none;
+  padding: 0;
+}
+
+.imageCard > * {
+  width: 5rem;
+  height: 5rem;
+}
+
+.pCard {
+  height: 100%;
+  flex: 1;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: all 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  z-index: 1;
+}
+
+.pCard:hover {
+  flex: 4;
+  height: var(--carousel-height);
+}
+
+.pCard .tags li {
+  background-color: var(--bgColor);
+  color: var(--txtColor);
+  padding: 3px 4px;
+  gap: 5px;
+  border-radius: 5px;
+}
+
+.pCard .tags li * {
+  font-size: 1rem;
+  fill: var(--txtColor);
+  color: var(--txtColor);
+}
+
+.pCard .tags li svg {
+  width: 15px;
+  height: 15px;
+}
+
+.techs_container li > * {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  position: absolute;
+}
+
+.techs_container ul:hover .li_hidden {
+  opacity: 0.04;
+}
+
+#home1_bot p,
+#me1 .top-section p,
+#me3 p {
+  transform: rotateZ(357deg);
+}

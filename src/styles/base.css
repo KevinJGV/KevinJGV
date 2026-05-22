@@ -1,0 +1,30 @@
+*,
+*:after {
+  color: var(--text-color);
+  box-sizing: border-box;
+  transition: all 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+  text-wrap: balance;
+  scrollbar-width: thin;
+  scrollbar-color: #fff hsla(0, 0%, 100%, 0.1);
+  scroll-behavior: smooth;
+}
+
+*::selection {
+  background-color: #ff4a402c;
+}
+
+a {
+  color: unset;
+  text-decoration: none;
+}
+
+body {
+  background-color: var(--bg-color);
+  margin: 0;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+main {
+  margin-inline: 50px;
+}

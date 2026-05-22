@@ -1,5 +1,10 @@
 ---
-import GlobalStyles from "../styles/GlobalStyles.astro";
+import "../styles/variables.css";
+import "../styles/fonts.css";
+import "../styles/base.css";
+import "../styles/cursors.css";
+import "../styles/utilities.css";
+import "../styles/components-global.css";
 import Tools from "../components/Tools.astro";
 import { ViewTransitions } from "astro:transitions";
 
@@ -20,7 +25,6 @@ const { title } = Astro.props;
     <link id="icon" rel="icon" type="image/svg+xml" href="/circle.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <GlobalStyles />
     <ViewTransitions />
   </head>
   <body class="noise flex j_sb">
