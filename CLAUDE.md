@@ -16,7 +16,7 @@ Portafolio personal. Astro 5 SSR + TypeScript + GSAP. Deploy en Vercel.
 - `src/components/` — componentes `.astro` reutilizables.
 - `src/styles/` — CSS global / variables.
 - `public/` — estáticos servidos tal cual (no procesados).
-- `astro.config.mjs` — config; usa `@astrojs/vercel` con `output: 'server'`, `functionPerRoute: false`, `maxDuration: 60`, `webAnalytics`, `imageService`, `middleware`.
+- `astro.config.mjs` — config; usa `@astrojs/vercel` con `output: 'static'`, `webAnalytics`, `imageService`. El sitio se prerenderiza como estático y se sirve desde el CDN de Vercel (no SSR).
 
 ## Convenciones
 
@@ -64,7 +64,7 @@ No declares trabajo completo sin que `npm run build` pase.
 
 ## Deploy
 
-Vercel SSR. El adapter está en `astro.config.mjs`. No tocar `output: 'server'` ni `functionPerRoute: false` sin verificar el impacto en el deploy.
+Vercel estático. El adapter está en `astro.config.mjs`. No tocar `output: 'static'` sin verificar el impacto en el deploy (cambiar a `'server'` reintroduce funciones serverless y cambia el modelo de pricing).
 
 ## No tocar
 
