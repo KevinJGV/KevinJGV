@@ -1,0 +1,149 @@
+---
+const loves: Array<{ text: string; note?: string }> = [
+  { text: "Color negro" },
+  { text: "Produccion de contenidos audiovisuales" },
+  { text: "Animaciones" },
+  { text: "Videojuegos" },
+  { text: "Mi moto", note: "(Enduros)" },
+  { text: "Admirar personas" },
+  { text: "Aconsejar" },
+  { text: "Gatos" },
+  { text: "Cocinar", note: "(Sí me anímo)" },
+  { text: "Solitud", note: "(Staying-at-home)" },
+  { text: "Climas frios" },
+  { text: "Trabajar en equipo", note: "(Y el co-working)" },
+  { text: "Conocer nuevos sitios" },
+];
+
+const hates: Array<{ text: string; note?: string }> = [
+  { text: "Resultados incompletos" },
+  { text: "Quedarme sin dinero" },
+  { text: "Climas muy calientes" },
+  { text: "Simps", note: "(Personas sin valor)" },
+  { text: "Gente que no soporta mi sentido del humor" },
+  { text: "Cafe puro" },
+  { text: "Falta de empatia" },
+  { text: "Gente superautoritaria" },
+];
+---
+
+<article id="me4" class="flex_col">
+  <h2 class="Alumni_I">Mira eso, qué humano</h2>
+  <div class="Poppins-R flex_col">
+    <div class="flex alignI_c">
+      <h3>Qué amo</h3>
+      <svg id="love" xmlns="http://www.w3.org/2000/svg" width="143" height="143" fill="none" viewBox="0 0 143 143">
+        <path fill="#1ED760" d="M40.219 58.792a6.703 6.703 0 1 0 13.406 0 6.703 6.703 0 0 0-13.406 0Zm49.156 0a6.703 6.703 0 1 0 13.406 0 6.703 6.703 0 0 0-13.406 0ZM71.5 8.937C36.951 8.938 8.937 36.951 8.937 71.5c0 34.549 28.014 62.562 62.563 62.562 34.549 0 62.562-28.013 62.562-62.562 0-34.549-28.013-62.563-62.562-62.563Zm36.728 99.291a51.947 51.947 0 0 1-16.52 11.143c-6.383 2.71-13.184 4.078-20.208 4.078-7.024 0-13.825-1.368-20.221-4.078a51.715 51.715 0 0 1-16.52-11.143 51.955 51.955 0 0 1-11.144-16.52C20.919 85.324 19.55 78.523 19.55 71.5c0-7.024 1.368-13.825 4.078-20.221a51.725 51.725 0 0 1 11.143-16.52 51.952 51.952 0 0 1 16.52-11.144c6.383-2.696 13.184-4.064 20.208-4.064 7.024 0 13.825 1.368 20.221 4.078a51.735 51.735 0 0 1 16.521 11.143 51.96 51.96 0 0 1 11.143 16.52c2.696 6.383 4.064 13.184 4.064 20.208 0 7.024-1.368 13.825-4.078 20.221a51.506 51.506 0 0 1-11.143 16.507ZM92.727 74.433h-6.718c-.586 0-1.089.446-1.13 1.033-.531 6.913-6.327 12.373-13.379 12.373s-12.862-5.46-13.378-12.373a1.128 1.128 0 0 0-1.132-1.033h-6.717a1.117 1.117 0 0 0-1.117 1.173c.615 11.772 10.404 21.17 22.344 21.17 11.94 0 21.73-9.398 22.344-21.17a1.119 1.119 0 0 0-1.117-1.173Z"></path>
+      </svg>
+      <ul class="flex">
+        {loves.map((item) => (
+          <li>{item.text}{item.note && <span> {item.note}</span>}</li>
+        ))}
+      </ul>
+    </div>
+    <hr>
+    <div class="flex alignI_c">
+      <h3>Qué no tanto</h3>
+      <svg id="hate" xmlns="http://www.w3.org/2000/svg" width="143" height="143" fill="none" viewBox="0 0 143 143">
+        <path fill="#D71E1E" d="M40.219 58.792a6.703 6.703 0 0 0 13.4.294.424.424 0 0 0-.266-.407l-10.822-4.483a.538.538 0 0 0-.608.13 6.703 6.703 0 0 0-1.704 4.466Zm49.47-.13a.488.488 0 0 0-.305.47 6.704 6.704 0 1 0 11.843-4.632c-.234-.28-.632-.356-.969-.216L89.69 58.662ZM71.5 8.938C36.951 8.938 8.937 36.95 8.937 71.5c0 34.549 28.014 62.562 62.563 62.562 34.549 0 62.562-28.013 62.562-62.562 0-34.549-28.013-62.563-62.562-62.563Zm36.728 99.29a51.947 51.947 0 0 1-16.52 11.143c-6.383 2.71-13.184 4.078-20.208 4.078-7.024 0-13.825-1.368-20.221-4.078a51.715 51.715 0 0 1-16.52-11.143 51.955 51.955 0 0 1-11.144-16.52C20.919 85.324 19.55 78.523 19.55 71.5c0-7.024 1.368-13.825 4.078-20.221a51.725 51.725 0 0 1 11.143-16.52 51.952 51.952 0 0 1 16.52-11.144c6.383-2.696 13.184-4.064 20.208-4.064 7.024 0 13.825 1.368 20.221 4.078a51.735 51.735 0 0 1 16.521 11.143 51.96 51.96 0 0 1 11.143 16.52c2.696 6.383 4.064 13.184 4.064 20.208 0 7.024-1.368 13.825-4.078 20.221a51.506 51.506 0 0 1-11.143 16.507Z"></path>
+        <rect width="59" height="9" x="42" y="81" fill="#D71E1E" rx="1"></rect>
+      </svg>
+      <ul class="flex">
+        {hates.map((item) => (
+          <li>{item.text}{item.note && <span> {item.note}</span>}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</article>
+
+<style>
+  #me4 h2 {
+    font-weight: normal;
+    font-size: clamp(1.3rem, 0.0774rem + 2.7936vw, 2rem);
+  }
+
+  #me4 > div {
+    border: var(--border) 1px solid;
+    border-radius: 8px;
+    padding: 1rem 4rem;
+    gap: 2rem;
+    width: fit-content;
+  }
+
+  #me4 > div div {
+    gap: 2rem;
+  }
+
+  #me4 h3 {
+    white-space: nowrap;
+  }
+
+  #me4 svg {
+    flex-shrink: 0;
+  }
+
+  #love {
+    transform: rotateZ(45deg);
+  }
+
+  #hate {
+    transform: rotateZ(315deg);
+  }
+
+  #me4 hr {
+    width: 100%;
+    border: 1px 0 0 0 solid;
+    border-color: var(--border);
+    margin: 0;
+  }
+
+  #me4 ul {
+    flex-wrap: wrap;
+    gap: 1rem;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #me4 li {
+    white-space: nowrap;
+    padding: 5px 8px;
+    border: var(--border) 1px solid;
+    border-radius: 20px;
+    place-self: center;
+    text-align: center;
+  }
+
+  #me4 li span {
+    color: #666;
+    font-size: 0.8rem;
+  }
+
+  @media screen and (max-width: 1075px) {
+    #me4 div div {
+      flex-direction: column;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    #me4 > div {
+      padding-inline: 1rem;
+    }
+
+    #me4 ul {
+      gap: 0.5rem;
+      justify-content: space-evenly;
+    }
+
+    #me4 li {
+      white-space: wrap;
+      max-width: 40%;
+    }
+
+    #me4 li span::before {
+      content: "";
+      display: block;
+    }
+  }
+</style>

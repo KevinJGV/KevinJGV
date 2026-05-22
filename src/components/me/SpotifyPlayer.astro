@@ -1,0 +1,131 @@
+---
+---
+
+<section class="bottom-section Poppins-R flex relative s_b">
+  <div class="player relative grid all_c">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <rect class="eq-bar eq-bar--1" x="4"    y="4" width="3.7" height="8"></rect>
+      <rect class="eq-bar eq-bar--2" x="10.2" y="4" width="3.7" height="16"></rect>
+      <rect class="eq-bar eq-bar--3" x="16.3" y="4" width="3.7" height="11"></rect>
+    </svg>
+    <p>Escuchando ahora:</p>
+    <div class="carrousel">
+      <p class="textoscroll">00:00 - Siddharta</p>
+    </div>
+  </div>
+  <label for="player">
+    <a
+      href="https://open.spotify.com/user/22xnxi2j2d3vra2qhozf3bzsa?si=08945a9049494095"
+      target="_blank">Via Spotify</a
+    >
+  </label>
+</section>
+
+<style>
+  .bottom-section {
+    width: 450px;
+    margin-block: 2rem;
+    align-self: end;
+  }
+
+  .bottom-section > .player {
+    grid-template-columns: auto auto 2fr;
+    border: var(--green) solid 1px;
+    border-radius: 8px;
+  }
+
+  .bottom-section * {
+    text-wrap: none !important;
+    white-space: nowrap;
+  }
+
+  .bottom-section > .player p {
+    color: var(--green);
+    margin: 5px;
+  }
+
+  .bottom-section svg {
+    margin: 3px;
+  }
+
+  .carrousel {
+    width: 155px;
+    overflow: hidden;
+  }
+
+  .textoscroll {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scroll 5s linear infinite;
+    animation-delay: 1s;
+  }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .bottom-section label {
+    text-align: center;
+    margin: 10px;
+    color: #666666;
+  }
+
+  .bottom-section a {
+    color: #939393;
+  }
+
+  .bottom-section label::before {
+    content: url("https://res.cloudinary.com/dqgxt985j/image/upload/v1732161021/spotify-white_wwxzoe.webp");
+    margin-right: 5px;
+  }
+
+  .eq-bar {
+    fill: var(--green);
+    transform: scale(1, -1) translate(0, -24px);
+  }
+
+  .eq-bar--1 {
+    animation-name: short-eq;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-delay: 0s;
+  }
+
+  .eq-bar--2 {
+    animation-name: tall-eq;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.17s;
+  }
+
+  .eq-bar--3 {
+    animation-name: short-eq;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-delay: 0.34s;
+  }
+
+  @keyframes short-eq {
+    0%   { height: 8px; }
+    50%  { height: 4px; }
+    100% { height: 8px; }
+  }
+
+  @keyframes tall-eq {
+    0%   { height: 16px; }
+    50%  { height: 6px; }
+    100% { height: 16px; }
+  }
+
+  @media screen and (max-width: 600px) {
+    .bottom-section {
+      flex-direction: column;
+    }
+  }
+</style>
