@@ -240,16 +240,7 @@
     }
     
     muteButton.addEventListener('click', toggleAudio);
-    
-    function syncAudioState() {
-      const audioPlayer = getAudioPlayer();
-      if (audioPlayer) {
-        updateAudioStatus(audioPlayer.muted);
-        return true;
-      }
-      return false;
-    }
-    
+
     function setInitialAudioState() {
       const audioPlayer = getAudioPlayer();
       if (!audioPlayer) return false;
