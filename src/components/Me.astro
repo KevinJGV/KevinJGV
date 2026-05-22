@@ -10,7 +10,7 @@ import MeLikes from "./me/MeLikes.astro";
 <MeWhereImGoing />
 <MeLikes />
 
-<style>
+<style is:global>
   .article {
     gap: 5rem;
   }
@@ -44,7 +44,7 @@ import MeLikes from "./me/MeLikes.astro";
   }
 
   @media screen and (max-width: 1075px) {
-    article {
+    .article {
       flex-direction: column;
     }
 
