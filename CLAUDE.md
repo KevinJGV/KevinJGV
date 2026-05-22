@@ -1,6 +1,6 @@
 # KevinJGV — Portafolio (Astro 5)
 
-Portafolio personal. Astro 5 SSR + TypeScript + GSAP. Deploy en Vercel.
+Portafolio personal. Astro 5 (estático) + TypeScript + GSAP. Deploy en Vercel.
 
 ## Comandos
 
