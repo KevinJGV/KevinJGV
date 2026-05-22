@@ -32,33 +32,31 @@ const { hrefs } = Astro.props;
 </section>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        document.addEventListener("astro:page-load", () => {
-            const botMenu = document.getElementById("bot-menu")!;
-            const menu = document.getElementById("menu")!;
+    document.addEventListener("astro:page-load", () => {
+        const botMenu = document.getElementById("bot-menu")!;
+        const menu = document.getElementById("menu")!;
 
-            botMenu.addEventListener("mouseover", () => {
-                menu.classList.add("hovered");
-            });
+        botMenu.addEventListener("mouseover", () => {
+            menu.classList.add("hovered");
+        });
 
-            botMenu.addEventListener("mouseout", () => {
-                menu.classList.remove("hovered");
-            });
+        botMenu.addEventListener("mouseout", () => {
+            menu.classList.remove("hovered");
+        });
 
-            botMenu.addEventListener("click", () => {
+        botMenu.addEventListener("click", () => {
+            menu.classList.toggle("open");
+            menu.classList.remove("hovered");
+        });
+
+        document
+            .querySelector("#sandwich")!
+            .addEventListener("click", () => {
                 menu.classList.toggle("open");
-                menu.classList.remove("hovered");
             });
 
-            document
-                .querySelector("#sandwich")!
-                .addEventListener("click", () => {
-                    menu.classList.toggle("open");
-                });
-
-            document.querySelectorAll("#menu li").forEach((li) => {
-                li.classList.add("hover-li");
-            });
+        document.querySelectorAll("#menu li").forEach((li) => {
+            li.classList.add("hover-li");
         });
     });
 </script>
