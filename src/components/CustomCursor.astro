@@ -13,10 +13,9 @@
   ></circle>
 </svg>
 <script is:inline type="module" >
-  document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        const { default: MotionCursor } = await import("/src/components/motion-cursor.ts");
-        document.addEventListener("astro:page-load", () => {
+  try {
+    const { default: MotionCursor } = await import("/src/components/motion-cursor.ts");
+    document.addEventListener("astro:page-load", () => {
       const cursor = new MotionCursor();
       document.onmousemove = function (event) {
         cursor.move(event);
@@ -25,10 +24,9 @@
         cursor.move(event.touches[0]);
       };
     });
-    } catch (error) {
-        console.error("Error loading cursor:", error);
-    }
-  });
+  } catch (error) {
+    console.error("Error loading cursor:", error);
+  }
 </script>
 <style>
   .curzr-motion {
