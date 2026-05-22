@@ -3,33 +3,10 @@ import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 
 export default defineConfig({
-  output: 'server',
+  output: 'static',
   integrations: [react()],
   adapter: vercel({
-    webAnalytics: {
-      enabled: true,
-    },
-    includeFiles: ["src",
-      'public'
-    ],
-  
-    functionPerRoute: false,
-    maxDuration: 60,
-    assets: {
-    
-      upload: true,
-    },
-  
+    webAnalytics: { enabled: true },
     imageService: true,
-  
-    middleware: true,
   }),
-  vite: {
-    build: {
-      rollupOptions: {
-        output: {
-        }
-      }
-    }
-  }
 });
