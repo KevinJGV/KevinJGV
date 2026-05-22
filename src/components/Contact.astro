@@ -64,13 +64,19 @@
 </article>
 
 <script>
-  document.querySelector("form")?.addEventListener("submit", (event) => {
-    const form = event.target as HTMLFormElement;
+  const form = document.querySelector("form");
+  if (form) {
+    // Set rel attribute to provide window.opener isolation for target="_blank"
+    form.setAttribute("rel", "noopener noreferrer");
 
-    setTimeout(() => {
-      form.reset();
-    }, 1000);
-  });
+    form.addEventListener("submit", (event) => {
+      const form = event.target as HTMLFormElement;
+
+      setTimeout(() => {
+        form.reset();
+      }, 1000);
+    });
+  }
 </script>
 
 <style>
