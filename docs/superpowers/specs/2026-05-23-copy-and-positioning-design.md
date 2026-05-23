@@ -224,7 +224,7 @@ Verificación antes de eliminar: `grep -rn "\"technology\"\|\"frontend\"\|\"uiux
 **C.5 — Header de sección + link "Más"** (`src/components/home/HomeProjects.astro`)
 
 - `h2`: `(Short) PREVIEW` → `(Real) CASOS` (mismo patrón visual: "Real" oculto, visible en hover).
-- Blockquote link actual: `Más ` → GitHub repos → cambiar a `Más en LinkedIn ` → `https://www.linkedin.com/in/vin`.
+- Blockquote link actual: `Más ` → GitHub repos → cambiar a `Más en LinkedIn ` → `https://www.linkedin.com/in/vin-dev`.
 - Actualizar import: `import { projects } from "../../data/projects"` → `import { cases } from "../../data/cases"`. Actualizar la variable referenciada en el `.map(...)` correspondientemente.
 
 **C.6 — Navbar** (`src/components/Navbar.astro`)
@@ -237,7 +237,7 @@ Cambios independientes del build de Astro. Pueden hacerse en cualquier momento, 
 
 **D.1 — LinkedIn badge URL canónica** (`README.md` línea 5)
 
-`https://www.linkedin.com/in/kejogodev/` → `https://www.linkedin.com/in/vin`
+`https://www.linkedin.com/in/kejogodev/` → `https://www.linkedin.com/in/vin-dev`
 
 **D.2 — Descomentar Página Web** (`README.md` línea 7)
 
@@ -336,14 +336,14 @@ Los buckets son independientes: cualquier orden funciona. La recomendación prio
 8. `grep -rn "Clearly Senior\|I mean, Jr" src/` no devuelve nada.
 9. `grep -n "training on Campuslands\|backend related projects" README.md` no devuelve nada.
 10. `grep -n "vindevsito.dev" README.md` devuelve ≥ 1 línea.
-11. `grep -n "linkedin.com/in/vin\"" README.md` devuelve ≥ 1 línea (LinkedIn URL canónica).
+11. `grep -n "linkedin.com/in/vin-dev\"" README.md` devuelve ≥ 1 línea (LinkedIn URL canónica).
 12. `grep -n "Anthropic\|OpenAI" README.md` devuelve líneas para ambos.
 
 **Verificables visualmente (usuario en `npm run preview` y post-deploy):**
 
 13. Home hero: copy refleja IA aplicada + arquitectura + SaaS, conserva "me siento un poco dios creando cosas".
 14. /me: las 3 secciones reescritas. Sin ciberseguridad. Con "Código Ninja" en WhereImGoing. Con la frase de filosofía de equipo ("el nuevo puede tener una charla absurda con el administrador...") en About.
-15. Home: sección "(Real) CASOS" muestra 3 cards (Clonai → LinkedIn empresa, Justicia Cercana → URL real, Refactor → mailto). Link "Más en LinkedIn" abajo abre `linkedin.com/in/vin`.
+3. Home: sección "(Real) CASOS" muestra 3 cards (Clonai → LinkedIn empresa, Justicia Cercana → URL real, Refactor → mailto). Link "Más en LinkedIn" abajo abre `linkedin.com/in/vin-dev`.
 16. Navbar muestra "Casos" en los 3 menús.
 17. Sidebar carousel rota los 10 items finales incluyendo AI-pilled / Implementation Lead / Architecture-pilled. No aparece Jr/Senior.
 18. MeLikes: ortografía limpia. "Gente sin criterio propio" presente en hates. "Simps" ausente.

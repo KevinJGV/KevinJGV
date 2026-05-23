@@ -25,3 +25,5 @@ pnpm-debug.log*
 # Claude Code local/personal config (settings.json se commitea, el local no)
 .claude/settings.local.json
 .claude/.credentials.json
+
+.cv/
