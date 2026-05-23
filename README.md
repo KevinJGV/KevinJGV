@@ -18,7 +18,7 @@
 
 ## 💫 Hi there
 
-Excited and interested in everything I realize I have yet to learn. Mostly strong in Backend with good Frontend skills.<br><br>
+Excited and interested in everything I realize I have yet to learn. Solid across the FullStack with a soft spot for architecture and AI integration.<br><br>
 👂 My full name is _Kevin Johan González Velandia_<br>🔭 I’m currently training on [🧑‍🚀Campuslands](https://www.linkedin.com/company/campuslands/)<br>👯 I’m looking to collaborate on backend related projects<br>🌱 I’m currently learning Java | PostgreSQL | SpringBoot | Soft Skills<br>📫 Contact me ➜ [vin-dev@outlook.com](mailto:vin-dev@outlook.com)<!-- <br>👨‍💻 All of my projects are available at [my portfolio](https://www.vin-dev.tech/) --> <br>💬 Ask me about places to visit in my city<br>❤️ I love videogames | learn spiritual things/knowledge<br>⚡ Fun fact: I believe i have 4 nipples 🫣🌰
 
 <!-- ### 🎧 What am i listening now?
