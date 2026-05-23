@@ -2,7 +2,7 @@
   <img decoding="async" src="./assets/Github_banner.png" width="1000"/>
   
   [![](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white&labelColor=4752C4&color=4752C4)](https://discordapp.com/users/356763345283710986)
-  [![](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kejogodev/)
+  [![](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/vin-dev)
   [![](https://img.shields.io/badge/stackoverflow-C45F0E?style=for-the-badge&logo=stackoverflow&logoColor=white&labelColor=C45F0E&color=C45F0E)](https://stackoverflow.com/users/26126865/kejogo-dev)
   <!-- [![](https://img.shields.io/badge/Página_Web-yelow?style=for-the-badge&logo=icloud&logoColor=white)](https://www.vin-dev.tech/) -->
 </div>
