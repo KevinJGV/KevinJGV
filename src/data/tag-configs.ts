@@ -18,4 +18,10 @@ export const tagConfigs: Record<string, TagConfig> = {
   leadership:   { label: "Líderazgo", bgColor: "#7a9e9f", txtColor: "#000" },
   mysql:        { label: "MySql", bgColor: "#04a777", txtColor: "#000" },
   db:           { label: "DB", bgColor: "#f0f0c9", txtColor: "#000" },
+  saas:         { label: "SaaS", bgColor: "#0f4c5c", txtColor: "#fff" },
+  "ai-applied": { label: "IA aplicada", bgColor: "#5e4ae3", txtColor: "#fff" },
+  architecture: { label: "Arquitectura", bgColor: "#2b2d42", txtColor: "#fff" },
+  automation:   { label: "Automatización", bgColor: "#e07a5f", txtColor: "#000" },
+  refactor:     { label: "Refactor", bgColor: "#3d5a80", txtColor: "#fff" },
+  typescript:   { label: "TypeScript", bgColor: "#3178c6", txtColor: "#fff" },
 };
