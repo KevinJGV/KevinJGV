@@ -1,28 +1,28 @@
 ---
 import Card from "../Card.astro";
 import Anchor from "../Anchor.astro";
-import { projects } from "../../data/projects";
+import { cases } from "../../data/cases";
 ---
 
 <section id="projects">
-  <h2 class="Dela"><span class="hidden_text">Short</span> PREVIEW</h2>
+  <h2 class="Dela"><span class="hidden_text">Real</span> CASOS</h2>
   <div class="flex">
-    {projects.map((project) => (
+    {cases.map((caseItem) => (
       <Card
-        text={project.text}
-        href={project.href}
-        cover={project.cover}
-        bgColor={project.bgColor}
-        txtColor={project.txtColor}
-        hrefImages={project.hrefImages}
-        tags={project.tags}
+        text={caseItem.text}
+        href={caseItem.href}
+        cover={caseItem.cover}
+        bgColor={caseItem.bgColor}
+        txtColor={caseItem.txtColor}
+        hrefImages={caseItem.hrefImages}
+        tags={caseItem.tags}
       />
     ))}
   </div>
   <blockquote class="text_center">
     <Anchor
-      href="https://github.com/KevinJGV?tab=repositories"
-      text="Más "
+      href="https://www.linkedin.com/in/vin-dev"
+      text="Más en LinkedIn "
       max_font_size="7rem"
       min_font_size="3rem"
       bgHeight="7.5rem"
