@@ -58,12 +58,12 @@ Expected: que todos existan (sin "No such file"). Anota mentalmente el total de 
 
 - [ ] **Step 1: Aplicar el cambio de URL**
 
-Reemplazar `https://www.linkedin.com/in/kejogodev/` por `https://www.linkedin.com/in/vin` en la línea 5 (badge de LinkedIn).
+Reemplazar `https://www.linkedin.com/in/kejogodev/` por `https://www.linkedin.com/in/vin-dev` en la línea 5 (badge de LinkedIn).
 
 - [ ] **Step 2: Verificar el cambio con grep**
 
 Run: `grep -n "linkedin.com/in/" README.md`
-Expected: 1 línea, conteniendo `https://www.linkedin.com/in/vin`
+Expected: 1 línea, conteniendo `https://www.linkedin.com/in/vin-dev`
 
 Run: `grep -n "kejogodev" README.md`
 Expected: vacío.
@@ -73,7 +73,7 @@ Expected: vacío.
 ```bash
 git add README.md
 git commit -m "$(cat <<'EOF'
-docs(readme): canonicalize LinkedIn URL to /in/vin
+docs(readme): canonicalize LinkedIn URL to /in/vin-dev
 
 Aligns README badge with the LinkedIn URL referenced across the
 portfolio's Casos section (HomeProjects 'Más en LinkedIn' link).
@@ -776,7 +776,7 @@ import { cases } from "../../data/cases";
   </div>
   <blockquote class="text_center">
     <Anchor
-      href="https://www.linkedin.com/in/vin"
+      href="https://www.linkedin.com/in/vin-dev"
       text="Más en LinkedIn "
       max_font_size="7rem"
       min_font_size="3rem"
@@ -796,7 +796,7 @@ Cambios:
 - Header `Short` (hover) `PREVIEW` → `Real` (hover) `CASOS`.
 - `.map((project) => ...)` → `.map((caseItem) => ...)`.
 - Referencias `project.*` → `caseItem.*` (text, href, cover, bgColor, txtColor, hrefImages, tags).
-- Anchor href: GitHub repos → `https://www.linkedin.com/in/vin`.
+- Anchor href: GitHub repos → `https://www.linkedin.com/in/vin-dev`.
 - Anchor text: `"Más "` → `"Más en LinkedIn "`.
 
 **NO se toca:** `id="projects"` (CSS lo referencia), el bloque `<script>`, el bloque `<style>` (incluyendo la regla `#projects > div`).
@@ -848,7 +848,7 @@ feat(home): replace academic projects with 3 real Casos
 - 3 entries: Clonai (SaaS B2B + IA + leadership), Justicia Cercana
   (Shopify + IA — live URL), Vue→Astro refactor (mailto fallback)
 - HomeProjects header: '(Short) PREVIEW' → '(Real) CASOS'
-- Footer link: GitHub repos → 'Más en LinkedIn' → /in/vin
+- Footer link: GitHub repos → 'Más en LinkedIn' → /in/vin-dev
 - Card.astro untouched: visual contract preserved
 
 Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
@@ -964,7 +964,7 @@ Reemplazar:
 
 Por:
 ```ts
-				Casos: "https://www.linkedin.com/in/vin",
+				Casos: "https://www.linkedin.com/in/vin-dev",
 ```
 
 - [ ] **Step 2: Cambio en `src/pages/me.astro:15`**
@@ -976,7 +976,7 @@ Reemplazar:
 
 Por:
 ```ts
-				Casos: "https://www.linkedin.com/in/vin",
+				Casos: "https://www.linkedin.com/in/vin-dev",
 ```
 
 - [ ] **Step 3: Cambio en `src/pages/contact.astro:15`**
@@ -988,7 +988,7 @@ Reemplazar:
 
 Por:
 ```ts
-				Casos: "https://www.linkedin.com/in/vin",
+				Casos: "https://www.linkedin.com/in/vin-dev",
 ```
 
 - [ ] **Step 4: Verificar**
@@ -1012,7 +1012,7 @@ Expected: 0/0/0.
 ```bash
 git add src/pages/index.astro src/pages/me.astro src/pages/contact.astro
 git commit -m "$(cat <<'EOF'
-feat(navbar): 'Proyectos' → 'Casos', URL → LinkedIn /in/vin
+feat(navbar): 'Proyectos' → 'Casos', URL → LinkedIn /in/vin-dev
 
 Consistent with the 'Más en LinkedIn' link inside HomeProjects: both
 the navbar item and the section-footer link now point to the same
@@ -1419,7 +1419,7 @@ echo "=== imports projects ===" && grep -rn "from.*data/projects" src/ || echo "
 echo "=== Jr/Senior ===" && grep -rn "Clearly Senior\|I mean, Jr" src/ || echo "ok vacío"
 echo "=== README training/backend old ===" && grep -n "training on Campuslands\|backend related projects" README.md || echo "ok vacío"
 echo "=== README vindevsito.dev ===" && grep -cn "vindevsito.dev" README.md
-echo "=== README LinkedIn canónico ===" && grep -n 'linkedin.com/in/vin' README.md
+echo "=== README LinkedIn canónico ===" && grep -n 'linkedin.com/in/vin-dev' README.md
 echo "=== README badges IA ===" && grep -cn "Anthropic\|OpenAI" README.md
 echo "=== Proyectos en pages ===" && grep -rn "Proyectos" src/pages/ || echo "ok vacío"
 echo "=== Casos en pages ===" && grep -rcn "Casos:" src/pages/
@@ -1436,7 +1436,7 @@ Expected:
 - Jr/Senior: vacío ✓
 - training/backend old en README: vacío ✓
 - README vindevsito.dev: ≥1 ✓
-- README LinkedIn `/in/vin`: ≥1 ✓
+- README LinkedIn `/in/vin-dev`: ≥1 ✓
 - README badges Anthropic+OpenAI: ≥2 ✓
 - Proyectos en pages: vacío ✓
 - Casos en pages: 3 archivos ✓
@@ -1453,7 +1453,7 @@ Abrir 4 URLs y verificar:
 - Hero body refleja IA + arquitectura + SaaS, conserva "me siento un poco dios".
 - Sidebar carousel rota AI-pilled / Implementation Lead / Architecture-pilled (sin Jr/Senior).
 - Sección "(Real) CASOS" con 3 cards (Clonai dark navy, Justicia Cercana verde, Refactor naranja Astro).
-- Link "Más en LinkedIn" funciona, apunta a `/in/vin`.
+- Link "Más en LinkedIn" funciona, apunta a `/in/vin-dev`.
 - Navbar muestra "Casos".
 
 `http://localhost:4321/me`:
