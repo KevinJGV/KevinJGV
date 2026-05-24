@@ -4,7 +4,7 @@ import Anchor from "../Anchor.astro";
 import { cases } from "../../data/cases";
 ---
 
-<section id="projects">
+<section id="casos">
   <h2 class="Dela"><span class="hidden_text">Real</span> CASOS</h2>
   <div class="flex">
     {cases.map((caseItem) => (
@@ -37,7 +37,7 @@ import { cases } from "../../data/cases";
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const projectsContainer = document.querySelector<HTMLElement>("#projects > div");
+    const projectsContainer = document.querySelector<HTMLElement>("#casos > div");
     if (projectsContainer) {
       projectsContainer.style.setProperty(
         "--calculated-height",
@@ -56,7 +56,7 @@ import { cases } from "../../data/cases";
     opacity: 0.5;
   }
 
-  #projects > div {
+  #casos > div {
     flex-grow: 1;
     height: 254px;
     border-radius: 4px;
@@ -65,13 +65,13 @@ import { cases } from "../../data/cases";
     padding: 0.4em;
   }
 
-  #projects blockquote {
+  #casos blockquote {
     margin-block: 4rem;
     padding-top: 125px;
   }
 
   @media screen and (max-width: 1075px) {
-    #projects > div {
+    #casos > div {
       flex-direction: column;
       height: var(--calculated-height);
     }

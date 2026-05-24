@@ -26,7 +26,7 @@ export function initCards(): void {
   };
 
   const calculateDimensions = (): void => {
-    const cardsContainer = document.querySelector<HTMLElement>("#projects > div");
+    const cardsContainer = document.querySelector<HTMLElement>("#casos > div");
     if (!cardsContainer) return;
 
     const containerWidth = cardsContainer.clientWidth;
