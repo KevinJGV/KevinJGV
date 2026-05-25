@@ -71,12 +71,16 @@
 </article>
 
 <script>
-  if (new URLSearchParams(window.location.search).get("ok") === "1") {
-    const intro = document.querySelector("#contact1 > p");
-    if (intro) {
-      intro.textContent = "Mensaje recibido. Te respondo pronto.";
+  function showContactSuccess() {
+    if (new URLSearchParams(window.location.search).get("ok") === "1") {
+      const intro = document.querySelector("#contact1 > p");
+      if (intro) {
+        intro.textContent = "Mensaje recibido. Te respondo pronto.";
+      }
     }
   }
+  showContactSuccess();
+  document.addEventListener("astro:page-load", showContactSuccess);
 </script>
 
 <style>
