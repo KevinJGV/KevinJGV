@@ -3,6 +3,8 @@ import { Resend } from 'resend';
 
 export const prerender = false;
 
+const resend = new Resend(import.meta.env.RESEND_API_KEY);
+
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData();
   const nombre = String(data.get('nombre') ?? '').trim();
@@ -18,7 +20,10 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response('Campos requeridos faltantes', { status: 400 });
   }
 
-  const resend = new Resend(import.meta.env.RESEND_API_KEY);
+  if (nombre.length > 25 || descripcion.length > 500) {
+    return new Response('Datos inválidos', { status: 400 });
+  }
+
   const { error } = await resend.emails.send({
     from: 'Contacto desde Portafolio <noreply@vindevsito.dev>',
     to: 'vin.devsito@gmail.com',
