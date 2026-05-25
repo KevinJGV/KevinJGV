@@ -71,15 +71,11 @@
 </article>
 
 <script>
-  const form = document.querySelector("form");
-  if (form) {
-    form.addEventListener("submit", (event) => {
-      const form = event.target as HTMLFormElement;
-
-      setTimeout(() => {
-        form.reset();
-      }, 1000);
-    });
+  if (new URLSearchParams(window.location.search).get("ok") === "1") {
+    const intro = document.querySelector("#contact1 > p");
+    if (intro) {
+      intro.textContent = "Mensaje recibido. Te respondo pronto.";
+    }
   }
 </script>
 
