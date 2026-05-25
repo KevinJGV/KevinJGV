@@ -133,7 +133,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   const resend = new Resend(import.meta.env.RESEND_API_KEY);
   const { error } = await resend.emails.send({
-    from: 'Portafolio <noreply@vindevsito.dev>',
+    from: 'Contacto desde Portafolio <noreply@vindevsito.dev>',
     to: 'vin.devsito@gmail.com',
     replyTo: email,
     subject: `Contacto portafolio — ${name}`,
@@ -249,7 +249,7 @@ Si Astro detecta el script automáticamente (esperado para sus propios scripts i
 
 ### Funcional
 
-- Formulario de contacto sigue funcionando end-to-end: envío → email a `vin.devsito@gmail.com` con `from: noreply@vindevsito.dev`.
+- Formulario de contacto sigue funcionando end-to-end: envío → email a `vin.devsito@gmail.com` con `from: "Contacto desde Portafolio <noreply@vindevsito.dev>"`.
 - Audio loop, hover cards, mobile render, nav dropdown, footer width — los 5 puntos sensibles del incident anterior — siguen funcionando idénticos en producción tras Bucket A.
 - Cero regresión visual en las 3 páginas (`/`, `/me`, `/contact`).
 
@@ -319,7 +319,7 @@ npm run build                                                             # → 
 - **Stack:** Astro 6 + adapter Vercel v10. No cambio de proveedor de deploy.
 - **Output:** hybrid (`output: 'static'` + `export const prerender = false` en un solo endpoint). No vuelta a `'server'` global.
 - **Email provider:** Resend, plan free, dominio propio verificado.
-- **Sender:** `noreply@vindevsito.dev` (con `onboarding@resend.dev` como fallback si verificación tarda).
+- **Sender:** `Contacto desde Portafolio <noreply@vindevsito.dev>` (con `onboarding@resend.dev` como fallback si verificación tarda).
 - **Anti-spam:** honeypot only. Captcha futuro si necesario.
 - **Deps automation:** Dependabot, no Renovate.
 - **CSP scope:** `script-src` migra a hashes nativos; `style-src` queda con `'unsafe-inline'` por ahora.
