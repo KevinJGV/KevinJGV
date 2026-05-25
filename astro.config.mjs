@@ -6,7 +6,20 @@ export default defineConfig({
   output: 'static',
   integrations: [react()],
   security: {
-    csp: true,
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "img-src 'self' data: https:",
+        "font-src 'self' data:",
+        "connect-src 'self' https://vitals.vercel-insights.com",
+        "frame-ancestors 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ],
+      styleDirective: {
+        resources: ["'self'", "'unsafe-inline'"],
+      },
+    },
   },
   adapter: vercel({
     webAnalytics: { enabled: true },
