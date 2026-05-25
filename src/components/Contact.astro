@@ -1,14 +1,12 @@
 ---
-const formSecurityAttrs = { rel: "noopener noreferrer" } as Record<string, string>;
+
 ---
 
 <article id="contact1" class="Poppins-R flex_col j_c wrap">
   <h1 class="Poppins-S flex all_c">Dame tu contacto</h1>
   <p>Siempre estoy abierto a propuestas, ¿tienes alguna?</p>
   <form
-    target="_blank"
-    {...formSecurityAttrs}
-    action="https://formsubmit.co/vin.devsito@gmail.com"
+    action="/api/contact"
     method="POST"
     class="flex_col j_c wrap"
   >
@@ -47,6 +45,14 @@ const formSecurityAttrs = { rel: "noopener noreferrer" } as Record<string, strin
         rows="5"
         required=""></textarea>
     </div>
+    <input
+      type="text"
+      name="_gotcha"
+      tabindex="-1"
+      autocomplete="off"
+      aria-hidden="true"
+      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;"
+    />
     <button id="mensaje" class="Poppins-S" type="submit">Enviar</button>
   </form>
 </article>
