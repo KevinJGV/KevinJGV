@@ -1,10 +1,44 @@
 import { defineConfig } from 'astro/config';
 import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
+import { readFile, writeFile } from 'node:fs/promises';
+
+// W3C CSP3: 'unsafe-inline' es ignorado si style-src tiene hashes.
+// Astro genera hashes para inline styles detectados en build, pero GSAP
+// y otros runtime-generated styles no pueden pre-hashearse. Esta integración
+// remueve los hashes de style-src en el config.json post-build, dejando
+// 'self' 'unsafe-inline' como único source — así el runtime funciona.
+const stripStyleSrcHashes = () => ({
+  name: 'strip-style-src-hashes',
+  hooks: {
+    'astro:build:done': async () => {
+      const configPath = '.vercel/output/config.json';
+      const config = JSON.parse(await readFile(configPath, 'utf8'));
+      for (const route of config.routes ?? []) {
+        const csp = route.headers?.['content-security-policy'];
+        if (!csp) continue;
+        const cleaned = csp
+          .split(';')
+          .map((directive) => directive.trim())
+          .filter(Boolean)
+          .map((directive) => {
+            if (!directive.startsWith('style-src')) return directive;
+            return directive
+              .split(/\s+/)
+              .filter((token) => !/^'sha\d+-/.test(token))
+              .join(' ');
+          })
+          .join('; ');
+        route.headers['content-security-policy'] = cleaned;
+      }
+      await writeFile(configPath, JSON.stringify(config, null, '\t'));
+    },
+  },
+});
 
 export default defineConfig({
   output: 'static',
-  integrations: [react()],
+  integrations: [react(), stripStyleSrcHashes()],
   security: {
     csp: {
       directives: [
