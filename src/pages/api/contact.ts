@@ -30,6 +30,11 @@ export const POST: APIRoute = async ({ request }) => {
     replyTo: email,
     subject: `Contacto portafolio — ${nombre}`,
     text: descripcion,
+    headers: {
+      'X-Priority': '1',
+      'X-MSMail-Priority': 'High',
+      Importance: 'High',
+    },
   });
 
   if (error) {
