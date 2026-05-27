@@ -9,7 +9,9 @@ interface BaseRect {
 }
 
 const MAX_PULL = 28;
-const FIRE_ENTER = 70;
+// Fire trigger es "inside base bounding box" (no distance threshold).
+// FIRE_EXIT sigue siendo distancia para histéresis al desfire (cursor lejos
+// del centro tras salir del expanded bounds).
 const FIRE_EXIT = 130;
 
 let firedCard: Card | null = null;
@@ -76,8 +78,9 @@ function updateSpecular(card: Card, e: MouseEvent): void {
 function resetCard(card: Card): void {
   card.style.transform = 'translate(0,0) scale(1)';
   card.classList.remove('attracting');
-  card.style.removeProperty('--rx');
-  card.style.removeProperty('--ry');
+  // NOTE: --rx/--ry NO se borran. El shine fade-out usa la última
+  // posición del cursor para evitar el flash al snap a center (50%/50%).
+  // Próximo mousemove sobre la card las sobrescribe.
 }
 
 function fireCard(card: Card): void {
@@ -136,7 +139,12 @@ function processMouseMove(stage: Stage, cards: Card[], e: MouseEvent): void {
 
   if (winner) {
     const { card, dx, dy, d, z } = winner;
-    if (d < FIRE_ENTER) {
+    const b = bases.get(card)!;
+    // Fire si el cursor está DENTRO del bounding box base de la card
+    // (no por distance threshold — más intuitivo: hover sobre la card = fire).
+    const insideBaseBox =
+      mx >= b.left && mx <= b.left + b.w && my >= b.top && my <= b.top + b.h;
+    if (insideBaseBox) {
       fireCard(card);
       firedCard = card;
     } else {
@@ -172,8 +180,8 @@ function onMouseLeave(cards: Card[]) {
     for (const c of cards) {
       c.style.transform = 'translate(0,0) scale(1)';
       c.classList.remove('attracting', 'fired');
-      c.style.removeProperty('--rx');
-      c.style.removeProperty('--ry');
+      // NOTE: --rx/--ry se conservan para que el fade-out del shine respete
+      // la última posición del cursor (no snap to center).
     }
     firedCard = null;
   };
