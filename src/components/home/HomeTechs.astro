@@ -43,8 +43,10 @@ const mv = "5px";
       if (target) {
         const rect = target.getBoundingClientRect();
         const mouseEv = ev as PointerEvent;
-        target.style.setProperty("--x", String(mouseEv.clientX - rect.left));
-        target.style.setProperty("--y", String(mouseEv.clientY - rect.top));
+        const rx = ((mouseEv.clientX - rect.left) / rect.width) * 100;
+        const ry = ((mouseEv.clientY - rect.top) / rect.height) * 100;
+        target.style.setProperty("--x", `${rx}%`);
+        target.style.setProperty("--y", `${ry}%`);
       }
     });
   });
