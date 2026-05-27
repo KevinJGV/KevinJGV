@@ -2,6 +2,10 @@
 import Hexagon from "../Hexagon.astro";
 import Anchor from "../Anchor.astro";
 import { hexagonSlots } from "../../data/technologies";
+import { tFor, getAlternatePath, type Locale } from "../../i18n";
+const t = tFor(Astro);
+const locale: Locale = Astro.currentLocale === 'en' ? 'en' : 'es';
+const meHref = getAlternatePath('/me', locale);
 
 const s = "120px";
 const r = 1;
@@ -10,7 +14,7 @@ const mv = "5px";
 
 <section id="techs">
   <h2 class="Dela">
-    <span class="hidden_text">Mí</span> BAGAJE
+    <span class="hidden_text">{t('home.techs.titleHover')}</span> {t('home.techs.title')}
   </h2>
   <div class="techs_container grid unselected">
     <ul>
@@ -23,8 +27,8 @@ const mv = "5px";
 
 <blockquote class="text_center">
   <Anchor
-    href="/me"
-    text="Sobre mí "
+    href={meHref}
+    text={t('home.techs.aboutMeAnchor')}
     max_font_size="7rem"
     min_font_size="2rem"
     bgHeight="7.5rem"

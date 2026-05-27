@@ -13,7 +13,25 @@ export default {
     statusAvailable: "Available",
   },
   home: {
-    casos: { cardCta: "See more →" },
-    techs: { hexLockedLabel: "Locked" },
+    hero: {
+      greeting: "Hello, ",
+      heading: "I'm Kevin",
+      subtitle: "Fullstack Software Developer",
+      status: "Active Since SEP '23",
+      statusCta: "LET'S TALK",
+      body: "I build systems that combine solid back-end, polished front-end, and LLM integration into real products.<br />I've co-created a SaaS from MVP, led implementation teams, and migrated entire platforms to more maintainable stacks.<br />I'm obsessed with clean architecture — high cohesion, low coupling — and translating vague requirements into clear technical decisions.<br />Why do I do this?<br />Because when everything clicks, I feel a bit like a god creating things, defining their attributes and behaviors.<br />When I'm not developing, I'm probably thinking about the future or being the go-to advisor for my friends.",
+    },
+    casos: {
+      title: "CASES",
+      titleHover: "Real",
+      cardCta: "See more →",
+      linkedinAnchor: "More on LinkedIn ",
+    },
+    techs: {
+      title: "SKILLS",
+      titleHover: "My",
+      aboutMeAnchor: "About me ",
+      hexLockedLabel: "Locked",
+    },
   },
 } as const;

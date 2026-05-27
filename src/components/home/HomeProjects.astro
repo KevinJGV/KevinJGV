@@ -1,7 +1,10 @@
 ---
 import Card from "../Card.astro";
-import Anchor from "../Anchor.astro";
+// import Anchor from "../Anchor.astro"; // uncomment when LinkedIn blockquote is re-enabled
 import { cases } from "../../data/cases";
+import { tFor, type Locale } from "../../i18n";
+const t = tFor(Astro);
+const locale: Locale = Astro.currentLocale === 'en' ? 'en' : 'es';
 
 function zoneFor(idx: number, total: number) {
   if (total === 1) return { zoneLeft: 220, zoneRight: 220, zoneVert: 120 };
@@ -12,7 +15,7 @@ function zoneFor(idx: number, total: number) {
 ---
 
 <section id="casos">
-  <h2 class="Dela"><span class="hidden_text">Mis</span> CASOS</h2>
+  <h2 class="Dela"><span class="hidden_text">{t('home.casos.titleHover')}</span> {t('home.casos.title')}</h2>
   <div class="casos-cards">
     {
       cases.map((caseItem, idx) => {
@@ -20,10 +23,10 @@ function zoneFor(idx: number, total: number) {
         return (
           <div class="casos-slot">
             <Card
-              text={caseItem.text.es}
+              text={caseItem.text[locale]}
               href={caseItem.href}
               company={caseItem.company}
-              role={caseItem.role.es}
+              role={caseItem.role[locale]}
               period={caseItem.period}
               cover={caseItem.cover}
               bgColor={caseItem.bgColor}
@@ -41,7 +44,7 @@ function zoneFor(idx: number, total: number) {
   <!-- <blockquote class="text_center">
     <Anchor
       href="https://www.linkedin.com/in/vin-dev"
-      text="Más en LinkedIn "
+      text={t('home.casos.linkedinAnchor')}
       max_font_size="7rem"
       min_font_size="3rem"
       bgHeight="7.5rem"

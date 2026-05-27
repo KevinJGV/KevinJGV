@@ -1,14 +1,16 @@
 ---
 import TextHighlighted from "../Highlighter.astro";
+import { tFor } from "../../i18n";
+const t = tFor(Astro);
 ---
 
 <article id="home1" class="home_article flex relative">
   <section id="home1_text" class="flex_col j_se">
     <div id="home1_top" class="flex_col j_c">
-      <span class="Dela">Hola, </span>
-      <h1 class="Dela">Soy Kevin</h1>
+      <span class="Dela">{t('home.hero.greeting')}</span>
+      <h1 class="Dela">{t('home.hero.heading')}</h1>
       <i>
-        <span class="Ansterdam">Fullstack Software Developer</span>
+        <span class="Ansterdam">{t('home.hero.subtitle')}</span>
         <span class="Poppins-R">&</span>
         <TextHighlighted
           text="Empanada Lover"
@@ -18,23 +20,11 @@ import TextHighlighted from "../Highlighter.astro";
         />
       </i>
       <p class="Poppins-S">
-        Activo Desde SEP '23<br /><a href="/contact">HABLEMOS</a>
+        {t('home.hero.status')}<br /><a href="/contact">{t('home.hero.statusCta')}</a>
       </p>
     </div>
     <div id="home1_bot" class="Poppins-R">
-      <p>
-        Construyo sistemas que combinan back-end sólido, front-end cuidado e integración de LLMs en productos reales.
-        <br />
-        He co-creado un SaaS desde MVP, liderado equipos de implementación y migrado plataformas enteras a stacks más mantenibles.
-        <br />
-        Me obsesiona la arquitectura limpia — alta cohesión, bajo acoplamiento — y traducir requerimientos confusos a decisiones técnicas claras.
-        <br />
-        ¿Por qué hago esto?
-        <br />
-        Porque cuando todo encaja me siento un poco dios creando cosas, definiendo sus atributos y comportamientos.
-        <br />
-        Cuando no estoy desarrollando, probablemente estoy pensando en el futuro o siendo el consejero de mis amigos.
-      </p>
+      <p set:html={t('home.hero.body')} />
     </div>
   </section>
   <section id="home1_img" class="sticky">
