@@ -1,201 +1,298 @@
 ---
 import { tagConfigs } from "../data/tag-configs";
-import { DEFAULT_CARD_COVER } from "../data/card-defaults";
 
 interface Props {
   text: string;
   href: string;
-  hrefImages?: string[];
-  cover?: string;
-  txtColor?: string;
+  company: string;
+  role: string;
+  period: string;
+  cover: string;
   bgColor?: string;
-  tags?: { [key: string]: string };
+  txtColor?: string;
+  tags?: Record<string, string>;
+  zoneLeft?: number;
+  zoneRight?: number;
+  zoneVert?: number;
 }
 
 const {
   text,
   href,
-  hrefImages,
-  cover = DEFAULT_CARD_COVER,
+  company,
+  role,
+  period,
+  cover,
+  bgColor = "#1a3a52",
   txtColor = "#fff",
-  bgColor = "#fff3",
   tags = {},
+  zoneLeft = 60,
+  zoneRight = 60,
+  zoneVert = 120,
 } = Astro.props;
 
-function tagItem(key: string, bgColor?: string, color_fill?: string): string {
-  return `
-		<li class="Alumni flex all_c" style="--bgColor: ${bgColor}; --txtColor: ${color_fill};">
-			<span>${key}</span>
-		</li>
-	`;
+function tagItem(label: string, bg?: string, color?: string): string {
+  const style = bg && color
+    ? ` style="background:${bg};color:${color};border-color:transparent;"`
+    : "";
+  return `<li class="mg-tag"${style}>${label}</li>`;
 }
 
-function renderTagItem(key: string, setting: string): string {
-  if (!key.startsWith("template")) {
-    return tagItem(key);
-  }
+function renderTag(key: string, setting: string): string {
+  if (!key.startsWith("template")) return tagItem(key);
   const config = tagConfigs[setting];
-  if (config) {
-    return tagItem(config.label, config.bgColor, config.txtColor);
-  }
-  return "";
+  return config ? tagItem(config.label, config.bgColor, config.txtColor) : "";
 }
 
-const processedTags = Object.entries(tags).map(([key, setting]) =>
-  renderTagItem(key, setting)
-);
+const processedTags = Object.entries(tags).map(([k, v]) => renderTag(k, v));
+const isSvgCover = cover.toLowerCase().endsWith("</svg>");
 ---
 
 <a
+  class="mg-card"
   href={href}
-  class="pCard flex_col glass0 relative"
   target="_blank"
   rel="noopener noreferrer"
-  style={`color: ${txtColor}; background-color: ${bgColor};`}
+  data-zone-left={zoneLeft}
+  data-zone-right={zoneRight}
+  data-zone-vert={zoneVert}
+  style={`--cover-bg: ${bgColor}; --cover-fg: ${txtColor};`}
 >
-  {
-    cover && cover.toLowerCase().endsWith("</svg>") ? (
-      <div class="imageCard flex j_c absolute" set:html={cover} />
-    ) : (
-      <div class="imageCard flex j_c absolute">
-        <img src={cover} alt="" loading="lazy" />
-      </div>
-    )
-  }
-
-  <ul class="tags absolute flex wrap j_sa">
-    {processedTags.map((tag) => <Fragment set:html={tag} />)}
-  </ul>
-
-  <p class="Poppins-S text_center absolute">
-    <span>{text}</span>
-  </p>
-
-  {
-    hrefImages ? (
-      <div class="card_carousel flex absolute">
-        {hrefImages.map((capture) => (
-          <img src={capture} alt="" />
-        ))}
-      </div>
-    ) : (
-      <div class="card_carousel flex absolute" />
-    )
-  }
+  <div class="mg-shine" aria-hidden="true"></div>
+  <div class="mg-cover">
+    {isSvgCover ? <Fragment set:html={cover} /> : <img src={cover} alt="" loading="lazy" />}
+  </div>
+  <div class="mg-meta">
+    <span class="mg-company">{company}</span>
+    <span class="mg-period">{period}</span>
+  </div>
+  <p class="mg-title">{text}</p>
+  <div class="mg-detail">
+    <div class="mg-role">{role}</div>
+    <ul class="mg-tags">{processedTags.map((html) => <Fragment set:html={html} />)}</ul>
+    <span class="mg-cta">Ver más →</span>
+  </div>
 </a>
 
-<script>
-  import { initCards } from "./card-interactions";
-  document.addEventListener("astro:page-load", () => {
-    initCards();
-  });
-</script>
-
-<style define:vars={{ bgColor, txtColor }}>
-  .card_carousel img {
-    transition: opacity 0.5s ease;
-    width: 100%;
-  }
-
-  .pCard span {
-    min-width: 14em;
-    padding: 0.5em;
-    text-align: center;
-    transform: rotate(-90deg);
-    transition: all 0.5s;
-    text-transform: uppercase;
-    color: var(--txtColor);
-    letter-spacing: 0.1em;
-  }
-
-  .card_carousel img:first-child {
-    display: block;
-  }
-
-  .card_carousel img:not(:first-child) {
-    display: none;
-  }
-
-  .imageCard {
-    z-index: 5;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--bgColor);
-    align-items: center;
-  }
-
-  .pCard p {
-    font-size: 1rem;
-    left: 0;
-    right: 0;
-    padding: 0.5rem;
-    bottom: 0;
-    z-index: 10;
-  }
-
-  .pCard:hover p {
-    background-color: var(--bgColor);
-  }
-
-  .pCard .tags {
-    list-style: none;
-    padding: 1rem;
-    margin: 0;
-    z-index: 3;
-    width: 100%;
-    bottom: 0;
-    background-color: var(--bgColor);
-    gap: 1rem;
-  }
-
-  .tags li {
-    background-color: var(--bgColor);
-    color: var(--txtColor);
-    padding: 0.4rem 0.6rem;
-    border-radius: 0.3rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    white-space: nowrap;
+<style>
+  .mg-card {
+    width: 200px;
+    height: 280px;
+    border-radius: 22px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
     overflow: hidden;
-    text-overflow: ellipsis;
+    color: #fff;
+    text-decoration: none;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.03) 55%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    backdrop-filter: url(#glassRefract) blur(12px) saturate(180%) brightness(108%);
+    -webkit-backdrop-filter: url(#glassRefract) blur(12px) saturate(180%) brightness(108%);
+    box-shadow:
+      0 12px 36px rgba(0, 0, 0, 0.35),
+      0 1px 0 rgba(255, 255, 255, 0.3) inset,
+      0 -1px 0 rgba(0, 0, 0, 0.18) inset,
+      0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+    will-change: transform, height;
+    transition:
+      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+      height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+      background 0.4s,
+      box-shadow 0.4s;
+  }
+
+  .mg-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.1) 30%,
+      rgba(255, 255, 255, 0.05) 70%,
+      rgba(255, 255, 255, 0.4) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000, #000) content-box,
+      linear-gradient(#000, #000);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .mg-shine {
+    position: absolute;
+    inset: -50%;
+    background: radial-gradient(
+      circle at var(--rx, 50%) var(--ry, 50%),
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.08) 25%,
+      transparent 50%
+    );
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .mg-card.attracting .mg-shine,
+  .mg-card.fired .mg-shine,
+  .mg-card:focus-within .mg-shine {
+    opacity: 1;
+  }
+
+  .mg-cover {
+    height: 90px;
+    border-radius: 14px;
+    background: var(--cover-bg);
+    color: var(--cover-fg);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    justify-content: center;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    z-index: 1;
+  }
+  .mg-cover :global(svg) {
+    width: 70%;
+    height: auto;
+  }
+  .mg-cover img {
+    max-width: 70%;
+    height: auto;
   }
 
-  .tags li img {
-    width: 1rem;
-    height: 1rem;
-    filter: brightness(0) invert(1);
-    flex-shrink: 0;
-  }
-
-  .tags li span {
-    min-width: unset;
-    padding: 0;
-    text-align: left;
-    transform: none;
-    transition: none;
+  .mg-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.6rem;
+    opacity: 0.75;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: inherit;
+    letter-spacing: 0.08em;
+    position: relative;
+    z-index: 1;
   }
 
-  @media screen and (max-width: 1075px) {
-    .pCard,
-    .tags,
-    .card_carousel {
-      width: 100% !important;
-    }
+  .mg-title {
+    font-size: 0.85rem;
+    line-height: 1.35;
+    margin: 0;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+  }
 
-    .pCard p {
-      opacity: 0;
-    }
+  .mg-detail {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.4s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
 
-    .pCard:hover p {
-      opacity: 1;
+  .mg-role {
+    font-size: 0.65rem;
+    opacity: 0.75;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .mg-tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .mg-tag {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    text-transform: uppercase;
+  }
+
+  .mg-cta {
+    font-size: 0.75rem;
+    margin-top: auto;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .mg-card.fired,
+  .mg-card:focus-within {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.28) 0%,
+      rgba(255, 255, 255, 0.06) 55%,
+      rgba(255, 255, 255, 0.18) 100%
+    );
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.45),
+      0 1px 0 rgba(255, 255, 255, 0.42) inset,
+      0 -1px 0 rgba(0, 0, 0, 0.2) inset,
+      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+      0 0 30px rgba(255, 255, 255, 0.12);
+    height: 360px;
+  }
+  .mg-card.fired .mg-cover,
+  .mg-card:focus-within .mg-cover {
+    transform: scale(0.88) translateY(-4px);
+  }
+  .mg-card.fired .mg-detail,
+  .mg-card:focus-within .mg-detail {
+    max-height: 200px;
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mg-card {
+      backdrop-filter: blur(12px) saturate(140%);
+      -webkit-backdrop-filter: blur(12px) saturate(140%);
+      transition: none !important;
+    }
+    .mg-card.attracting,
+    .mg-card.fired {
+      transform: none !important;
+    }
+    .mg-shine {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1075px) {
+    .mg-card {
+      width: 100%;
+      max-width: 320px;
     }
   }
 </style>

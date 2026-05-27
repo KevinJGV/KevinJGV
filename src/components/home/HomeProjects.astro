@@ -2,22 +2,45 @@
 import Card from "../Card.astro";
 import Anchor from "../Anchor.astro";
 import { cases } from "../../data/cases";
+
+function zoneFor(idx: number, total: number) {
+  if (total === 1) return { zoneLeft: 220, zoneRight: 220, zoneVert: 120 };
+  if (idx === 0) return { zoneLeft: 220, zoneRight: 60, zoneVert: 120 };
+  if (idx === total - 1) return { zoneLeft: 60, zoneRight: 220, zoneVert: 120 };
+  return { zoneLeft: 20, zoneRight: 20, zoneVert: 240 };
+}
 ---
 
 <section id="casos">
   <h2 class="Dela"><span class="hidden_text">Real</span> CASOS</h2>
-  <div class="flex">
-    {cases.map((caseItem) => (
-      <Card
-        text={caseItem.text}
-        href={caseItem.href}
-        cover={caseItem.cover}
-        bgColor={caseItem.bgColor}
-        txtColor={caseItem.txtColor}
-        hrefImages={caseItem.hrefImages}
-        tags={caseItem.tags}
-      />
-    ))}
+  <div class="casos-stage">
+    <div class="casos-blob casos-blob-1"></div>
+    <div class="casos-blob casos-blob-2"></div>
+    <div class="casos-blob casos-blob-3"></div>
+    <div class="casos-grid"></div>
+    <div class="casos-cards">
+      {
+        cases.map((caseItem, idx) => {
+          const zones = zoneFor(idx, cases.length);
+          return (
+            <Card
+              text={caseItem.text}
+              href={caseItem.href}
+              company={caseItem.company}
+              role={caseItem.role}
+              period={caseItem.period}
+              cover={caseItem.cover}
+              bgColor={caseItem.bgColor}
+              txtColor={caseItem.txtColor}
+              tags={caseItem.tags}
+              zoneLeft={zones.zoneLeft}
+              zoneRight={zones.zoneRight}
+              zoneVert={zones.zoneVert}
+            />
+          );
+        })
+      }
+    </div>
   </div>
   <blockquote class="text_center">
     <Anchor
@@ -36,15 +59,8 @@ import { cases } from "../../data/cases";
 </section>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
-    const projectsContainer = document.querySelector<HTMLElement>("#casos > div");
-    if (projectsContainer) {
-      projectsContainer.style.setProperty(
-        "--calculated-height",
-        `${projectsContainer.children.length * 150}px`
-      );
-    }
-  });
+  import { initMagneticCards } from "../magnetic-cards";
+  document.addEventListener("astro:page-load", initMagneticCards);
 </script>
 
 <style>
@@ -56,13 +72,64 @@ import { cases } from "../../data/cases";
     opacity: 0.5;
   }
 
-  #casos > div {
-    flex-grow: 1;
-    height: 254px;
-    border-radius: 4px;
+  .casos-stage {
+    position: relative;
+    min-height: 440px;
+    border-radius: 16px;
+    overflow: hidden;
+    padding: 40px 24px;
+    background:
+      radial-gradient(ellipse at 20% 30%, #1a3a52 0%, #0a1929 60%),
+      #0a1929;
+  }
+
+  .casos-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(1px);
+    opacity: 0.75;
+    pointer-events: none;
+  }
+  .casos-blob-1 {
+    width: 320px;
+    height: 320px;
+    background: #5e4ae3;
+    top: 0;
+    left: 5%;
+  }
+  .casos-blob-2 {
+    width: 260px;
+    height: 260px;
+    background: #e07a5f;
+    top: 40%;
+    right: 3%;
+  }
+  .casos-blob-3 {
+    width: 240px;
+    height: 240px;
+    background: #1d4e3f;
+    bottom: -5%;
+    left: 30%;
+  }
+
+  .casos-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+
+  .casos-cards {
+    position: relative;
     display: flex;
-    gap: 5px;
-    padding: 0.4em;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    min-height: 360px;
+    z-index: 1;
   }
 
   #casos blockquote {
@@ -71,9 +138,14 @@ import { cases } from "../../data/cases";
   }
 
   @media screen and (max-width: 1075px) {
-    #casos > div {
+    .casos-stage {
+      min-height: auto;
+      padding: 32px 16px;
+    }
+    .casos-cards {
       flex-direction: column;
-      height: var(--calculated-height);
+      align-items: stretch;
+      gap: 20px;
     }
   }
 
