@@ -1,0 +1,237 @@
+type Stage = HTMLElement;
+type Card = HTMLElement;
+
+interface BaseRect {
+  left: number;
+  top: number;
+  w: number;
+  h: number;
+}
+
+const MAX_PULL = 28;
+const FIRE_ENTER = 70;
+const FIRE_EXIT = 130;
+
+let firedCard: Card | null = null;
+let rafId: number | null = null;
+let pendingEvent: MouseEvent | null = null;
+
+const bases = new Map<Card, BaseRect>();
+
+function cacheBases(stage: Stage, cards: Card[]): void {
+  const sr = stage.getBoundingClientRect();
+  for (const c of cards) {
+    const prevTransform = c.style.transform;
+    const prevClass = c.className;
+    c.style.transform = 'none';
+    c.classList.remove('fired', 'attracting');
+    const r = c.getBoundingClientRect();
+    bases.set(c, {
+      left: r.left - sr.left,
+      top: r.top - sr.top,
+      w: r.width,
+      h: r.height,
+    });
+    c.style.transform = prevTransform;
+    c.className = prevClass;
+  }
+}
+
+function getZone(card: Card) {
+  const b = bases.get(card)!;
+  const zl = parseInt(card.dataset.zoneLeft || '0', 10);
+  const zr = parseInt(card.dataset.zoneRight || '0', 10);
+  const zv = parseInt(card.dataset.zoneVert || '0', 10);
+  return {
+    left: b.left - zl,
+    right: b.left + b.w + zr,
+    top: b.top - zv,
+    bottom: b.top + b.h + zv,
+    cx: b.left + b.w / 2,
+    cy: b.top + b.h / 2,
+  };
+}
+
+function getCurrentBounds(stage: Stage, card: Card) {
+  const r = card.getBoundingClientRect();
+  const sr = stage.getBoundingClientRect();
+  return {
+    left: r.left - sr.left,
+    right: r.right - sr.left,
+    top: r.top - sr.top,
+    bottom: r.bottom - sr.top,
+  };
+}
+
+function updateSpecular(card: Card, e: MouseEvent): void {
+  const cr = card.getBoundingClientRect();
+  const rx = ((e.clientX - cr.left) / cr.width) * 100;
+  const ry = ((e.clientY - cr.top) / cr.height) * 100;
+  card.style.setProperty('--rx', `${rx}%`);
+  card.style.setProperty('--ry', `${ry}%`);
+}
+
+function resetCard(card: Card): void {
+  card.style.transform = 'translate(0,0) scale(1)';
+  card.classList.remove('attracting');
+  card.style.removeProperty('--rx');
+  card.style.removeProperty('--ry');
+}
+
+function fireCard(card: Card): void {
+  card.classList.add('fired');
+  card.classList.remove('attracting');
+  card.style.transform = 'translate(0,0) scale(1.02)';
+}
+
+function unfireCard(card: Card): void {
+  card.classList.remove('fired');
+  card.style.transform = 'translate(0,0) scale(1)';
+}
+
+function processMouseMove(stage: Stage, cards: Card[], e: MouseEvent): void {
+  const sr = stage.getBoundingClientRect();
+  const mx = e.clientX - sr.left;
+  const my = e.clientY - sr.top;
+
+  // Priority 1: if there's a firedCard, check expanded bounds first
+  if (firedCard) {
+    const eb = getCurrentBounds(stage, firedCard);
+    const insideExpanded =
+      mx >= eb.left && mx <= eb.right && my >= eb.top && my <= eb.bottom;
+    if (insideExpanded) {
+      updateSpecular(firedCard, e);
+      for (const c of cards) if (c !== firedCard) resetCard(c);
+      return;
+    }
+    const z = getZone(firedCard);
+    const d = Math.hypot(mx - z.cx, my - z.cy);
+    if (d <= FIRE_EXIT) {
+      updateSpecular(firedCard, e);
+      for (const c of cards) if (c !== firedCard) resetCard(c);
+      return;
+    }
+    unfireCard(firedCard);
+    firedCard = null;
+  }
+
+  // Priority 2: pick winner from base zones
+  let winner: { card: Card; dx: number; dy: number; d: number; z: ReturnType<typeof getZone> } | null = null;
+  let winnerDist = Infinity;
+  for (const c of cards) {
+    const z = getZone(c);
+    if (mx < z.left || mx > z.right || my < z.top || my > z.bottom) continue;
+    const dx = mx - z.cx;
+    const dy = my - z.cy;
+    const d = Math.hypot(dx, dy);
+    if (d < winnerDist) {
+      winnerDist = d;
+      winner = { card: c, dx, dy, d, z };
+    }
+  }
+
+  for (const c of cards) if (!winner || c !== winner.card) resetCard(c);
+
+  if (winner) {
+    const { card, dx, dy, d, z } = winner;
+    if (d < FIRE_ENTER) {
+      fireCard(card);
+      firedCard = card;
+    } else {
+      card.classList.add('attracting');
+      const maxDist = Math.max(z.right - z.cx, z.cx - z.left, z.bottom - z.cy, z.cy - z.top);
+      const pullFactor = Math.max(0, 1 - d / maxDist);
+      const pull = pullFactor * MAX_PULL;
+      const len = Math.max(d, 1);
+      const tx = (dx / len) * pull;
+      const ty = (dy / len) * pull;
+      card.style.transform = `translate(${tx}px, ${ty}px) scale(${1 + pullFactor * 0.02})`;
+    }
+    updateSpecular(card, e);
+  }
+}
+
+function onMouseMove(stage: Stage, cards: Card[]) {
+  return (e: MouseEvent) => {
+    pendingEvent = e;
+    if (rafId !== null) return;
+    rafId = requestAnimationFrame(() => {
+      rafId = null;
+      if (pendingEvent) {
+        processMouseMove(stage, cards, pendingEvent);
+        pendingEvent = null;
+      }
+    });
+  };
+}
+
+function onMouseLeave(cards: Card[]) {
+  return () => {
+    for (const c of cards) {
+      c.style.transform = 'translate(0,0) scale(1)';
+      c.classList.remove('attracting', 'fired');
+      c.style.removeProperty('--rx');
+      c.style.removeProperty('--ry');
+    }
+    firedCard = null;
+  };
+}
+
+function onTouchEnd(cards: Card[]) {
+  return (e: TouchEvent) => {
+    const target = e.target as HTMLElement;
+    const tappedCard = target.closest('.mg-card') as Card | null;
+
+    if (tappedCard && cards.includes(tappedCard)) {
+      if (tappedCard === firedCard) {
+        // segundo tap en card fired → deja que <a> navegue (no preventDefault)
+        return;
+      }
+      e.preventDefault();
+      if (firedCard) unfireCard(firedCard);
+      fireCard(tappedCard);
+      firedCard = tappedCard;
+    } else {
+      if (firedCard) {
+        unfireCard(firedCard);
+        firedCard = null;
+      }
+    }
+  };
+}
+
+export function initMagneticCards(): void {
+  const stage = document.getElementById('casos');
+  if (!stage) return;
+  const cards = Array.from(stage.querySelectorAll<HTMLElement>('.mg-card'));
+  if (cards.length === 0) return;
+
+  cacheBases(stage, cards);
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  if (isTouch) {
+    stage.addEventListener('touchend', onTouchEnd(cards), { passive: false });
+  } else if (!reducedMotion) {
+    stage.addEventListener('mousemove', onMouseMove(stage, cards));
+    stage.addEventListener('mouseleave', onMouseLeave(cards));
+  }
+
+  // Keyboard accessibility: focus mirror del fired state
+  for (const c of cards) {
+    c.addEventListener('focusin', () => {
+      if (firedCard && firedCard !== c) unfireCard(firedCard);
+      fireCard(c);
+      firedCard = c;
+    });
+    c.addEventListener('focusout', () => {
+      if (firedCard === c) {
+        unfireCard(c);
+        firedCard = null;
+      }
+    });
+  }
+
+  window.addEventListener('resize', () => cacheBases(stage, cards));
+}
