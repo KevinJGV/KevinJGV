@@ -1,55 +1,34 @@
 ---
-const loves: Array<{ text: string; note?: string }> = [
-  { text: "Color negro" },
-  { text: "Producción de contenidos audiovisuales" },
-  { text: "Animaciones" },
-  { text: "Videojuegos" },
-  { text: "Mi moto", note: "(Enduros)" },
-  { text: "Admirar personas" },
-  { text: "Aconsejar" },
-  { text: "Gatos" },
-  { text: "Cocinar", note: "(si me animo)" },
-  { text: "Soledad", note: "(Staying-at-home)" },
-  { text: "Climas fríos" },
-  { text: "Trabajar en equipo", note: "(Y el co-working)" },
-  { text: "Conocer nuevos sitios" },
-];
+import esStrings from "../../i18n/es";
+import enStrings from "../../i18n/en";
 
-const hates: Array<{ text: string; note?: string }> = [
-  { text: "Resultados incompletos" },
-  { text: "Quedarme sin dinero" },
-  { text: "Climas muy calientes" },
-  { text: "Gente sin criterio propio" },
-  { text: "Gente que no soporta mi sentido del humor" },
-  { text: "Café puro" },
-  { text: "Falta de empatía" },
-  { text: "Gente superautoritaria" },
-];
+const locale = Astro.currentLocale === 'en' ? 'en' : 'es';
+const likesData = locale === 'en' ? enStrings.me.likes : esStrings.me.likes;
 ---
 
 <article id="me4" class="flex_col">
-  <h2 class="Alumni_I">Mira eso, qué humano</h2>
+  <h2 class="Alumni_I">{likesData.mainHeading}</h2>
   <div class="Poppins-R flex_col">
     <div class="flex alignI_c">
-      <h3>Qué amo</h3>
+      <h3>{likesData.lovesHeading}</h3>
       <svg id="love" xmlns="http://www.w3.org/2000/svg" width="143" height="143" fill="none" viewBox="0 0 143 143">
         <path fill="#1ED760" d="M40.219 58.792a6.703 6.703 0 1 0 13.406 0 6.703 6.703 0 0 0-13.406 0Zm49.156 0a6.703 6.703 0 1 0 13.406 0 6.703 6.703 0 0 0-13.406 0ZM71.5 8.937C36.951 8.938 8.937 36.951 8.937 71.5c0 34.549 28.014 62.562 62.563 62.562 34.549 0 62.562-28.013 62.562-62.562 0-34.549-28.013-62.563-62.562-62.563Zm36.728 99.291a51.947 51.947 0 0 1-16.52 11.143c-6.383 2.71-13.184 4.078-20.208 4.078-7.024 0-13.825-1.368-20.221-4.078a51.715 51.715 0 0 1-16.52-11.143 51.955 51.955 0 0 1-11.144-16.52C20.919 85.324 19.55 78.523 19.55 71.5c0-7.024 1.368-13.825 4.078-20.221a51.725 51.725 0 0 1 11.143-16.52 51.952 51.952 0 0 1 16.52-11.144c6.383-2.696 13.184-4.064 20.208-4.064 7.024 0 13.825 1.368 20.221 4.078a51.735 51.735 0 0 1 16.521 11.143 51.96 51.96 0 0 1 11.143 16.52c2.696 6.383 4.064 13.184 4.064 20.208 0 7.024-1.368 13.825-4.078 20.221a51.506 51.506 0 0 1-11.143 16.507ZM92.727 74.433h-6.718c-.586 0-1.089.446-1.13 1.033-.531 6.913-6.327 12.373-13.379 12.373s-12.862-5.46-13.378-12.373a1.128 1.128 0 0 0-1.132-1.033h-6.717a1.117 1.117 0 0 0-1.117 1.173c.615 11.772 10.404 21.17 22.344 21.17 11.94 0 21.73-9.398 22.344-21.17a1.119 1.119 0 0 0-1.117-1.173Z"></path>
       </svg>
       <ul class="flex">
-        {loves.map((item) => (
+        {likesData.loves.map((item) => (
           <li>{item.text}{item.note && <span> {item.note}</span>}</li>
         ))}
       </ul>
     </div>
     <hr>
     <div class="flex alignI_c">
-      <h3>Qué no tanto</h3>
+      <h3>{likesData.hatesHeading}</h3>
       <svg id="hate" xmlns="http://www.w3.org/2000/svg" width="143" height="143" fill="none" viewBox="0 0 143 143">
         <path fill="#D71E1E" d="M40.219 58.792a6.703 6.703 0 0 0 13.4.294.424.424 0 0 0-.266-.407l-10.822-4.483a.538.538 0 0 0-.608.13 6.703 6.703 0 0 0-1.704 4.466Zm49.47-.13a.488.488 0 0 0-.305.47 6.704 6.704 0 1 0 11.843-4.632c-.234-.28-.632-.356-.969-.216L89.69 58.662ZM71.5 8.938C36.951 8.938 8.937 36.95 8.937 71.5c0 34.549 28.014 62.562 62.563 62.562 34.549 0 62.562-28.013 62.562-62.562 0-34.549-28.013-62.563-62.562-62.563Zm36.728 99.29a51.947 51.947 0 0 1-16.52 11.143c-6.383 2.71-13.184 4.078-20.208 4.078-7.024 0-13.825-1.368-20.221-4.078a51.715 51.715 0 0 1-16.52-11.143 51.955 51.955 0 0 1-11.144-16.52C20.919 85.324 19.55 78.523 19.55 71.5c0-7.024 1.368-13.825 4.078-20.221a51.725 51.725 0 0 1 11.143-16.52 51.952 51.952 0 0 1 16.52-11.144c6.383-2.696 13.184-4.064 20.208-4.064 7.024 0 13.825 1.368 20.221 4.078a51.735 51.735 0 0 1 16.521 11.143 51.96 51.96 0 0 1 11.143 16.52c2.696 6.383 4.064 13.184 4.064 20.208 0 7.024-1.368 13.825-4.078 20.221a51.506 51.506 0 0 1-11.143 16.507Z"></path>
         <rect width="59" height="9" x="42" y="81" fill="#D71E1E" rx="1"></rect>
       </svg>
       <ul class="flex">
-        {hates.map((item) => (
+        {likesData.hates.map((item) => (
           <li>{item.text}{item.note && <span> {item.note}</span>}</li>
         ))}
       </ul>

@@ -1,26 +1,18 @@
 ---
+import { tFor } from "../../i18n";
+const t = tFor(Astro);
 ---
 
 <article id="me3" class="article flex relative alignI_c">
   <section class="text-content flex_col">
     <section class="top-section flex_col">
-      <h1 class="Alumni_I">¿A donde voy?</h1>
-      <q class="Poppins-S"
-        >Con mi trabajo, sin temor a ello y nada más que eso, destilar
-        mi valor y éxito profesional sin importar la empresa.</q
-      >
+      <h1 class="Alumni_I">{t('me.whereImGoing.heading')}</h1>
+      <q class="Poppins-S">{t('me.whereImGoing.quote')}</q>
       <p class="Poppins-R">
-        Personalmente, aquel sujeto al que recurres ante un gridlock —<br />
-        el que ya pasó por suficientes incendios para saber por dónde empezar,<br />
-        capaz de escribir <a
+        {t('me.whereImGoing.bodyBefore')}<a
           href="https://es.javascript.info/ninja-code"
           target="_blank"
-          rel="noopener noreferrer">Código Ninja</a
-        > a su conveniencia.<br />
-        Profesionalmente, construyendo o co-construyendo productos que importen:<br />
-        con la experiencia técnica, el criterio de arquitectura y la cabeza de líder<br />
-        para que las cosas lleguen al usuario y sigan en pie seis meses después.<br />
-        Y, en algún momento, el CEO de uno o varios de esos productos.
+          rel="noopener noreferrer">{t('me.whereImGoing.ninjaCodeLinkText')}</a>{t('me.whereImGoing.bodyAfter')}
       </p>
     </section>
   </section>

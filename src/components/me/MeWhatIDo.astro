@@ -1,23 +1,13 @@
 ---
+import { tFor } from "../../i18n";
+const t = tFor(Astro);
 ---
 
 <article id="me2" class="article flex relative alignI_c">
   <section class="text-content flex_col">
     <section class="top-section flex_col">
-      <h1 class="Alumni_I">¿Qué hago?</h1>
-      <p class="Poppins-R">
-        Diseño y construyo software que tiene que funcionar el lunes en
-        producción, no solo en una demo de viernes.<br />
-        Prefiero entender el problema dos veces antes que reescribir la
-        solución tres.<br />
-        Optimizo procesos antes que reinventarlos: si la rueda existe,
-        funciona y es confiable, la uso.<br />
-        Sumo valor con colaboración, comunicación honesta y la disciplina
-        de terminar lo que empiezo — sin convertirme en robot ni esperar
-        que los demás lo sean.<br />
-        Dame un teclado, un ratón, tiempo y música clásica sin anuncios —
-        lo demás lo resolvemos.
-      </p>
+      <h1 class="Alumni_I">{t('me.whatIDo.heading')}</h1>
+      <p class="Poppins-R" set:html={t('me.whatIDo.body')}></p>
     </section>
   </section>
   <section class="image-section">

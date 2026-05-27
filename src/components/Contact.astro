@@ -1,15 +1,17 @@
 ---
-
+import { tFor } from "../i18n";
+const t = tFor(Astro);
 ---
 
-<article id="contact1" class="Poppins-R flex_col j_c wrap">
-  <h1 class="Poppins-S flex all_c">Dame tu contacto</h1>
-  <p>Siempre estoy abierto a propuestas, ¿tienes alguna?</p>
+<article id="contact1" class="Poppins-R flex_col j_c wrap" data-success-msg={t('contact.successFeedback')}>
+  <h1 class="Poppins-S flex all_c">{t('contact.heading1')}</h1>
+  <p>{t('contact.intro')}</p>
   <form
     action="/api/contact"
     method="POST"
     class="flex_col j_c wrap"
   >
+    <input type="hidden" name="locale" value={Astro.currentLocale ?? 'es'} />
     <div class="flex all_c">
       <div class="inputBox relative">
         <input
@@ -21,7 +23,7 @@
           required=""
           placeholder=" "
         />
-        <label for="nombre">Nombre</label>
+        <label for="nombre">{t('contact.formLabels.nombre')}</label>
       </div>
       <div class="inputBox relative">
         <input
@@ -31,7 +33,7 @@
           required=""
           placeholder=" "
         />
-        <label for="email">E-mail</label>
+        <label for="email">{t('contact.formLabels.email')}</label>
       </div>
     </div>
     <div class="inputBox relative">
@@ -40,7 +42,7 @@
         id="descripcion"
         maxlength="500"
         minlength="1"
-        placeholder="Cuentame el chisme"
+        placeholder={t('contact.formLabels.descripcion')}
         cols="10"
         rows="5"
         required=""></textarea>
@@ -53,15 +55,14 @@
       aria-hidden="true"
       style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;"
     />
-    <button id="mensaje" class="Poppins-S" type="submit">Enviar</button>
+    <button id="mensaje" class="Poppins-S" type="submit">{t('contact.formLabels.submit')}</button>
   </form>
 </article>
 
 <article id="contact2" class="Poppins-R flex_col j_c wrap">
-  <h1 class="Poppins-S">... O enviame un e-mail</h1>
+  <h1 class="Poppins-S">{t('contact.heading2')}</h1>
   <p>
-    Puede tardar un poco en que recibas mi respuesta, pero seguro que mas de una
-    semana no vas a tener que esperar<br /><span>(si no es spam, claro)</span>.
+    {t('contact.emailIntro')}<br /><span>{t('contact.emailIntroParen')}</span>.
   </p>
   <a
     class="Dela all_c"
@@ -74,8 +75,9 @@
   function showContactSuccess() {
     if (new URLSearchParams(window.location.search).get("ok") === "1") {
       const intro = document.querySelector("#contact1 > p");
-      if (intro) {
-        intro.textContent = "Mensaje recibido. Te respondo pronto.";
+      const successMsg = document.getElementById('contact1')?.dataset.successMsg;
+      if (intro && successMsg) {
+        intro.textContent = successMsg;
       }
     }
   }

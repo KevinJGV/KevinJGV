@@ -1,22 +1,14 @@
 ---
 import SpotifyPlayer from "./SpotifyPlayer.astro";
+import { tFor } from "../../i18n";
+const t = tFor(Astro);
 ---
 
 <article id="me1" class="article flex relative j_sb">
   <section class="text-content flex_col">
     <section class="top-section flex_col">
-      <h1 class="Alumni_I">¿Sobre mí?</h1>
-      <p class="Poppins-R">
-        Mi nombre completo es Kevin Johan González Velandia.<br />
-        Soy un desarrollador FullStack colombiano,<br />
-        con foco en arquitecturas escalables e integración de IA donde realmente suma valor — no por moda.<br />
-        Doy forma a marcas y productos digitales, fascinado por la intersección
-        de la creatividad y la lógica.<br />
-        A pesar de la apariencia de mi webpage, soy un amante de la simplicidad,
-        el minimalismo y la complejidad de las relaciones interpersonales.<br />
-        Me encanta colaborar en proyectos exigentes con gente talentosa — y soy de los que creen que un equipo funciona mejor cuando el nuevo puede tener una charla absurda con el administrador sin que eso reste profesionalismo.<br />
-        ¿Necesitas una mano? Yo tengo dos.
-      </p>
+      <h1 class="Alumni_I">{t('me.about.heading')}</h1>
+      <p class="Poppins-R" set:html={t('me.about.body')}></p>
     </section>
     <SpotifyPlayer />
   </section>
