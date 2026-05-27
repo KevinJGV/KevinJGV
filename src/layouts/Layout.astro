@@ -7,6 +7,7 @@ import "../styles/utilities.css";
 import "../styles/components-global.css";
 import Tools from "../components/Tools.astro";
 import { ClientRouter } from "astro:transitions";
+import { tFor, getAlternatePath, type Locale } from "../i18n";
 
 
 interface Props {
@@ -14,17 +15,28 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const locale: Locale = Astro.currentLocale === 'en' ? 'en' : 'es';
+const t = tFor(Astro);
+const currentPath = Astro.url.pathname;
+const altPathEs = getAlternatePath(currentPath, 'es');
+const altPathEn = getAlternatePath(currentPath, 'en');
+const siteOrigin = Astro.site?.origin ?? 'https://vindevsito.dev';
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <!-- easter egg histórico (binario "I am god"): 01001001 00100000 01100001 01101101 00100000 01100111 01101111 01100100 -->
-    <meta name="description" content="Kevin González — FullStack Developer colombiano. Construyo SaaS, integro IA en productos reales y lidero equipos de implementación. Bucaramanga, Colombia." />
+    <meta name="description" content={t('layout.meta.description')} />
     <meta name="viewport" content="width=device-width" />
     <link id="icon" rel="icon" type="image/svg+xml" href="/circle.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    <link rel="alternate" hreflang="es" href={siteOrigin + altPathEs} />
+    <link rel="alternate" hreflang="en" href={siteOrigin + altPathEn} />
+    <link rel="alternate" hreflang="x-default" href={siteOrigin + altPathEs} />
+
     <title>{title}</title>
     <ClientRouter />
   </head>
