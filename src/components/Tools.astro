@@ -11,6 +11,11 @@ const t = tFor(Astro);
       </svg>
     </button>
   </section>
+  <section class="tool" id="locale-control">
+    <button id="locale-toggle" aria-label={t('tools.localeToggleAria')}>
+      <span class="locale-label">{(Astro.currentLocale === 'en' ? 'en' : 'es').toUpperCase()}</span>
+    </button>
+  </section>
 </aside>
 
 <style>
@@ -128,6 +133,27 @@ const t = tFor(Astro);
 
   #audio-control.muted #volume-icon {
     opacity: 0.5;
+  }
+
+  #locale-control button {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+  }
+
+  #locale-control button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
   }
 
 </style>
@@ -309,11 +335,40 @@ const t = tFor(Astro);
   function cleanupAudioControl() {
     audioControlInitialized = false;
   }
-  
+
+  function initLocaleToggle() {
+    const btn = document.getElementById('locale-toggle');
+    if (!btn || btn.dataset.bound === '1') return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', () => {
+      const path = window.location.pathname;
+      const onEn = path.startsWith('/en/') || path === '/en';
+      const target = onEn ? 'es' : 'en';
+      try { localStorage.setItem('portfolio-locale', target); } catch (e) { /* ignore */ }
+      let newPath: string;
+      if (target === 'en') {
+        newPath = '/en' + (path === '/' ? '' : path);
+      } else {
+        newPath = path.replace(/^\/en(\/|$)/, '/');
+        if (newPath === '') newPath = '/';
+      }
+      window.location.assign(newPath);
+    });
+  }
+
+  function updateLocaleLabel() {
+    const label = document.querySelector('#locale-toggle .locale-label');
+    if (!label) return;
+    const onEn = window.location.pathname.startsWith('/en');
+    label.textContent = onEn ? 'EN' : 'ES';
+  }
+
   function initializeTools() {
     restoreToolsVisibility();
     setupFirstInteractionDetection();
     initAudioControl();
+    initLocaleToggle();
+    updateLocaleLabel();
   }
   
   if (document.readyState === 'loading') {
