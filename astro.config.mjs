@@ -38,6 +38,14 @@ const stripStyleSrcHashes = () => ({
 
 export default defineConfig({
   output: 'static',
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en'],
+    routing: {
+      prefixDefaultLocale: false,
+      redirectToDefaultLocale: false,
+    },
+  },
   integrations: [react(), stripStyleSrcHashes()],
   security: {
     csp: {
