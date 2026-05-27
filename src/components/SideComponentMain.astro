@@ -23,6 +23,7 @@
 
     let lastIndex = -1;
     let cycleIntervalId: ReturnType<typeof setInterval> | null = null;
+    let pendingFadeOut: ((e: TransitionEvent) => void) | null = null;
 
     function pickNext(): string {
         let idx: number;
@@ -37,11 +38,18 @@
         const carousel = document.querySelector<HTMLElement>("#carousel");
         if (!carousel) return;
 
-        // Cleanup previous interval (Astro view transitions re-fire astro:page-load)
+        // Cleanup previous interval + orphan listener (Astro view transitions re-fire astro:page-load)
         if (cycleIntervalId !== null) {
             clearInterval(cycleIntervalId);
             cycleIntervalId = null;
         }
+        if (pendingFadeOut !== null) {
+            carousel.removeEventListener('transitionend', pendingFadeOut);
+            pendingFadeOut = null;
+        }
+
+        // Wire FADE_MS to CSS via custom property (JS = single source of truth)
+        carousel.style.setProperty('--fade-duration', `${FADE_MS}ms`);
 
         // Reset state, set first word invisible then fade in
         carousel.textContent = pickNext();
@@ -51,11 +59,18 @@
         });
 
         cycleIntervalId = setInterval(() => {
+            // Clear any orphan listener from a cancelled previous transition
+            // (e.g. tab hidden mid-fade, or @media display:none activated)
+            if (pendingFadeOut !== null) {
+                carousel.removeEventListener('transitionend', pendingFadeOut);
+                pendingFadeOut = null;
+            }
             // Fade out
             carousel.style.opacity = '0';
-            const onFadeOut = (e: TransitionEvent) => {
+            pendingFadeOut = (e: TransitionEvent) => {
                 if (e.propertyName !== 'opacity') return;
-                carousel.removeEventListener('transitionend', onFadeOut);
+                carousel.removeEventListener('transitionend', pendingFadeOut!);
+                pendingFadeOut = null;
                 // Swap text while invisible (opacity is literally 0)
                 carousel.textContent = pickNext();
                 // Force browser to paint a frame with opacity:0 + new text
@@ -64,7 +79,7 @@
                     carousel.style.opacity = '1';
                 });
             };
-            carousel.addEventListener('transitionend', onFadeOut);
+            carousel.addEventListener('transitionend', pendingFadeOut);
         }, CYCLE_MS);
     }
 
@@ -80,7 +95,7 @@
         flex-grow: 2;
         line-height: 0;
         opacity: 1;
-        transition: opacity 0.6s ease-in-out;
+        transition: opacity var(--fade-duration, 0.6s) ease-in-out;
     }
 
     @media screen and (max-height: 600px) {
