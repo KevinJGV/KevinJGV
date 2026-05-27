@@ -9,4 +9,11 @@ export default {
   pages: { home: { title: "Vin" }, me: { title: "About me" }, contact: { title: "Contact" } },
   nav: { home: "Home", me: "About me", contact: "Contact" },
   tools: { muteAria: "Mute/Unmute music", localeToggleAria: "Switch language" },
+  sidebar: {
+    statusAvailable: "Available",
+  },
+  home: {
+    casos: { cardCta: "See more →" },
+    techs: { hexLockedLabel: "Locked" },
+  },
 } as const;

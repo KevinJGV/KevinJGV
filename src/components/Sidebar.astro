@@ -1,5 +1,6 @@
 ---
-
+import { tFor } from "../i18n";
+const t = tFor(Astro);
 ---
 
 <aside class="flex relative fixed j_sb unselected">
@@ -10,7 +11,7 @@
 	<slot name="side-component" />
 	<a href="/contact" id="avilable" class="Poppins-R flex">
 		<strong>•</strong>
-		<span>Disponible</span>
+		<span>{t('sidebar.statusAvailable')}</span>
 	</a>
 </aside>
 

@@ -10,4 +10,11 @@ export default {
   pages: { home: { title: "Vin" }, me: { title: "Sobre mí" }, contact: { title: "Contacto" } },
   nav: { home: "Inicio", me: "Sobre mí", contact: "Contacto" },
   tools: { muteAria: "Silenciar/Activar música", localeToggleAria: "Cambiar idioma" },
+  sidebar: {
+    statusAvailable: "Disponible",
+  },
+  home: {
+    casos: { cardCta: "Ver más →" },
+    techs: { hexLockedLabel: "Bloqueado" },
+  },
 } as const;

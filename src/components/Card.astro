@@ -1,5 +1,6 @@
 ---
 import { tagConfigs } from "../data/tag-configs";
+import { tFor } from "../i18n";
 
 interface Props {
   text: string;
@@ -30,6 +31,7 @@ const {
   zoneRight = 60,
   zoneVert = 120,
 } = Astro.props;
+const t = tFor(Astro);
 
 function tagItem(label: string, bg?: string, color?: string): string {
   const tagBg = bg ?? "rgba(255,255,255,0.15)";
@@ -69,7 +71,7 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
   <div class="mg-detail">
     <div class="mg-role Alumni">{role}</div>
     <ul class="mg-tags">{processedTags.map((html) => <Fragment set:html={html} />)}</ul>
-    <span class="mg-cta Poppins-S">Ver más →</span>
+    <span class="mg-cta Poppins-S">{t('home.casos.cardCta')}</span>
   </div>
 </a>
 
