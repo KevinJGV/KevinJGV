@@ -38,6 +38,44 @@ const siteOrigin = Astro.site?.origin ?? 'https://vindevsito.dev';
     <link rel="alternate" hreflang="x-default" href={siteOrigin + altPathEs} />
 
     <title>{title}</title>
+
+    <script is:inline>
+      (function () {
+        const STORAGE_KEY = 'portfolio-locale';
+        const path = window.location.pathname;
+        const onEn = path.startsWith('/en/') || path === '/en';
+        const current = onEn ? 'en' : 'es';
+
+        let target;
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored === 'es' || stored === 'en') {
+          target = stored;
+        } else {
+          const lang = (navigator.language || 'en').toLowerCase();
+          // EN default for any non-ES browser language (more inclusive internationally)
+          target = lang.startsWith('es') ? 'es' : 'en';
+          try { localStorage.setItem(STORAGE_KEY, target); } catch (e) { /* private mode */ }
+        }
+
+        if (target === current) {
+          // Sync localStorage if user navigated manually past auto-detect
+          if (stored !== current) {
+            try { localStorage.setItem(STORAGE_KEY, current); } catch (e) { /* ignore */ }
+          }
+          return;
+        }
+
+        let newPath;
+        if (target === 'en') {
+          newPath = '/en' + (path === '/' ? '' : path);
+        } else {
+          newPath = path.replace(/^\/en(\/|$)/, '/');
+          if (newPath === '') newPath = '/';
+        }
+        window.location.replace(newPath + window.location.search + window.location.hash);
+      })();
+    </script>
+
     <ClientRouter />
   </head>
   <body class="noise flex j_sb">
