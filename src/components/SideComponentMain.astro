@@ -17,7 +17,10 @@ const nounsEn = enStrings.sidebar.carouselNouns;
     const FADE_MS = 600;
     const CYCLE_MS = 20000;
 
-    let lastIndex = -1;
+    // Shuffled queue: cycle through the full set before repeating, and ensure
+    // the first word of the next cycle isn't the same as the last of the previous.
+    let queue: string[] = [];
+    let lastShown: string | null = null;
     let cycleIntervalId: ReturnType<typeof setInterval> | null = null;
     let pendingFadeOut: ((e: TransitionEvent) => void) | null = null;
 
@@ -31,14 +34,27 @@ const nounsEn = enStrings.sidebar.carouselNouns;
         }
     }
 
-    function pickNext(nouns: string[]): string {
-        if (nouns.length === 0) return '';
-        let idx: number;
-        do {
-            idx = Math.floor(Math.random() * nouns.length);
-        } while (idx === lastIndex && nouns.length > 1);
-        lastIndex = idx;
-        return nouns[idx];
+    function nextOrder(source: string[], avoidFirst: string | null): string[] {
+        const arr = source.slice();
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        if (avoidFirst !== null && arr.length > 1 && arr[0] === avoidFirst) {
+            const j = 1 + Math.floor(Math.random() * (arr.length - 1));
+            [arr[0], arr[j]] = [arr[j], arr[0]];
+        }
+        return arr;
+    }
+
+    function pickNext(source: string[]): string {
+        if (source.length === 0) return '';
+        if (queue.length === 0) {
+            queue = nextOrder(source, lastShown);
+        }
+        const word = queue.shift()!;
+        lastShown = word;
+        return word;
     }
 
     function initCarousel() {
@@ -61,8 +77,9 @@ const nounsEn = enStrings.sidebar.carouselNouns;
         // Wire FADE_MS to CSS via custom property (JS = single source of truth)
         carousel.style.setProperty('--fade-duration', `${FADE_MS}ms`);
 
-        // Reset state, set first word invisible then fade in
-        lastIndex = -1;
+        // Reset shuffled queue + last-shown so re-init starts a fresh cycle
+        queue = [];
+        lastShown = null;
         carousel.textContent = pickNext(nouns);
         carousel.style.opacity = '0';
         requestAnimationFrame(() => {

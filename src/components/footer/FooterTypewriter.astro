@@ -40,7 +40,38 @@ const contactHref = getAlternatePath('/contact', locale);
 </section>
 
 <script>
-  function consoleText(words: string[], id: string, colors: string[]) {
+  // View transitions re-fire astro:page-load; without cleanup the prior
+  // setInterval keeps writing to a (possibly detached) element and the
+  // typewriter visibly freezes after sidebar navigation.
+  let typeIntervalId: number | null = null;
+  let cursorIntervalId: number | null = null;
+
+  function clearTypewriterIntervals() {
+    if (typeIntervalId !== null) {
+      window.clearInterval(typeIntervalId);
+      typeIntervalId = null;
+    }
+    if (cursorIntervalId !== null) {
+      window.clearInterval(cursorIntervalId);
+      cursorIntervalId = null;
+    }
+  }
+
+  function nextOrder(source: string[], avoidFirst: string | null): string[] {
+    const arr = source.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    if (avoidFirst !== null && arr.length > 1 && arr[0] === avoidFirst) {
+      const j = 1 + Math.floor(Math.random() * (arr.length - 1));
+      [arr[0], arr[j]] = [arr[j], arr[0]];
+    }
+    return arr;
+  }
+
+  function consoleText(source: string[], id: string, colors: string[]) {
+    clearTypewriterIntervals();
     if (colors === undefined) colors = ["#fff"];
     let visible = true;
     const con = document.querySelector<HTMLElement>("#console");
@@ -49,20 +80,27 @@ const contactHref = getAlternatePath('/contact', locale);
     let waiting = false;
     const target = document.querySelector<HTMLElement>(id);
     if (!target || !con) return;
-    if (words.length === 0) return;
+    if (source.length === 0) return;
+    // Cycle through the full set before repeating; on refill the next first
+    // word can't equal the last word from the previous cycle.
+    let lastShown: string | null = null;
+    let words: string[] = nextOrder(source, lastShown);
     target.setAttribute(
       "style",
       "color:" + colors[Math.floor(Math.random() * colors.length)]
     );
-    window.setInterval(function () {
+    typeIntervalId = window.setInterval(function () {
       if (letterCount === 0 && waiting === false) {
         waiting = true;
         target.innerHTML = words[0].substring(0, letterCount);
         window.setTimeout(function () {
           const usedColor = colors.shift()!;
           colors.push(usedColor);
-          const usedWord = words.shift()!;
-          words.push(usedWord);
+          const finishedWord = words.shift()!;
+          lastShown = finishedWord;
+          if (words.length === 0) {
+            words = nextOrder(source, lastShown);
+          }
           x = 1;
           target.setAttribute(
             "style",
@@ -83,7 +121,7 @@ const contactHref = getAlternatePath('/contact', locale);
         letterCount += x;
       }
     }, 120);
-    window.setInterval(function () {
+    cursorIntervalId = window.setInterval(function () {
       if (visible === true) {
         con.id = "console";
         con.className = "hidden";
@@ -96,12 +134,12 @@ const contactHref = getAlternatePath('/contact', locale);
     }, 400);
   }
 
-  let initialized = false;
-
-  document.addEventListener("astro:page-load", () => {
-    if (initialized) return; // setInterval-based animation; only init once
+  function initTypewriter() {
     const target = document.querySelector<HTMLElement>("#dinamic_text");
-    if (!target) return;
+    if (!target) {
+      clearTypewriterIntervals();
+      return;
+    }
     const onEn = window.location.pathname.startsWith('/en');
     const wordsRaw = onEn ? target.dataset.wordsEn : target.dataset.wordsEs;
     const colorsRaw = target.dataset.colors;
@@ -109,10 +147,15 @@ const contactHref = getAlternatePath('/contact', locale);
     let colors: string[] = [];
     try { words = wordsRaw ? JSON.parse(wordsRaw) : []; } catch { words = []; }
     try { colors = colorsRaw ? JSON.parse(colorsRaw) : []; } catch { colors = []; }
-    if (words.length === 0) return;
+    if (words.length === 0) {
+      clearTypewriterIntervals();
+      return;
+    }
     consoleText([...words], "#dinamic_text", [...colors]);
-    initialized = true;
-  });
+  }
+
+  document.addEventListener("astro:page-load", initTypewriter);
+  document.addEventListener("astro:before-swap", clearTypewriterIntervals);
 </script>
 
 <style>
