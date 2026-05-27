@@ -32,10 +32,9 @@ const {
 } = Astro.props;
 
 function tagItem(label: string, bg?: string, color?: string): string {
-  const style = bg && color
-    ? ` style="background:${bg};color:${color};border-color:transparent;"`
-    : "";
-  return `<li class="mg-tag"${style}>${label}</li>`;
+  const tagBg = bg ?? "rgba(255,255,255,0.15)";
+  const tagFg = color ?? "#fff";
+  return `<li class="mg-tag Alumni" style="--tag-bg:${tagBg};--tag-fg:${tagFg};">${label}</li>`;
 }
 
 function renderTag(key: string, setting: string): string {
@@ -62,27 +61,27 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
   <div class="mg-cover">
     {isSvgCover ? <Fragment set:html={cover} /> : <img src={cover} alt="" loading="lazy" />}
   </div>
-  <div class="mg-meta">
+  <div class="mg-meta Alumni">
     <span class="mg-company">{company}</span>
     <span class="mg-period">{period}</span>
   </div>
-  <p class="mg-title">{text}</p>
+  <p class="mg-title Poppins-R">{text}</p>
   <div class="mg-detail">
-    <div class="mg-role">{role}</div>
+    <div class="mg-role Alumni">{role}</div>
     <ul class="mg-tags">{processedTags.map((html) => <Fragment set:html={html} />)}</ul>
-    <span class="mg-cta">Ver más →</span>
+    <span class="mg-cta Poppins-S">Ver más →</span>
   </div>
 </a>
 
 <style>
   .mg-card {
-    width: 200px;
-    height: 280px;
+    width: 280px;
+    height: 320px;
     border-radius: 22px;
-    padding: 14px;
+    padding: 18px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     position: relative;
     overflow: hidden;
     color: #fff;
@@ -143,7 +142,7 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
     );
     mix-blend-mode: screen;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.6s ease-out;
     pointer-events: none;
   }
   .mg-card.attracting .mg-shine,
@@ -153,7 +152,7 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
   }
 
   .mg-cover {
-    height: 90px;
+    height: 110px;
     border-radius: 14px;
     background: var(--cover-bg);
     color: var(--cover-fg);
@@ -168,11 +167,11 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
     z-index: 1;
   }
   .mg-cover :global(svg) {
-    width: 70%;
+    width: 75%;
     height: auto;
   }
   .mg-cover img {
-    max-width: 70%;
+    max-width: 75%;
     height: auto;
   }
 
@@ -180,19 +179,19 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
     display: flex;
     justify-content: space-between;
     gap: 8px;
-    font-size: 0.6rem;
-    opacity: 0.75;
+    font-size: 0.95rem;
+    line-height: 1;
+    opacity: 0.65;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     position: relative;
     z-index: 1;
   }
 
   .mg-title {
-    font-size: 0.85rem;
+    font-size: 1rem;
     line-height: 1.35;
     margin: 0;
-    font-weight: 500;
     position: relative;
     z-index: 1;
   }
@@ -206,16 +205,17 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
       opacity 0.4s;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     position: relative;
     z-index: 1;
   }
 
   .mg-role {
-    font-size: 0.65rem;
-    opacity: 0.75;
+    font-size: 1rem;
+    line-height: 1;
+    opacity: 0.7;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
   }
 
   .mg-tags {
@@ -224,28 +224,53 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
     margin: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 6px;
   }
 
   .mg-tag {
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 0.65rem;
-    letter-spacing: 0.05em;
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    --tag-bg: rgba(255, 255, 255, 0.15);
+    --tag-fg: #fff;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 11px 4px 9px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--tag-bg) 100%, white 12%) 0%,
+      var(--tag-bg) 100%
+    );
+    color: var(--tag-fg);
+    border: 1px solid color-mix(in srgb, var(--tag-bg) 75%, white 25%);
+    box-shadow:
+      0 1px 0 color-mix(in srgb, var(--tag-fg) 25%, transparent 75%) inset,
+      0 1px 3px rgba(0, 0, 0, 0.25),
+      0 0 0 1px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(4px);
+  }
+
+  .mg-tag::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.85;
+    box-shadow: 0 0 6px currentColor;
+    flex-shrink: 0;
   }
 
   .mg-cta {
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     margin-top: auto;
-    padding-top: 6px;
+    padding-top: 8px;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
   }
 
   .mg-card.fired,
@@ -262,15 +287,15 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
       0 -1px 0 rgba(0, 0, 0, 0.2) inset,
       0 0 0 1px rgba(255, 255, 255, 0.15) inset,
       0 0 30px rgba(255, 255, 255, 0.12);
-    height: 360px;
+    height: 400px;
   }
   .mg-card.fired .mg-cover,
   .mg-card:focus-within .mg-cover {
-    transform: scale(0.88) translateY(-4px);
+    transform: scale(0.86) translateY(-4px);
   }
   .mg-card.fired .mg-detail,
   .mg-card:focus-within .mg-detail {
-    max-height: 200px;
+    max-height: 220px;
     opacity: 1;
   }
 
