@@ -1,6 +1,12 @@
 ---
 import Anchor from "../Anchor.astro";
 import FooterWheelSVG from "./FooterWheelSVG.astro";
+import esStrings from "../../i18n/es";
+import enStrings from "../../i18n/en";
+import { dynamicColors } from "./typewriter-words";
+
+const locale = Astro.currentLocale === 'en' ? 'en' : 'es';
+const typewriterWords = locale === 'en' ? enStrings.footer.typewriterWords : esStrings.footer.typewriterWords;
 ---
 
 <section id="top_foot" class="flex j_sb">
@@ -24,11 +30,10 @@ import FooterWheelSVG from "./FooterWheelSVG.astro";
   </div>
 </section>
 
-<script>
-  import { dynamicWords, dynamicColors } from "./typewriter-words";
+<script define:vars={{ typewriterWords, dynamicColors }}>
 
   document.addEventListener("astro:page-load", () => {
-    function consoleText(words: string[], id: string, colors: string[]): void {
+    function consoleText(words, id, colors) {
       if (colors === undefined) colors = ["#fff"];
       let visible = true;
       const con = document.querySelector("#console");
@@ -46,9 +51,9 @@ import FooterWheelSVG from "./FooterWheelSVG.astro";
           waiting = true;
           target.innerHTML = words[0].substring(0, letterCount);
           window.setTimeout(function () {
-            const usedColor = colors.shift()!;
+            const usedColor = colors.shift();
             colors.push(usedColor);
-            const usedWord = words.shift()!;
+            const usedWord = words.shift();
             words.push(usedWord);
             x = 1;
             target.setAttribute(
@@ -83,7 +88,7 @@ import FooterWheelSVG from "./FooterWheelSVG.astro";
       }, 400);
     }
 
-    consoleText([...dynamicWords], "#dinamic_text", [...dynamicColors]);
+    consoleText([...typewriterWords], "#dinamic_text", [...dynamicColors]);
   });
 </script>
 

@@ -1,5 +1,3 @@
-export const dynamicWords: string[] = ["Marca.", "Negocio.", "Valor.", "Potencial."];
-
 export const dynamicColors: string[] = [
   "fuchsia", "lime", "yellow", "blue", "aqua", "orange", "hotpink", "lawngreen",
   "cyan", "magenta", "springgreen", "dodgerblue", "deeppink", "chartreuse",

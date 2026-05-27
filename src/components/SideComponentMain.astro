@@ -1,32 +1,23 @@
 ---
+import esStrings from "../i18n/es";
+import enStrings from "../i18n/en";
 
+const locale = Astro.currentLocale === 'en' ? 'en' : 'es';
+const nouns = locale === 'en' ? enStrings.sidebar.carouselNouns : esStrings.sidebar.carouselNouns;
 ---
 
 <p id="carousel" class="container Poppins-R text_center"></p>
 
-<script>
-    const nouns = [
-        "Software Developer",
-        "Dev in dev",
-        "Pizza Time",
-        '"FullStack"',
-        "Frontend",
-        "Backend",
-        "AI-pilled",
-        "Implementation Lead",
-        "Architecture-pilled",
-        "Gamer"
-    ];
-
+<script define:vars={{ nouns }}>
     const FADE_MS = 600;
     const CYCLE_MS = 20000;
 
     let lastIndex = -1;
-    let cycleIntervalId: ReturnType<typeof setInterval> | null = null;
-    let pendingFadeOut: ((e: TransitionEvent) => void) | null = null;
+    let cycleIntervalId = null;
+    let pendingFadeOut = null;
 
-    function pickNext(): string {
-        let idx: number;
+    function pickNext() {
+        let idx;
         do {
             idx = Math.floor(Math.random() * nouns.length);
         } while (idx === lastIndex && nouns.length > 1);
@@ -35,7 +26,7 @@
     }
 
     function initCarousel() {
-        const carousel = document.querySelector<HTMLElement>("#carousel");
+        const carousel = document.querySelector("#carousel");
         if (!carousel) return;
 
         // Cleanup previous interval + orphan listener (Astro view transitions re-fire astro:page-load)
@@ -67,9 +58,9 @@
             }
             // Fade out
             carousel.style.opacity = '0';
-            pendingFadeOut = (e: TransitionEvent) => {
+            pendingFadeOut = (e) => {
                 if (e.propertyName !== 'opacity') return;
-                carousel.removeEventListener('transitionend', pendingFadeOut!);
+                carousel.removeEventListener('transitionend', pendingFadeOut);
                 pendingFadeOut = null;
                 // Swap text while invisible (opacity is literally 0)
                 carousel.textContent = pickNext();

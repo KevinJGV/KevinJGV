@@ -11,6 +11,22 @@ export default {
   tools: { muteAria: "Mute/Unmute music", localeToggleAria: "Switch language" },
   sidebar: {
     statusAvailable: "Available",
+    carouselNouns: [
+      "Software Developer",
+      "Dev in dev",
+      "Pizza Time",
+      '"FullStack"',
+      "Frontend",
+      "Backend",
+      "AI-pilled",
+      "Implementation Lead",
+      "Architecture-pilled",
+      "Gamer",
+      "Empanada Lover",
+    ],
+  },
+  footer: {
+    typewriterWords: ["Brand.", "Business.", "Value.", "Potential."],
   },
   home: {
     hero: {
