@@ -27,3 +27,6 @@ pnpm-debug.log*
 .claude/.credentials.json
 
 .cv/
+
+# Visual brainstorming companion (superpowers skill)
+.superpowers/
