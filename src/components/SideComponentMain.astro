@@ -18,23 +18,54 @@
         "Gamer"
     ];
 
+    const FADE_MS = 600;
+    const CYCLE_MS = 20000;
+
+    let lastIndex = -1;
+    let cycleIntervalId: ReturnType<typeof setInterval> | null = null;
+
+    function pickNext(): string {
+        let idx: number;
+        do {
+            idx = Math.floor(Math.random() * nouns.length);
+        } while (idx === lastIndex && nouns.length > 1);
+        lastIndex = idx;
+        return nouns[idx];
+    }
+
     function initCarousel() {
         const carousel = document.querySelector<HTMLElement>("#carousel");
         if (!carousel) return;
 
-        carousel.textContent = nouns[Math.floor(Math.random() * nouns.length)];
-        carousel.classList.add("fade-in-text");
+        // Cleanup previous interval (Astro view transitions re-fire astro:page-load)
+        if (cycleIntervalId !== null) {
+            clearInterval(cycleIntervalId);
+            cycleIntervalId = null;
+        }
 
-        setInterval(() => {
-            carousel.classList.remove("fade-in-text");
-            carousel.classList.add("fade-out-text");
+        // Reset state, set first word invisible then fade in
+        carousel.textContent = pickNext();
+        carousel.style.opacity = '0';
+        requestAnimationFrame(() => {
+            carousel.style.opacity = '1';
+        });
 
-            setTimeout(() => {
-                carousel.textContent = nouns[Math.floor(Math.random() * nouns.length)];
-                carousel.classList.remove("fade-out-text");
-                carousel.classList.add("fade-in-text");
-            }, 3000);
-        }, 20000);
+        cycleIntervalId = setInterval(() => {
+            // Fade out
+            carousel.style.opacity = '0';
+            const onFadeOut = (e: TransitionEvent) => {
+                if (e.propertyName !== 'opacity') return;
+                carousel.removeEventListener('transitionend', onFadeOut);
+                // Swap text while invisible (opacity is literally 0)
+                carousel.textContent = pickNext();
+                // Force browser to paint a frame with opacity:0 + new text
+                // before transitioning opacity back to 1 — eliminates flash
+                requestAnimationFrame(() => {
+                    carousel.style.opacity = '1';
+                });
+            };
+            carousel.addEventListener('transitionend', onFadeOut);
+        }, CYCLE_MS);
     }
 
     document.addEventListener("astro:page-load", initCarousel);
@@ -48,117 +79,13 @@
         position: relative;
         flex-grow: 2;
         line-height: 0;
+        opacity: 1;
+        transition: opacity 0.6s ease-in-out;
     }
 
-    .fade-in-text {
-        animation: fadeIn 4s;
-        -webkit-animation: fadeIn 4s;
-        -moz-animation: fadeIn 4s;
-        -o-animation: fadeIn 4s;
-        -ms-animation: fadeIn 4s;
-    }
-
-    @keyframes fadeIn {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
+    @media screen and (max-height: 600px) {
+        p {
+            display: none;
         }
     }
-
-    @-moz-keyframes fadeIn {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-
-    @-webkit-keyframes fadeIn {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-
-    @-o-keyframes fadeIn {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-
-    @-ms-keyframes fadeIn {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-
-    .fade-out-text {
-        animation: fadeOut 3s forwards;
-        -webkit-animation: fadeOut 3s forwards;
-        -moz-animation: fadeOut 3s forwards;
-        -o-animation: fadeOut 3s forwards;
-        -ms-animation: fadeOut 3s forwards;
-    }
-
-    @keyframes fadeOut {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-
-    @-moz-keyframes fadeOut {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-
-    @-webkit-keyframes fadeOut {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-
-    @-o-keyframes fadeOut {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-
-    @-ms-keyframes fadeOut {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-
-    @media screen and (max-height: 600px) { 
-		p {
-			display: none;
-		}
-	}
 </style>
