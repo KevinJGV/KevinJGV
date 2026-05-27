@@ -97,6 +97,9 @@ export default {
       ],
     },
   },
+  spotify: {
+    listeningNow: "Listening now:",
+  },
   contact: {
     heading1: "Give me your contact",
     intro: "I'm always open to proposals — got one?",

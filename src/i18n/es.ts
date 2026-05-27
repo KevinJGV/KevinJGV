@@ -98,6 +98,9 @@ export default {
       ],
     },
   },
+  spotify: {
+    listeningNow: "Escuchando ahora:",
+  },
   contact: {
     heading1: "Dame tu contacto",
     intro: "Siempre estoy abierto a propuestas, ¿tienes alguna?",

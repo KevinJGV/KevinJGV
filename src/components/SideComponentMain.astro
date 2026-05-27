@@ -2,22 +2,38 @@
 import esStrings from "../i18n/es";
 import enStrings from "../i18n/en";
 
-const locale = Astro.currentLocale === 'en' ? 'en' : 'es';
-const nouns = locale === 'en' ? enStrings.sidebar.carouselNouns : esStrings.sidebar.carouselNouns;
+const nounsEs = esStrings.sidebar.carouselNouns;
+const nounsEn = enStrings.sidebar.carouselNouns;
 ---
 
-<p id="carousel" class="container Poppins-R text_center"></p>
+<p
+  id="carousel"
+  class="container Poppins-R text_center"
+  data-nouns-es={JSON.stringify(nounsEs)}
+  data-nouns-en={JSON.stringify(nounsEn)}
+></p>
 
-<script define:vars={{ nouns }}>
+<script>
     const FADE_MS = 600;
     const CYCLE_MS = 20000;
 
     let lastIndex = -1;
-    let cycleIntervalId = null;
-    let pendingFadeOut = null;
+    let cycleIntervalId: ReturnType<typeof setInterval> | null = null;
+    let pendingFadeOut: ((e: TransitionEvent) => void) | null = null;
 
-    function pickNext() {
-        let idx;
+    function getNouns(carousel: HTMLElement): string[] {
+        const onEn = window.location.pathname.startsWith('/en');
+        const raw = onEn ? carousel.dataset.nounsEn : carousel.dataset.nounsEs;
+        try {
+            return raw ? JSON.parse(raw) : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function pickNext(nouns: string[]): string {
+        if (nouns.length === 0) return '';
+        let idx: number;
         do {
             idx = Math.floor(Math.random() * nouns.length);
         } while (idx === lastIndex && nouns.length > 1);
@@ -26,8 +42,11 @@ const nouns = locale === 'en' ? enStrings.sidebar.carouselNouns : esStrings.side
     }
 
     function initCarousel() {
-        const carousel = document.querySelector("#carousel");
+        const carousel = document.querySelector<HTMLElement>("#carousel");
         if (!carousel) return;
+
+        const nouns = getNouns(carousel);
+        if (nouns.length === 0) return;
 
         // Cleanup previous interval + orphan listener (Astro view transitions re-fire astro:page-load)
         if (cycleIntervalId !== null) {
@@ -43,27 +62,29 @@ const nouns = locale === 'en' ? enStrings.sidebar.carouselNouns : esStrings.side
         carousel.style.setProperty('--fade-duration', `${FADE_MS}ms`);
 
         // Reset state, set first word invisible then fade in
-        carousel.textContent = pickNext();
+        lastIndex = -1;
+        carousel.textContent = pickNext(nouns);
         carousel.style.opacity = '0';
         requestAnimationFrame(() => {
             carousel.style.opacity = '1';
         });
 
         cycleIntervalId = setInterval(() => {
+            const currentNouns = getNouns(carousel);
+            if (currentNouns.length === 0) return;
             // Clear any orphan listener from a cancelled previous transition
-            // (e.g. tab hidden mid-fade, or @media display:none activated)
             if (pendingFadeOut !== null) {
                 carousel.removeEventListener('transitionend', pendingFadeOut);
                 pendingFadeOut = null;
             }
             // Fade out
             carousel.style.opacity = '0';
-            pendingFadeOut = (e) => {
+            pendingFadeOut = (e: TransitionEvent) => {
                 if (e.propertyName !== 'opacity') return;
-                carousel.removeEventListener('transitionend', pendingFadeOut);
+                carousel.removeEventListener('transitionend', pendingFadeOut!);
                 pendingFadeOut = null;
                 // Swap text while invisible (opacity is literally 0)
-                carousel.textContent = pickNext();
+                carousel.textContent = pickNext(currentNouns);
                 // Force browser to paint a frame with opacity:0 + new text
                 // before transitioning opacity back to 1 — eliminates flash
                 requestAnimationFrame(() => {

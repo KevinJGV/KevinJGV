@@ -1,4 +1,6 @@
 ---
+import { tFor } from "../../i18n";
+const t = tFor(Astro);
 ---
 
 <section class="bottom-section Poppins-R flex relative s_b">
@@ -13,7 +15,7 @@
       <rect class="eq-bar eq-bar--2" x="10.2" y="4" width="3.7" height="16"></rect>
       <rect class="eq-bar eq-bar--3" x="16.3" y="4" width="3.7" height="11"></rect>
     </svg>
-    <p>Escuchando ahora:</p>
+    <p>{t('spotify.listeningNow')}</p>
     <div class="carrousel">
       <p class="textoscroll">00:00 - Siddharta</p>
     </div>
