@@ -18,6 +18,8 @@ let pendingEvent: MouseEvent | null = null;
 
 const bases = new Map<Card, BaseRect>();
 
+let resizeCleanup: (() => void) | null = null;
+
 function cacheBases(stage: Stage, cards: Card[]): void {
   const sr = stage.getBoundingClientRect();
   for (const c of cards) {
@@ -206,6 +208,15 @@ export function initMagneticCards(): void {
   const cards = Array.from(stage.querySelectorAll<HTMLElement>('.mg-card'));
   if (cards.length === 0) return;
 
+  // Reset module state from any previous init (Astro view transitions re-call this)
+  if (rafId !== null) {
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+  pendingEvent = null;
+  firedCard = null;
+  bases.clear();
+
   cacheBases(stage, cards);
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -233,5 +244,8 @@ export function initMagneticCards(): void {
     });
   }
 
-  window.addEventListener('resize', () => cacheBases(stage, cards));
+  resizeCleanup?.();
+  const onResize = () => cacheBases(stage, cards);
+  window.addEventListener('resize', onResize);
+  resizeCleanup = () => window.removeEventListener('resize', onResize);
 }
