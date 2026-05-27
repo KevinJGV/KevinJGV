@@ -13,16 +13,12 @@ function zoneFor(idx: number, total: number) {
 
 <section id="casos">
   <h2 class="Dela"><span class="hidden_text">Real</span> CASOS</h2>
-  <div class="casos-stage">
-    <div class="casos-blob casos-blob-1"></div>
-    <div class="casos-blob casos-blob-2"></div>
-    <div class="casos-blob casos-blob-3"></div>
-    <div class="casos-grid"></div>
-    <div class="casos-cards">
-      {
-        cases.map((caseItem, idx) => {
-          const zones = zoneFor(idx, cases.length);
-          return (
+  <div class="casos-cards">
+    {
+      cases.map((caseItem, idx) => {
+        const zones = zoneFor(idx, cases.length);
+        return (
+          <div class="casos-slot">
             <Card
               text={caseItem.text}
               href={caseItem.href}
@@ -37,10 +33,10 @@ function zoneFor(idx: number, total: number) {
               zoneRight={zones.zoneRight}
               zoneVert={zones.zoneVert}
             />
-          );
-        })
-      }
-    </div>
+          </div>
+        );
+      })
+    }
   </div>
   <blockquote class="text_center">
     <Anchor
@@ -72,64 +68,27 @@ function zoneFor(idx: number, total: number) {
     opacity: 0.5;
   }
 
-  .casos-stage {
-    position: relative;
-    min-height: 440px;
-    border-radius: 16px;
-    overflow: hidden;
-    padding: 40px 24px;
-    background:
-      radial-gradient(ellipse at 20% 30%, #1a3a52 0%, #0a1929 60%),
-      #0a1929;
-  }
-
-  .casos-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(1px);
-    opacity: 0.75;
-    pointer-events: none;
-  }
-  .casos-blob-1 {
-    width: 320px;
-    height: 320px;
-    background: #5e4ae3;
-    top: 0;
-    left: 5%;
-  }
-  .casos-blob-2 {
-    width: 260px;
-    height: 260px;
-    background: #e07a5f;
-    top: 40%;
-    right: 3%;
-  }
-  .casos-blob-3 {
-    width: 240px;
-    height: 240px;
-    background: #1d4e3f;
-    bottom: -5%;
-    left: 30%;
-  }
-
-  .casos-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 32px 32px;
-    pointer-events: none;
-  }
-
   .casos-cards {
-    position: relative;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    gap: 24px;
-    min-height: 360px;
-    z-index: 1;
+    gap: 32px;
+    margin-block: 2rem;
+  }
+
+  /*
+   * casos-slot reserva el espacio máximo (estado fired) por cada card.
+   * El <a class="mg-card"> dentro transiciona height 320 → 400 libremente
+   * sin afectar layout: el slot mantiene sus dimensiones fijas + overflow visible.
+   * Esto elimina el shift en cascade que afectaba al blockquote inferior.
+   */
+  .casos-slot {
+    width: 280px;
+    height: 400px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-shrink: 0;
   }
 
   #casos blockquote {
@@ -138,14 +97,15 @@ function zoneFor(idx: number, total: number) {
   }
 
   @media screen and (max-width: 1075px) {
-    .casos-stage {
-      min-height: auto;
-      padding: 32px 16px;
-    }
     .casos-cards {
       flex-direction: column;
       align-items: center;
       gap: 20px;
+    }
+    .casos-slot {
+      width: 100%;
+      max-width: 320px;
+      height: 400px;
     }
   }
 
