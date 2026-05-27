@@ -1,15 +1,18 @@
 ---
-import { tFor } from "../i18n";
+import { tFor, getAlternatePath, type Locale } from "../i18n";
 const t = tFor(Astro);
+const locale: Locale = Astro.currentLocale === 'en' ? 'en' : 'es';
+const meHref = getAlternatePath('/me', locale);
+const contactHref = getAlternatePath('/contact', locale);
 ---
 
 <aside class="flex relative fixed j_sb unselected">
-	<a href="/me" id="vin" class="Alumni relative flex">
+	<a href={meHref} id="vin" class="Alumni relative flex">
 		<span class="relative">.:</span>
 		<span>VIN</span>
 	</a>
 	<slot name="side-component" />
-	<a href="/contact" id="avilable" class="Poppins-R flex">
+	<a href={contactHref} id="avilable" class="Poppins-R flex">
 		<strong>•</strong>
 		<span>{t('sidebar.statusAvailable')}</span>
 	</a>

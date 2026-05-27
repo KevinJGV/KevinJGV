@@ -1,7 +1,9 @@
 ---
 import TextHighlighted from "../Highlighter.astro";
-import { tFor } from "../../i18n";
+import { tFor, getAlternatePath, type Locale } from "../../i18n";
 const t = tFor(Astro);
+const locale: Locale = Astro.currentLocale === 'en' ? 'en' : 'es';
+const contactHref = getAlternatePath('/contact', locale);
 ---
 
 <article id="home1" class="home_article flex relative">
@@ -20,7 +22,7 @@ const t = tFor(Astro);
         />
       </i>
       <p class="Poppins-S">
-        {t('home.hero.status')}<br /><a href="/contact">{t('home.hero.statusCta')}</a>
+        {t('home.hero.status')}<br /><a href={contactHref}>{t('home.hero.statusCta')}</a>
       </p>
     </div>
     <div id="home1_bot" class="Poppins-R">

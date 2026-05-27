@@ -27,6 +27,8 @@ export default {
   },
   footer: {
     typewriterWords: ["Brand.", "Business.", "Value.", "Potential."],
+    typewriterPrefix: "Grow your ",
+    contactCta: "Contact me",
   },
   home: {
     hero: {

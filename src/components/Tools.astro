@@ -24,24 +24,42 @@ const t = tFor(Astro);
     top: 15px;
     right: 15px;
     height: 50px;
-    /* gap: 1.2rem; */
     z-index: 99;
     border-radius: 115px;
     padding-inline: 15px;
-    /* align-items: center; */
+    transform-origin: top right;
+    animation: tools-grow-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes tools-grow-in {
+    from {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   /* Audio control hidden until first interaction (browser autoplay policy);
-     locale-control and rest of toolbar always visible from initial load. */
+     locale-control and rest of toolbar always visible from initial load.
+     Uses max-width + opacity (NOT display:none) so the toolbar grows
+     smoothly when audio button appears — no layout hole, no snap. */
   #audio-control {
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    max-width: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.4s ease,
+      max-width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   #audio-control.visible {
     opacity: 1;
-    visibility: visible;
+    max-width: 50px;
+    pointer-events: auto;
   }
 
   .tool {

@@ -4,15 +4,19 @@ import FooterWheelSVG from "./FooterWheelSVG.astro";
 import esStrings from "../../i18n/es";
 import enStrings from "../../i18n/en";
 import { dynamicColors } from "./typewriter-words";
+import { tFor, getAlternatePath, type Locale } from "../../i18n";
 
+const locale: Locale = Astro.currentLocale === 'en' ? 'en' : 'es';
+const t = tFor(Astro);
 const wordsEs = esStrings.footer.typewriterWords;
 const wordsEn = enStrings.footer.typewriterWords;
+const contactHref = getAlternatePath('/contact', locale);
 ---
 
 <section id="top_foot" class="flex j_sb">
   <div>
     <h3 class="Dela">
-      Crece tu <span
+      {t('footer.typewriterPrefix')}<span
         id="dinamic_text"
         data-words-es={JSON.stringify(wordsEs)}
         data-words-en={JSON.stringify(wordsEn)}
@@ -20,8 +24,8 @@ const wordsEn = enStrings.footer.typewriterWords;
       ></span><span id="console"> █ </span>
     </h3>
     <Anchor
-      href="/contact"
-      text="Contactame"
+      href={contactHref}
+      text={t('footer.contactCta')}
       max_font_size="2rem"
       min_font_size="2rem"
       bgHeight="2.2rem"
