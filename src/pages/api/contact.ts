@@ -5,30 +5,50 @@ export const prerender = false;
 
 const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
+const messages = {
+  es: {
+    missingFields: 'Campos requeridos faltantes',
+    invalidData: 'Datos inválidos',
+    sendFailure: 'Fallo envío',
+    fromName: 'Contacto desde Portafolio',
+    subject: (n: string) => `Contacto portafolio — ${n}`,
+  },
+  en: {
+    missingFields: 'Required fields missing',
+    invalidData: 'Invalid data',
+    sendFailure: 'Send failure',
+    fromName: 'Portfolio Contact',
+    subject: (n: string) => `Portfolio contact — ${n}`,
+  },
+} as const;
+
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData();
   const nombre = String(data.get('nombre') ?? '').trim();
   const email = String(data.get('email') ?? '').trim();
   const descripcion = String(data.get('descripcion') ?? '').trim();
   const gotcha = String(data.get('_gotcha') ?? '');
+  const locale = String(data.get('locale') ?? 'es') === 'en' ? 'en' : 'es';
+  const m = messages[locale];
 
   if (gotcha) {
-    return Response.redirect(new URL('/contact?ok=1', request.url), 303);
+    const successPath = locale === 'en' ? '/en/contact?ok=1' : '/contact?ok=1';
+    return Response.redirect(new URL(successPath, request.url), 303);
   }
 
   if (!nombre || !email || !descripcion) {
-    return new Response('Campos requeridos faltantes', { status: 400 });
+    return new Response(m.missingFields, { status: 400 });
   }
 
   if (nombre.length > 25 || descripcion.length > 500) {
-    return new Response('Datos inválidos', { status: 400 });
+    return new Response(m.invalidData, { status: 400 });
   }
 
   const { error } = await resend.emails.send({
-    from: 'Contacto desde Portafolio <noreply@vindevsito.dev>',
+    from: `${m.fromName} <noreply@vindevsito.dev>`,
     to: 'vin.devsito@gmail.com',
     replyTo: email,
-    subject: `Contacto portafolio — ${nombre}`,
+    subject: m.subject(nombre),
     text: descripcion,
     headers: {
       'X-Priority': '1',
@@ -39,8 +59,9 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (error) {
     console.error('Resend error:', error);
-    return new Response('Fallo envío', { status: 502 });
+    return new Response(m.sendFailure, { status: 502 });
   }
 
-  return Response.redirect(new URL('/contact?ok=1', request.url), 303);
+  const successPath = locale === 'en' ? '/en/contact?ok=1' : '/contact?ok=1';
+  return Response.redirect(new URL(successPath, request.url), 303);
 };
