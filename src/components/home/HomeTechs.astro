@@ -87,15 +87,33 @@ const mv = "5px";
     );
   }
 
+  /* Responsive: reduce --s progresivamente + ajusta padding-bottom
+     para acomodar más filas cuando viewport se estrecha y los hex
+     se apilan más. */
+  @media screen and (max-width: 1075px) {
+    .techs_container {
+      --s: 100px;
+    }
+  }
+
   @media screen and (max-width: 780px) {
     .hidden_text {
       opacity: 0.5;
     }
+    .techs_container {
+      --s: 85px;
+    }
+    .techs_container ul {
+      padding-bottom: 300px;
+    }
   }
 
   @media screen and (max-width: 460px) {
+    .techs_container {
+      --s: 70px;
+    }
     .techs_container ul {
-      padding-bottom: 600px;
+      padding-bottom: 500px;
     }
   }
 </style>
