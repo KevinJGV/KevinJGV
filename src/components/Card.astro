@@ -75,8 +75,8 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
 
 <style>
   .mg-card {
-    width: 280px;
-    height: 320px;
+    width: 95%;
+    height: 90%;
     border-radius: 22px;
     padding: 18px;
     display: flex;
@@ -177,9 +177,10 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
 
   .mg-meta {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     gap: 8px;
-    font-size: 0.95rem;
+    font-size: clamp(0.95rem, 0.0774rem + 1.7936vw, 1rem);
     line-height: 1;
     opacity: 0.65;
     text-transform: uppercase;
@@ -189,7 +190,7 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
   }
 
   .mg-title {
-    font-size: 1rem;
+    font-size: clamp(1rem, 0.0774rem + 1.7936vw, 1.1rem);
     line-height: 1.35;
     margin: 0;
     position: relative;
@@ -211,7 +212,7 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
   }
 
   .mg-role {
-    font-size: 1rem;
+    font-size: clamp(0.95rem, 0.0774rem + 1.7936vw, 1rem);
     line-height: 1;
     opacity: 0.7;
     text-transform: uppercase;
@@ -219,6 +220,7 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
   }
 
   .mg-tags {
+    font-size: clamp(0.95rem, 0.0774rem + 1.7936vw, 1rem);
     list-style: none;
     padding: 0;
     margin: 0;
