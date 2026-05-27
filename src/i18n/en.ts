@@ -29,6 +29,9 @@ export default {
     typewriterWords: ["Brand.", "Business.", "Value.", "Potential."],
     typewriterPrefix: "Grow your ",
     contactCta: "Contact me",
+    socialHeading: "More about me",
+    creditsBefore: "Taking off to success 🚀... thanks to ",
+    creditsAfter: " and some coffee ☕",
   },
   home: {
     hero: {

@@ -2,12 +2,14 @@
 import Anchor from "./Anchor.astro";
 import FooterTypewriter from "./footer/FooterTypewriter.astro";
 import FooterSocial from "./footer/FooterSocial.astro";
+import { tFor } from "../i18n";
 
 interface Props {
   no_top_foot?: boolean;
 }
 
 const { no_top_foot = false } = Astro.props;
+const t = tFor(Astro);
 ---
 
 <footer>
@@ -17,13 +19,13 @@ const { no_top_foot = false } = Astro.props;
     <p class="copyright">©<span id="curYear"></span> VIN-DEV</p>
   </section>
   <section id="bot_foot" class="text_center Poppins-R">
-    Despegando al éxito 🚀... gracias a <Anchor
+    {t('footer.creditsBefore')}<Anchor
       href="https://astro.build/"
       max_font_size="1rem"
       min_font_size="1rem"
       text="Astro"
       bgHeight="1.2rem"
-    /> y algo de café ☕
+    />{t('footer.creditsAfter')}
   </section>
 </footer>
 

@@ -1,7 +1,9 @@
 ---
+import { tFor } from "../../i18n";
+const t = tFor(Astro);
 ---
 <div>
-  <p>Más sobre mí</p>
+  <p>{t('footer.socialHeading')}</p>
   <div id="social_media" class="flex">
     <a href="https://github.com/KevinJGV" target="_blank" rel="noopener noreferrer">
       <svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24">

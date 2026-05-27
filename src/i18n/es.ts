@@ -30,6 +30,9 @@ export default {
     typewriterWords: ["Marca.", "Negocio.", "Valor.", "Potencial."],
     typewriterPrefix: "Crece tu ",
     contactCta: "Contactame",
+    socialHeading: "Más sobre mí",
+    creditsBefore: "Despegando al éxito 🚀... gracias a ",
+    creditsAfter: " y algo de café ☕",
   },
   home: {
     hero: {
