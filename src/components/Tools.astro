@@ -29,12 +29,17 @@ const t = tFor(Astro);
     border-radius: 115px;
     padding-inline: 15px;
     /* align-items: center; */
+  }
+
+  /* Audio control hidden until first interaction (browser autoplay policy);
+     locale-control and rest of toolbar always visible from initial load. */
+  #audio-control {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s ease, visibility 0.5s ease;
   }
 
-  #tools.visible {
+  #audio-control.visible {
     opacity: 1;
     visibility: visible;
   }
@@ -161,34 +166,34 @@ const t = tFor(Astro);
 
 <script>
   let audioControlInitialized = false;
-  let toolsVisible = false;
-  
-  function showToolsOnFirstInteraction() {
-    if (toolsVisible) return;
-    
-    const toolsElement = document.getElementById('tools');
-    if (toolsElement) {
-      toolsElement.classList.add('visible');
-      toolsVisible = true;
-      sessionStorage.setItem('toolsVisible', 'true');
+  let audioControlVisible = false;
+
+  function showAudioControlOnFirstInteraction() {
+    if (audioControlVisible) return;
+
+    const audioControlElement = document.getElementById('audio-control');
+    if (audioControlElement) {
+      audioControlElement.classList.add('visible');
+      audioControlVisible = true;
+      sessionStorage.setItem('audioControlVisible', 'true');
     }
   }
-  
-  function restoreToolsVisibility() {
-    const savedVisibility = sessionStorage.getItem('toolsVisible');
+
+  function restoreAudioControlVisibility() {
+    const savedVisibility = sessionStorage.getItem('audioControlVisible');
     if (savedVisibility === 'true') {
-      const toolsElement = document.getElementById('tools');
-      if (toolsElement) {
-        toolsElement.classList.add('visible');
-        toolsVisible = true;
+      const audioControlElement = document.getElementById('audio-control');
+      if (audioControlElement) {
+        audioControlElement.classList.add('visible');
+        audioControlVisible = true;
       }
     }
   }
-  
+
   function setupFirstInteractionDetection() {
-    restoreToolsVisibility();
-    
-    if (toolsVisible) return;
+    restoreAudioControlVisibility();
+
+    if (audioControlVisible) return;
     
     const interactionEvents = [
       'click',
@@ -204,7 +209,7 @@ const t = tFor(Astro);
     ];
     
     const handleFirstInteraction = () => {
-      showToolsOnFirstInteraction();
+      showAudioControlOnFirstInteraction();
       
       interactionEvents.forEach(eventType => {
         document.removeEventListener(eventType, handleFirstInteraction);
@@ -365,7 +370,7 @@ const t = tFor(Astro);
   }
 
   function initializeTools() {
-    restoreToolsVisibility();
+    restoreAudioControlVisibility();
     setupFirstInteractionDetection();
     initAudioControl();
     initLocaleToggle();
@@ -382,6 +387,6 @@ const t = tFor(Astro);
   document.addEventListener('astro:before-preparation', cleanupAudioControl);
 
   setTimeout(() => {
-    restoreToolsVisibility();
+    restoreAudioControlVisibility();
   }, 100);
 </script>
