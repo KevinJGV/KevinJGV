@@ -13,7 +13,7 @@ export interface Case {
 
 export const cases: Case[] = [
   {
-    text: "SaaS B2B desde MVP — motor de agentes IA + liderazgo de implementación",
+    text: "SaaS B2C desde MVP — motor de agentes IA + liderazgo de implementación",
     company: "Clonai",
     role: "FullStack Developer / Líder Implementador",
     period: "02/2025 – 05/2026",
