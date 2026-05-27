@@ -2,7 +2,7 @@
 
 ---
 
-<aside class="flex relative fixed j_sb unselected glass0">
+<aside class="flex relative fixed j_sb unselected">
 	<a href="/me" id="vin" class="Alumni relative flex">
 		<span class="relative">.:</span>
 		<span>VIN</span>
@@ -30,14 +30,55 @@
 
 	aside {
 		padding: 20px 15px;
-		border: 1px solid var(--border);
-		border-radius: 5px;
+		border: 1px solid transparent;
+		border-radius: 14px;
 		writing-mode: vertical-lr;
 		transform: rotate(180deg);
 		top: 5px;
 		left: 5px;
 		bottom: 5px;
 		overflow: hidden;
+
+		/* Liquid glass material — idéntico al stack de cards */
+		background: linear-gradient(
+			135deg,
+			rgba(255, 255, 255, 0.18) 0%,
+			rgba(255, 255, 255, 0.03) 55%,
+			rgba(255, 255, 255, 0.1) 100%
+		);
+		backdrop-filter: url(#glassRefract) blur(12px) saturate(180%) brightness(108%);
+		-webkit-backdrop-filter: url(#glassRefract) blur(12px) saturate(180%) brightness(108%);
+		box-shadow:
+			0 12px 36px rgba(0, 0, 0, 0.35),
+			0 1px 0 rgba(255, 255, 255, 0.3) inset,
+			0 -1px 0 rgba(0, 0, 0, 0.18) inset,
+			0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+	}
+
+	/* Gradient border via mask-composite — funciona porque no hay clip-path */
+	aside::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		padding: 1px;
+		background: linear-gradient(
+			135deg,
+			rgba(255, 255, 255, 0.6) 0%,
+			rgba(255, 255, 255, 0.1) 30%,
+			rgba(255, 255, 255, 0.05) 70%,
+			rgba(255, 255, 255, 0.4) 100%
+		);
+		-webkit-mask:
+			linear-gradient(#000, #000) content-box,
+			linear-gradient(#000, #000);
+		-webkit-mask-composite: xor;
+		mask:
+			linear-gradient(#000 0 0) content-box,
+			linear-gradient(#000 0 0);
+		mask-composite: exclude;
+		pointer-events: none;
+		z-index: 1;
 	}
 
 	aside strong {
