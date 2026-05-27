@@ -5,14 +5,15 @@ import Sidebar from "../components/Sidebar.astro";
 import SideComponent from "../components/SideComponentMain.astro";
 import Main from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
+import { tFor } from "../i18n";
+const t = tFor(Astro);
 ---
-<Layout title="Contacto">
+<Layout title={t('pages.contact.title')}>
 	<Navbar
 		slot="navbar"
 		hrefs={{
-			// Recomendaciones: "/suggestions",
-			Inicio: "/",
-			"Sobre mí": "/me",
+			[t('nav.home')]: "/",
+			[t('nav.me')]: "/me",
 		}}
 	/>
 	<Sidebar slot="sidebar">
