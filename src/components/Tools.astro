@@ -7,6 +7,13 @@ const showPerfToggle = !!import.meta.env.PUBLIC_PERF_TOGGLE;
 ---
 
 <aside id="tools" class="flex fixed j_sa glass1">
+  <button id="tools-toggle" class="tool-hamburger" aria-label={t('tools.menuAria')} aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="4" y1="7" x2="20" y2="7"></line>
+      <line x1="4" y1="12" x2="20" y2="12"></line>
+      <line x1="4" y1="17" x2="20" y2="17"></line>
+    </svg>
+  </button>
   <section class="tool" id="audio-control">
     <button id="mute-button" aria-label={t('tools.muteAria')}>
       <svg id="volume-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -251,6 +258,68 @@ const showPerfToggle = !!import.meta.env.PUBLIC_PERF_TOGGLE;
     opacity: 0.5;
   }
 
+  /* Botón hamburguesa: oculto en desktop, visible en móvil */
+  .tool-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .tool-hamburger:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* ── Móvil: menú hamburguesa vertical, se expande mientras mantenga el foco ── */
+  @media screen and (max-width: 780px) {
+    #tools {
+      flex-direction: column;
+      align-items: center;
+      height: auto;
+      width: fit-content;
+      padding: 6px;
+      padding-inline: 6px;
+      border-radius: 28px;
+    }
+
+    .tool-hamburger {
+      display: flex;
+    }
+    /* indica menú abierto */
+    #tools:focus-within .tool-hamburger {
+      color: #9ecf95;
+    }
+
+    /* Controles colapsados por defecto; se despliegan sólo con foco dentro
+       del menú (:focus-within) y vuelven a colapsar al perderlo (tap fuera). */
+    #tools .tool {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      pointer-events: none;
+      transition:
+        max-height 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.3s ease;
+      gap: 0px;
+    }
+    #tools:focus-within .tool {
+      max-height: 50px;
+      opacity: 1;
+      pointer-events: auto;
+      gap: 4px;
+    }
+
+    /* el desenfoque hover de desktop no aplica en móvil */
+    #tools:hover > .tool:not(:hover) {
+      filter: none;
+      transform: none;
+    }
+  }
 </style>
 
 <script>
@@ -514,6 +583,28 @@ const showPerfToggle = !!import.meta.env.PUBLIC_PERF_TOGGLE;
     sync();
   }
 
+  // Menú hamburguesa (móvil): el despliegue lo maneja CSS vía :focus-within
+  // (se expande mientras el menú mantenga el foco, colapsa al tocar fuera).
+  // Acá sólo: sincronizar aria-expanded y permitir cerrar re-tocando el botón.
+  function initToolsMenu() {
+    const tools = document.getElementById('tools');
+    const toggle = document.getElementById('tools-toggle');
+    if (!tools || !toggle || tools.dataset.menuBound === '1') return;
+    tools.dataset.menuBound = '1';
+
+    const sync = () => toggle.setAttribute('aria-expanded', String(tools.contains(document.activeElement)));
+    tools.addEventListener('focusin', sync);
+    tools.addEventListener('focusout', () => setTimeout(sync, 0));
+
+    // Si el menú ya tiene el foco (abierto), re-tocar el botón lo cierra.
+    toggle.addEventListener('pointerdown', (e) => {
+      if (tools.contains(document.activeElement)) {
+        e.preventDefault(); // evita que el click vuelva a enfocar/abrir
+        (document.activeElement as HTMLElement | null)?.blur();
+      }
+    });
+  }
+
   function initializeTools() {
     restoreAudioControlVisibility();
     setupFirstInteractionDetection();
@@ -522,6 +613,7 @@ const showPerfToggle = !!import.meta.env.PUBLIC_PERF_TOGGLE;
     updateLocaleLabel();
     initPerfToggle();
     initNoiseToggle();
+    initToolsMenu();
   }
   
   if (document.readyState === 'loading') {
