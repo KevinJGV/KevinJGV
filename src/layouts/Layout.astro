@@ -85,10 +85,35 @@ const siteOrigin = Astro.site?.origin ?? 'https://vindevsito.dev';
           <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="7" result="noise"/>
           <feDisplacementMap in="SourceGraphic" in2="noise" scale="22" xChannelSelector="R" yChannelSelector="G" />
         </filter>
+        <!-- Hexagon fisheye: two linear gradient displacement maps (R horizontal,
+             G vertical) blended via screen → mid-gray center = no shift, edges
+             push outward = subtle radial bulge. Activated only on hover. -->
+        <!-- <filter id="hexFisheye" x="-40%" y="-40%" width="180%" height="180%">
+          <feImage
+            width="100%"
+            height="100%"
+            preserveAspectRatio="none"
+            href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><linearGradient id='x' x1='0' x2='1'><stop offset='0' stop-color='%23000'/><stop offset='1' stop-color='%23f00'/></linearGradient><rect width='100' height='100' fill='url(%23x)'/></svg>"
+            result="xMap"
+          />
+          <feImage
+            width="100%"
+            height="100%"
+            preserveAspectRatio="none"
+            href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><linearGradient id='y' x1='0' x2='0' y1='0' y2='1'><stop offset='0' stop-color='%23000'/><stop offset='1' stop-color='%2300ff00'/></linearGradient><rect width='100' height='100' fill='url(%23y)'/></svg>"
+            result="yMap"
+          />
+          <feBlend in="xMap" in2="yMap" mode="screen" result="dispmap" />
+          <feDisplacementMap in="SourceGraphic" in2="dispmap" scale="10" xChannelSelector="R" yChannelSelector="G" />
+        </filter> -->
       </defs>
     </svg>
     <!-- <CustomCursor data-astro-transition="swap" /> -->
     <div id="dot-container" class="fixed" transition:persist></div>
+    <!-- Capa de fondo WebGL (progressive enhancement): ruido + dots + gemas.
+         Oculta por defecto; el controlador la activa (html.gl-active) sólo si hay
+         WebGL y el rendimiento es bueno. Fallback = CSS actual (.noise + dots.ts). -->
+    <canvas id="bg-gl" transition:persist aria-hidden="true"></canvas>
     <audio
       id="audio-player"
       transition:persist
@@ -263,6 +288,79 @@ const siteOrigin = Astro.site?.origin ?? 'https://vindevsito.dev';
   });
 </script>
 <script src="/src/components/dots.ts"></script>
+
+<!-- Controlador del fondo WebGL (progressive enhancement) -->
+<script>
+  import { initGemGL } from "../utils/gemGL";
+
+  let destroyGL: (() => void) | null = null;
+
+  function hasWebGL(): boolean {
+    try {
+      const c = document.createElement("canvas");
+      return !!(c.getContext("webgl") || c.getContext("experimental-webgl"));
+    } catch { return false; }
+  }
+
+  // Flag manual (botón de Tools gated por env PUBLIC_PERF_TOGGLE): fuerza el
+  // fallback CSS liviano aunque haya WebGL.
+  function forcedLowPerf(): boolean {
+    try { return localStorage.getItem("forceLowPerf") === "1"; } catch { return false; }
+  }
+
+  function setupBgGL() {
+    const canvas = document.getElementById("bg-gl") as HTMLCanvasElement | null;
+    if (!canvas) return;
+    if (destroyGL) { destroyGL(); destroyGL = null; }
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !hasWebGL() || forcedLowPerf()) {
+      document.documentElement.classList.remove("gl-active"); // fallback CSS
+      return;
+    }
+    const techEls = Array.from(
+      document.querySelectorAll<HTMLElement>(".techs_container li:not(.li_hidden)")
+    );
+    document.documentElement.classList.add("gl-active");
+    destroyGL = initGemGL(canvas, {
+      fullViewport: true,
+      perInstanceLogo: true,
+      layoutEls: techEls,
+      onLowPerf: () => {
+        // FPS pésimo → bajar a los elementos livianos (CSS) en vivo.
+        if (destroyGL) { destroyGL(); destroyGL = null; }
+        document.documentElement.classList.remove("gl-active");
+      },
+    });
+  }
+
+  document.addEventListener("astro:page-load", setupBgGL);
+  // El botón de Tools cambió 'forceLowPerf' → re-evaluar (apaga o re-monta GL).
+  document.addEventListener("perf:toggle", setupBgGL);
+  document.addEventListener("astro:before-swap", () => {
+    if (destroyGL) { destroyGL(); destroyGL = null; }
+  });
+</script>
+
+<style is:global>
+  /* Capa de fondo WebGL: fija a viewport, detrás del contenido. Oculta hasta
+     que el controlador la active (html.gl-active). */
+  #bg-gl {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    display: none;
+  }
+  html.gl-active #bg-gl { display: block; }
+  /* Con el canvas activo, el fondo lo dibuja WebGL → ocultar ruido CSS + dots
+     + el visual del hex (conservando los <li> para layout/posiciones/a11y). */
+  html.gl-active body.noise { background: #000; }
+  html.gl-active #dot-container { display: none; }
+  html.gl-active .techs_container li { opacity: 0; }
+</style>
 <style>
   #dot-container {
     top: 0;

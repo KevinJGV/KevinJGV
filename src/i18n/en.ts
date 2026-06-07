@@ -8,7 +8,7 @@ export default {
   },
   pages: { home: { title: "Vin" }, me: { title: "About me" }, contact: { title: "Contact" } },
   nav: { home: "Home", me: "About me", contact: "Contact" },
-  tools: { muteAria: "Mute/Unmute music", localeToggleAria: "Switch language" },
+  tools: { muteAria: "Mute/Unmute music", localeToggleAria: "Switch language", perfToggleAria: "Toggle low-performance mode" },
   sidebar: {
     statusAvailable: "Available",
     carouselNouns: [

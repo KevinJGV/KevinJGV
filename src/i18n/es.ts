@@ -9,7 +9,7 @@ export default {
   },
   pages: { home: { title: "Vin" }, me: { title: "Sobre mí" }, contact: { title: "Contacto" } },
   nav: { home: "Inicio", me: "Sobre mí", contact: "Contacto" },
-  tools: { muteAria: "Silenciar/Activar música", localeToggleAria: "Cambiar idioma" },
+  tools: { muteAria: "Silenciar/Activar música", localeToggleAria: "Cambiar idioma", perfToggleAria: "Alternar modo de bajo rendimiento" },
   sidebar: {
     statusAvailable: "Disponible",
     carouselNouns: [

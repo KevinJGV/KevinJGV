@@ -1,6 +1,9 @@
 ---
 import { tFor } from "../i18n";
 const t = tFor(Astro);
+// Gate build-time: el botón de bajo rendimiento sólo se renderiza si existe la
+// env PUBLIC_PERF_TOGGLE (cualquier valor truthy). Sin la env, no hay botón.
+const showPerfToggle = !!import.meta.env.PUBLIC_PERF_TOGGLE;
 ---
 
 <aside id="tools" class="flex fixed j_sa glass1">
@@ -16,6 +19,15 @@ const t = tFor(Astro);
       <span class="locale-label">{(Astro.currentLocale === 'en' ? 'en' : 'es').toUpperCase()}</span>
     </button>
   </section>
+  {showPerfToggle && (
+    <section class="tool" id="perf-control">
+      <button id="perf-toggle" aria-label={t('tools.perfToggleAria')} aria-pressed="false" title="Bajo rendimiento (CSS)">
+        <svg id="perf-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/>
+        </svg>
+      </button>
+    </section>
+  )}
 </aside>
 
 <style>
@@ -178,6 +190,33 @@ const t = tFor(Astro);
   #locale-control button:hover {
     background-color: rgba(255, 255, 255, 0.1);
     transform: scale(1.1);
+  }
+
+  #perf-control button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #perf-control button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+  }
+
+  /* Estado activo = bajo rendimiento forzado (WebGL apagado) → ámbar */
+  #perf-control button[aria-pressed="true"] {
+    color: #ffb547;
+  }
+
+  #perf-control button:not([aria-pressed="true"]) #perf-icon {
+    opacity: 0.5;
   }
 
 </style>
@@ -387,12 +426,40 @@ const t = tFor(Astro);
     label.textContent = onEn ? 'EN' : 'ES';
   }
 
+  // Toggle de bajo rendimiento (sólo existe si la env PUBLIC_PERF_TOGGLE
+  // renderizó el botón). Persiste 'forceLowPerf' en localStorage y avisa al
+  // controlador del fondo WebGL (Layout) vía evento 'perf:toggle'.
+  function readForceLowPerf(): boolean {
+    try { return localStorage.getItem('forceLowPerf') === '1'; } catch (e) { return false; }
+  }
+
+  function initPerfToggle() {
+    const btn = document.getElementById('perf-toggle');
+    if (!btn) return; // no renderizado (sin env)
+
+    const sync = () => {
+      btn.setAttribute('aria-pressed', String(readForceLowPerf()));
+    };
+
+    if (btn.dataset.bound !== '1') {
+      btn.dataset.bound = '1';
+      btn.addEventListener('click', () => {
+        const next = !readForceLowPerf();
+        try { localStorage.setItem('forceLowPerf', next ? '1' : '0'); } catch (e) { /* ignore */ }
+        document.dispatchEvent(new CustomEvent('perf:toggle'));
+        sync();
+      });
+    }
+    sync();
+  }
+
   function initializeTools() {
     restoreAudioControlVisibility();
     setupFirstInteractionDetection();
     initAudioControl();
     initLocaleToggle();
     updateLocaleLabel();
+    initPerfToggle();
   }
   
   if (document.readyState === 'loading') {
