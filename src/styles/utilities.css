@@ -114,6 +114,24 @@
   background-repeat: repeat;
 }
 
+/* Film grain: salta el background-position en pasos discretos → el grano "hierve".
+   Solo en la versión liviana (sin .gl-active: en WebGL el grano lo hace el shader),
+   respetando prefers-reduced-motion y el toggle del toolbar (html.noise-paused). */
+@keyframes noise-shift {
+  0%   { background-position: 0 0; }
+  20%  { background-position: -8px 4px; }
+  40%  { background-position: 6px -10px; }
+  60%  { background-position: -12px 8px; }
+  80%  { background-position: 10px -6px; }
+  100% { background-position: 0 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.noise-paused):not(.gl-active) body.noise {
+    animation: noise-shift 0.8s steps(1, end) infinite;
+  }
+}
+
 .glass0 {
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);

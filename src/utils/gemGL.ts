@@ -103,7 +103,7 @@ const NOISE_GLSL = `
     vec2 u = f * f * (3.0 - 2.0 * f);
     return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
   }
-  vec3 livingBg(vec2 uv, vec2 res, float t, sampler2D noiseTex, float noiseScale, float scrollY){
+  vec3 livingBg(vec2 uv, vec2 res, float t, sampler2D noiseTex, float noiseScale, float scrollY, float motion){
     float asp = res.x / res.y;
     vec2 p = vec2(uv.x * asp, uv.y);
     // base = clase .noise (negro + PNG noise-transparent repetido). fract()+CLAMP
@@ -112,6 +112,12 @@ const NOISE_GLSL = `
     // hacia abajo = scrollY + (1-uv.y)*res.y → se desplaza con el scroll igual
     // que body.noise. (Los dots de abajo siguen en coords de viewport = fijos.)
     vec2 npx = vec2(uv.x * res.x, scrollY + (1.0 - uv.y) * res.y);
+    // Movimiento (film grain): saltar la muestra a otra región del tile en pasos
+    // discretos → el grano "hierve". motion=0 → estático.
+    if (motion > 0.5) {
+      float ft = floor(t * 12.0);                          // ~12 saltos/seg
+      npx += vec2(hash(vec2(ft, 1.7)), hash(vec2(ft, 4.3))) * 1024.0;
+    }
     vec4 nz = texture2D(noiseTex, fract(npx / noiseScale));
     vec3 col = nz.rgb * nz.a;
     for (int i = 0; i < 6; i++){
@@ -133,9 +139,9 @@ const BG_VS = `
 `;
 const BG_FS = `
   precision highp float; varying vec2 vUv;
-  uniform vec2 uRes; uniform float uTime, uNoiseScale, uScrollY; uniform sampler2D uNoise;
+  uniform vec2 uRes; uniform float uTime, uNoiseScale, uScrollY, uNoiseMotion; uniform sampler2D uNoise;
   ${NOISE_GLSL}
-  void main(){ gl_FragColor = vec4(livingBg(vUv, uRes, uTime, uNoise, uNoiseScale, uScrollY), 1.0); }
+  void main(){ gl_FragColor = vec4(livingBg(vUv, uRes, uTime, uNoise, uNoiseScale, uScrollY, uNoiseMotion), 1.0); }
 `;
 
 // Copia una textura a todo el quad (para volcar FBOs).
@@ -162,7 +168,7 @@ const GEM_FS = `
   varying vec3 vN, vWorld; varying vec2 vUV, vMapUV; varying float vTable;
   uniform vec2 uRes; uniform vec3 uLightDir, uCamPos;
   uniform sampler2D uLogo, uMap, uNormalMap, uRough, uNoise, uScene;
-  uniform float uFish, uEmerge, uHover, uTime, uWear, uTile, uNoiseScale, uUseScene, uScrollY;
+  uniform float uFish, uEmerge, uHover, uTime, uWear, uTile, uNoiseScale, uUseScene, uScrollY, uNoiseMotion;
   ${NOISE_GLSL}
   // Fisheye sobre la uv del logo (barrel suave escalado por uFish)
   vec2 fishUV(vec2 uv, float amt){
@@ -190,7 +196,7 @@ const GEM_FS = `
     // + otras gemas) → vidrio sobre vidrio; si no, el fondo procedural directo.
     vec3 refr = uUseScene > 0.5
       ? texture2D(uScene, clamp(ruv, 0.0, 1.0)).rgb
-      : livingBg(ruv, uRes, uTime, uNoise, uNoiseScale, uScrollY);
+      : livingBg(ruv, uRes, uTime, uNoise, uNoiseScale, uScrollY, uNoiseMotion);
 
     vec3 base = refr;
     if (vTable > 0.5) {
@@ -599,6 +605,7 @@ export function initGemGL(canvas: HTMLCanvasElement, opts: GemGLOptions = {}): (
     gl!.uniform1f(gl!.getUniformLocation(progBg, 'uTime'), t);
     gl!.uniform1f(gl!.getUniformLocation(progBg, 'uNoiseScale'), NOISE_PX * dpr);
     gl!.uniform1f(gl!.getUniformLocation(progBg, 'uScrollY'), fullVp ? window.scrollY * dpr : 0);
+    gl!.uniform1f(gl!.getUniformLocation(progBg, 'uNoiseMotion'), document.documentElement.classList.contains('noise-paused') ? 0 : 1);
     gl!.activeTexture(gl!.TEXTURE4); gl!.bindTexture(gl!.TEXTURE_2D, noiseTex);
     gl!.uniform1i(gl!.getUniformLocation(progBg, 'uNoise'), 4);
     setAttrib(progBg, 'aPos', quad, 2);
@@ -626,6 +633,7 @@ export function initGemGL(canvas: HTMLCanvasElement, opts: GemGLOptions = {}): (
     gl!.uniform1f(gl!.getUniformLocation(progGem, 'uTile'), TILE);
     gl!.uniform1f(gl!.getUniformLocation(progGem, 'uNoiseScale'), NOISE_PX * dpr);
     gl!.uniform1f(gl!.getUniformLocation(progGem, 'uScrollY'), fullVp ? window.scrollY * dpr : 0);
+    gl!.uniform1f(gl!.getUniformLocation(progGem, 'uNoiseMotion'), document.documentElement.classList.contains('noise-paused') ? 0 : 1);
     gl!.activeTexture(gl!.TEXTURE0); gl!.bindTexture(gl!.TEXTURE_2D, logoTex); gl!.uniform1i(gl!.getUniformLocation(progGem, 'uLogo'), 0);
     gl!.activeTexture(gl!.TEXTURE1); gl!.bindTexture(gl!.TEXTURE_2D, mapTex); gl!.uniform1i(gl!.getUniformLocation(progGem, 'uMap'), 1);
     gl!.activeTexture(gl!.TEXTURE2); gl!.bindTexture(gl!.TEXTURE_2D, normalTex); gl!.uniform1i(gl!.getUniformLocation(progGem, 'uNormalMap'), 2);

@@ -40,6 +40,15 @@ const siteOrigin = Astro.site?.origin ?? 'https://vindevsito.dev';
     <title>{title}</title>
 
     <script is:inline>
+      // Pre-paint: si el usuario apagó el ruido en movimiento, marcar la clase
+      // antes del primer render (evita ver la animación un instante).
+      (function () {
+        try {
+          if (localStorage.getItem('noiseMotion') === '0') {
+            document.documentElement.classList.add('noise-paused');
+          }
+        } catch (e) { /* private mode */ }
+      })();
       (function () {
         const STORAGE_KEY = 'portfolio-locale';
         const path = window.location.pathname;

@@ -19,6 +19,15 @@ const showPerfToggle = !!import.meta.env.PUBLIC_PERF_TOGGLE;
       <span class="locale-label">{(Astro.currentLocale === 'en' ? 'en' : 'es').toUpperCase()}</span>
     </button>
   </section>
+  <section class="tool" id="noise-control">
+    <button id="noise-toggle" aria-label={t('tools.noiseToggleAria')} aria-pressed="true">
+      <svg id="noise-icon" viewBox="0 0 24 24" fill="currentColor">
+        <circle cx="5" cy="6" r="1.1"/><circle cx="10" cy="5" r="1.1"/><circle cx="15" cy="7" r="1.1"/><circle cx="19" cy="5" r="1.1"/>
+        <circle cx="4" cy="11" r="1.1"/><circle cx="9" cy="12" r="1.1"/><circle cx="14" cy="11" r="1.1"/><circle cx="20" cy="12" r="1.1"/>
+        <circle cx="6" cy="17" r="1.1"/><circle cx="11" cy="18" r="1.1"/><circle cx="16" cy="16" r="1.1"/><circle cx="19" cy="18" r="1.1"/>
+      </svg>
+    </button>
+  </section>
   {showPerfToggle && (
     <section class="tool" id="perf-control">
       <button id="perf-toggle" aria-label={t('tools.perfToggleAria')} aria-pressed="false" title="Bajo rendimiento (CSS)">
@@ -190,6 +199,29 @@ const showPerfToggle = !!import.meta.env.PUBLIC_PERF_TOGGLE;
   #locale-control button:hover {
     background-color: rgba(255, 255, 255, 0.1);
     transform: scale(1.1);
+  }
+
+  #noise-control button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #noise-control button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+  }
+
+  /* Pausado (sin movimiento) → atenuado, patrón de #audio-control.muted */
+  #noise-control button[aria-pressed="false"] #noise-icon {
+    opacity: 0.5;
   }
 
   #perf-control button {
@@ -453,6 +485,35 @@ const showPerfToggle = !!import.meta.env.PUBLIC_PERF_TOGGLE;
     sync();
   }
 
+  // Toggle de ruido en movimiento (film grain). Default = animado; OFF deja el
+  // grano estático (no lo elimina). Voltea la clase `html.noise-paused` + persiste
+  // en localStorage. Reaccionan ambos paths: CSS (selector) y WebGL (gemGL lee la
+  // clase cada frame), así que no hace falta avisar nada por evento.
+  function noiseMotionOn(): boolean {
+    try { return localStorage.getItem('noiseMotion') !== '0'; } catch (e) { return true; }
+  }
+
+  function initNoiseToggle() {
+    const btn = document.getElementById('noise-toggle');
+    if (!btn) return;
+
+    const sync = () => {
+      const on = noiseMotionOn();
+      document.documentElement.classList.toggle('noise-paused', !on);
+      btn.setAttribute('aria-pressed', String(on));
+    };
+
+    if (btn.dataset.bound !== '1') {
+      btn.dataset.bound = '1';
+      btn.addEventListener('click', () => {
+        const next = !noiseMotionOn();
+        try { localStorage.setItem('noiseMotion', next ? '1' : '0'); } catch (e) { /* ignore */ }
+        sync();
+      });
+    }
+    sync();
+  }
+
   function initializeTools() {
     restoreAudioControlVisibility();
     setupFirstInteractionDetection();
@@ -460,6 +521,7 @@ const showPerfToggle = !!import.meta.env.PUBLIC_PERF_TOGGLE;
     initLocaleToggle();
     updateLocaleLabel();
     initPerfToggle();
+    initNoiseToggle();
   }
   
   if (document.readyState === 'loading') {
