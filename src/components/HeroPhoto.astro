@@ -1,0 +1,182 @@
+---
+// Retrato del hero con face-puppet (la foto cobra vida con la webcam del
+// visitante). Componente layout-neutral: la POSICIÓN la pone el consumidor
+// (el hero la centra en su columna; la vista /face-lab la centra en pantalla).
+// Acá viven el look (rotación, tamaño, overlay del canvas) y el opt-in.
+import { tFor } from "../i18n";
+const t = tFor(Astro);
+const PHOTO = "https://res.cloudinary.com/dqgxt985j/image/upload/v1731282091/photo_xmglr7.png";
+---
+
+<div class="hero-photo">
+  <img
+    class="hp-img unselected"
+    src={PHOTO}
+    alt="Kevin"
+    crossorigin="anonymous"
+    draggable="false"
+  />
+  <canvas class="hp-canvas" aria-hidden="true"></canvas>
+  <video class="hp-video" playsinline muted aria-hidden="true"></video>
+  <button
+    class="hp-cta"
+    type="button"
+    aria-pressed="false"
+    data-cta={t('home.hero.faceCta')}
+    data-stop={t('home.hero.faceStop')}
+    data-loading={t('home.hero.faceLoading')}
+    data-error={t('home.hero.faceError')}
+  >{t('home.hero.faceCta')}</button>
+</div>
+
+<style>
+  .hero-photo {
+    position: relative;
+    width: 450px;
+    transform: rotate(3deg);
+  }
+
+  .hp-img {
+    display: block;
+    width: 100%;
+  }
+
+  /* Canvas del face-puppet: superpuesto exacto sobre la foto, oculto hasta activar */
+  .hp-canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: none;
+  }
+  .hero-photo[data-gl] .hp-canvas { display: block; }
+  .hero-photo[data-gl] .hp-img { visibility: hidden; }
+
+  /* Video de la webcam: oculto (sólo alimenta el tracking) */
+  .hp-video {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Botón opt-in sobre la foto */
+  .hp-cta {
+    position: absolute;
+    left: 50%;
+    bottom: -2.5rem;
+    transform: translateX(-50%) rotate(-3deg);
+    white-space: nowrap;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-family: "Poppins-R";
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .hp-cta:hover { background: rgba(255, 255, 255, 0.16); }
+  .hp-cta[disabled] { opacity: 0.6; cursor: default; }
+
+  @media screen and (max-width: 780px) {
+    .hero-photo { width: 315px; }
+  }
+</style>
+
+<script>
+  import { initFacePuppet } from "../utils/facePuppet";
+
+  interface Inst { destroy: (() => void) | null; stream: MediaStream | null; active: boolean; }
+  const insts = new WeakMap<HTMLElement, Inst>();
+
+  function hasWebGL(): boolean {
+    try {
+      const c = document.createElement("canvas");
+      return !!(c.getContext("webgl") || c.getContext("experimental-webgl"));
+    } catch { return false; }
+  }
+  function supported(): boolean {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let lowPerf = false;
+    try { lowPerf = localStorage.getItem("forceLowPerf") === "1"; } catch { /* ignore */ }
+    return !!navigator.mediaDevices?.getUserMedia && hasWebGL() && !reduce && !lowPerf;
+  }
+
+  function stop(root: HTMLElement, btn: HTMLButtonElement, video: HTMLVideoElement) {
+    const s = insts.get(root);
+    if (!s) return;
+    if (s.destroy) { s.destroy(); s.destroy = null; }
+    if (s.stream) { s.stream.getTracks().forEach((t) => t.stop()); s.stream = null; }
+    video.srcObject = null;
+    root.removeAttribute("data-gl");
+    s.active = false;
+    btn.setAttribute("aria-pressed", "false");
+    btn.textContent = btn.dataset.cta || "";
+    btn.disabled = false;
+  }
+
+  async function start(root: HTMLElement, btn: HTMLButtonElement, img: HTMLImageElement, canvas: HTMLCanvasElement, video: HTMLVideoElement) {
+    const s = insts.get(root)!;
+    btn.disabled = true;
+    btn.textContent = btn.dataset.loading || "";
+    try {
+      s.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+      video.srcObject = s.stream;
+      await video.play();
+      root.dataset.gl = "1";
+      s.destroy = await initFacePuppet(canvas, img, video, {
+        onError: () => { stop(root, btn, video); btn.textContent = btn.dataset.error || ""; },
+      });
+      s.active = true;
+      btn.disabled = false;
+      btn.setAttribute("aria-pressed", "true");
+      btn.textContent = btn.dataset.stop || "";
+    } catch {
+      if (s.stream) { s.stream.getTracks().forEach((t) => t.stop()); s.stream = null; }
+      root.removeAttribute("data-gl");
+      btn.disabled = false;
+      btn.textContent = btn.dataset.error || "";
+      setTimeout(() => { if (!s.active) btn.textContent = btn.dataset.cta || ""; }, 2500);
+    }
+  }
+
+  function setup() {
+    const roots = Array.from(document.querySelectorAll<HTMLElement>(".hero-photo"));
+    for (const root of roots) {
+      const btn = root.querySelector<HTMLButtonElement>(".hp-cta");
+      const img = root.querySelector<HTMLImageElement>(".hp-img");
+      const canvas = root.querySelector<HTMLCanvasElement>(".hp-canvas");
+      const video = root.querySelector<HTMLVideoElement>(".hp-video");
+      if (!btn || !img || !canvas || !video) continue;
+      if (!supported()) { btn.style.display = "none"; continue; }
+      if (root.dataset.bound === "1") continue;
+      root.dataset.bound = "1";
+      insts.set(root, { destroy: null, stream: null, active: false });
+      btn.addEventListener("click", () => {
+        const s = insts.get(root)!;
+        if (s.active) stop(root, btn, video);
+        else void start(root, btn, img, canvas, video);
+      });
+    }
+  }
+
+  function teardown() {
+    document.querySelectorAll<HTMLElement>(".hero-photo").forEach((root) => {
+      const s = insts.get(root);
+      const btn = root.querySelector<HTMLButtonElement>(".hp-cta");
+      const video = root.querySelector<HTMLVideoElement>(".hp-video");
+      if (s?.active && btn && video) stop(root, btn, video);
+    });
+  }
+
+  // Corre con ClientRouter (astro:page-load) y también en páginas standalone
+  // sin view-transitions (la vista /face-lab).
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", setup);
+  else setup();
+  document.addEventListener("astro:page-load", setup);
+  document.addEventListener("astro:before-swap", teardown);
+</script>

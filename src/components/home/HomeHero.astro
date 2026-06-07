@@ -1,5 +1,6 @@
 ---
 import TextHighlighted from "../Highlighter.astro";
+import HeroPhoto from "../HeroPhoto.astro";
 import { tFor, getAlternatePath, type Locale } from "../../i18n";
 const t = tFor(Astro);
 const locale: Locale = Astro.currentLocale === 'en' ? 'en' : 'es';
@@ -30,14 +31,9 @@ const contactHref = getAlternatePath('/contact', locale);
     </div>
   </section>
   <section id="home1_img" class="sticky">
-    <img
-      id="photo"
-      src="https://res.cloudinary.com/dqgxt985j/image/upload/v1731282091/photo_xmglr7.png"
-      alt="Kevin"
-      srcset=""
-      class="unselected relative"
-      draggable="false"
-    />
+    <div class="home1-photo-pos">
+      <HeroPhoto />
+    </div>
   </section>
 </article>
 
@@ -88,11 +84,14 @@ const contactHref = getAlternatePath('/contact', locale);
     font-size: clamp(1rem, 0.0774rem + 1.7936vw, 1.5rem);
   }
 
-  #photo {
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%) rotate(3deg);
-    width: 450px;
+  /* Posiciona el retrato (HeroPhoto) centrado en la columna del hero, como antes.
+     El rotate(3deg) y el tamaño los pone el propio componente. */
+  .home1-photo-pos {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
   }
 
   @media screen and (max-width: 780px) {
@@ -114,9 +113,6 @@ const contactHref = getAlternatePath('/contact', locale);
       z-index: -1;
     }
 
-    #photo {
-      width: 315px;
-    }
   }
 
   @media screen and (max-width: 460px) {

@@ -40,6 +40,10 @@ export default {
       subtitle: "Fullstack Software Developer",
       status: "Active Since SEP '23",
       statusCta: "LET'S TALK",
+      faceCta: "Bring my face to life 🎥",
+      faceStop: "Stop camera",
+      faceLoading: "Loading…",
+      faceError: "Camera unavailable",
       body: "I build systems that combine solid back-end, polished front-end, and LLM integration into real products.<br />I've co-created a SaaS from MVP, led implementation teams, and migrated entire platforms to more maintainable stacks.<br />I'm obsessed with clean architecture — high cohesion, low coupling — and translating vague requirements into clear technical decisions.<br />Why do I do this?<br />Because when everything clicks, I feel a bit like a god creating things, defining their attributes and behaviors.<br />When I'm not developing, I'm probably thinking about the future or being the go-to advisor for my friends.",
     },
     casos: {

@@ -41,6 +41,10 @@ export default {
       subtitle: "Fullstack Software Developer",
       status: "Activo Desde SEP '23",
       statusCta: "HABLEMOS",
+      faceCta: "Dale vida a mi cara 🎥",
+      faceStop: "Detener cámara",
+      faceLoading: "Cargando…",
+      faceError: "Cámara no disponible",
       body: "Construyo sistemas que combinan back-end sólido, front-end cuidado e integración de LLMs en productos reales.<br />He co-creado un SaaS desde MVP, liderado equipos de implementación y migrado plataformas enteras a stacks más mantenibles.<br />Me obsesiona la arquitectura limpia — alta cohesión, bajo acoplamiento — y traducir requerimientos confusos a decisiones técnicas claras.<br />¿Por qué hago esto?<br />Porque cuando todo encaja me siento un poco dios creando cosas, definiendo sus atributos y comportamientos.<br />Cuando no estoy desarrollando, probablemente estoy pensando en el futuro o siendo el consejero de mis amigos.",
     },
     casos: {

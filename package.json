@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "setup:mediapipe": "node scripts/setup-mediapipe.mjs",
+    "prebuild": "node scripts/setup-mediapipe.mjs",
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
@@ -13,7 +15,9 @@
     "@astrojs/check": "^0.9.9",
     "@astrojs/react": "^5.0.7",
     "@astrojs/vercel": "^10.0.8",
+    "@mediapipe/tasks-vision": "^0.10.35",
     "astro": "^6.4.3",
+    "delaunator": "^5.1.0",
     "findup-sync": "^5.0.0",
     "gsap": "^3.15.0",
     "react": "^19.2.7",

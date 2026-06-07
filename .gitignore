@@ -30,3 +30,5 @@ pnpm-debug.log*
 
 # Visual brainstorming companion (superpowers skill)
 .superpowers/
+# MediaPipe assets (generados por scripts/setup-mediapipe.mjs)
+public/mediapipe/

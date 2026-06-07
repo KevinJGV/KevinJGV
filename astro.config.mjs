@@ -53,13 +53,21 @@ export default defineConfig({
         "default-src 'self'",
         "img-src 'self' data: https:",
         "font-src 'self' data:",
-        "connect-src 'self' https://vitals.vercel-insights.com",
+        // blob: para el modelo/worker de MediaPipe (self-hosteado en /mediapipe)
+        "connect-src 'self' https://vitals.vercel-insights.com blob:",
+        // MediaPipe tasks-vision puede instanciar su worker desde un blob URL
+        "worker-src 'self' blob:",
         "frame-ancestors 'none'",
         "base-uri 'self'",
         "form-action 'self'",
       ],
       styleDirective: {
         resources: ["'self'", "'unsafe-inline'"],
+      },
+      // WebAssembly (MediaPipe) requiere 'wasm-unsafe-eval'; blob: por el worker.
+      // Astro suma sus hashes de scripts inline a estos sources.
+      scriptDirective: {
+        resources: ["'self'", "'wasm-unsafe-eval'", "blob:"],
       },
     },
   },
