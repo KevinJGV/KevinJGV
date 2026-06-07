@@ -1,11 +1,30 @@
 ---
 import Hexagon from "../Hexagon.astro";
 import Anchor from "../Anchor.astro";
-import { hexagonSlots } from "../../data/technologies";
+import { technologies, type Technology } from "../../data/technologies";
+import { computeLockedCount, generateLayout, shuffleInPlace } from "../../utils/hexLayout";
 import { tFor, getAlternatePath, type Locale } from "../../i18n";
 const t = tFor(Astro);
 const locale: Locale = Astro.currentLocale === 'en' ? 'en' : 'es';
 const meHref = getAlternatePath('/me', locale);
+
+// Initial server-rendered layout. Client-side reshuffles on astro:page-load
+// (see <script> at bottom). Server layout still respects the constraints so
+// the no-JS path renders a valid honeycomb.
+const lockedCount = computeLockedCount(technologies.length);
+const initialLayout = generateLayout(technologies.length, lockedCount);
+const initialTechOrder: Technology[] = technologies.slice();
+shuffleInPlace(initialTechOrder);
+
+type RenderSlot = Technology | null;
+let _idx = 0;
+const initialSlots: RenderSlot[] = (initialLayout ?? []).map((isLocked) =>
+  isLocked ? null : initialTechOrder[_idx++]
+);
+// Fallback if constraints couldn't be met: render techs sequentially with no locked.
+if (initialSlots.length === 0) {
+  for (const t of initialTechOrder) initialSlots.push(t);
+}
 
 const s = "120px";
 const r = 1;
@@ -18,8 +37,8 @@ const mv = "5px";
   </h2>
   <div class="techs_container grid unselected">
     <ul>
-      {hexagonSlots.map((slot) =>
-        slot ? <Hexagon src={slot.src} title={slot.title} /> : <Hexagon />
+      {initialSlots.map((slot) =>
+        slot ? <Hexagon src={slot.src} title={slot.title} href={slot.href} /> : <Hexagon />
       )}
     </ul>
   </div>
@@ -40,9 +59,36 @@ const mv = "5px";
 </blockquote>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
+  import { generateLayout, shuffleInPlace } from "../../utils/hexLayout";
+
+  function reshuffleHexagons() {
+    const ul = document.querySelector<HTMLUListElement>(".techs_container ul");
+    if (!ul) return;
+    const lis = Array.from(ul.children) as HTMLLIElement[];
+    // Tech vs locked partitioning: locked hexagons have class `li_hidden`
+    // (set by Hexagon.astro when no `src` is provided).
+    const lockedLis = lis.filter((li) => li.classList.contains("li_hidden"));
+    const techLis = lis.filter((li) => !li.classList.contains("li_hidden"));
+    if (techLis.length === 0) return;
+    const layout = generateLayout(techLis.length, lockedLis.length);
+    if (!layout) return;
+    shuffleInPlace(techLis);
+    let ti = 0,
+      li = 0;
+    for (const isLocked of layout) {
+      if (isLocked) {
+        if (li < lockedLis.length) ul.appendChild(lockedLis[li++]);
+      } else {
+        if (ti < techLis.length) ul.appendChild(techLis[ti++]);
+      }
+    }
+  }
+
+  function bindPointerMove() {
     const techsList = document.querySelector(".techs_container ul");
-    techsList?.addEventListener("pointermove", (ev) => {
+    if (!techsList || (techsList as HTMLElement).dataset.bound === "1") return;
+    (techsList as HTMLElement).dataset.bound = "1";
+    techsList.addEventListener("pointermove", (ev) => {
       const target = (ev.target as HTMLElement).closest("li");
       if (target) {
         const rect = target.getBoundingClientRect();
@@ -53,6 +99,41 @@ const mv = "5px";
         target.style.setProperty("--y", `${ry}%`);
       }
     });
+  }
+
+  // Navegación: el hexágono (<li data-href>) abre el sitio de su tecnología en
+  // nueva pestaña. Delegado en el <ul> → sobrevive al reshuffle. Soporta teclado
+  // (Enter/Espacio) porque los <li> navegables son role="link" tabindex="0".
+  function bindNavigation() {
+    const techsList = document.querySelector(".techs_container ul");
+    if (!techsList || (techsList as HTMLElement).dataset.navBound === "1") return;
+    (techsList as HTMLElement).dataset.navBound = "1";
+
+    const openLi = (li: HTMLElement) => {
+      const href = li.dataset.href;
+      if (href) window.open(href, "_blank", "noopener,noreferrer");
+    };
+
+    techsList.addEventListener("click", (ev) => {
+      const li = (ev.target as HTMLElement).closest<HTMLElement>("li[data-href]");
+      if (li) openLi(li);
+    });
+
+    techsList.addEventListener("keydown", (ev) => {
+      const ke = ev as KeyboardEvent;
+      if (ke.key !== "Enter" && ke.key !== " ") return;
+      const li = (ke.target as HTMLElement).closest<HTMLElement>("li[data-href]");
+      if (li) {
+        ev.preventDefault();
+        openLi(li);
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    reshuffleHexagons();
+    bindPointerMove();
+    bindNavigation();
   });
 </script>
 
