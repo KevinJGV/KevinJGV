@@ -1,0 +1,84 @@
+---
+// Imagen con efecto ripple (Three.js vanilla) montado por <script> de Astro
+// (patrón fiable, como dots.ts/gemGL). Progressive enhancement: renderiza la
+// <img> normal (fallback/SEO/a11y) + un <canvas> que el script activa sólo si
+// hay WebGL y no hay prefers-reduced-motion.
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+}
+const { src, alt, class: className } = Astro.props;
+---
+
+<span class="ripple-wrap">
+  <img
+    src={src}
+    alt={alt}
+    class={className}
+    crossorigin="anonymous"
+    draggable="false"
+  />
+  <canvas class="ripple-canvas" aria-hidden="true"></canvas>
+</span>
+
+<style>
+  .ripple-wrap {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+  }
+  .ripple-canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: none;
+  }
+  /* GL activo: el canvas dibuja la imagen → ocultar la <img> conservando layout */
+  .ripple-wrap[data-gl] .ripple-canvas { display: block; }
+  .ripple-wrap[data-gl] img { visibility: hidden; }
+</style>
+
+<script>
+  import { initRippleThree } from "../utils/rippleThree";
+
+  let destroyers: Array<() => void> = [];
+
+  function hasWebGL(): boolean {
+    try {
+      const c = document.createElement("canvas");
+      return !!(c.getContext("webgl") || c.getContext("experimental-webgl"));
+    } catch { return false; }
+  }
+
+  function setup() {
+    teardown();
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !hasWebGL()) return; // fallback = <img> normal
+
+    const wraps = Array.from(document.querySelectorAll<HTMLElement>(".ripple-wrap"));
+    for (const wrap of wraps) {
+      const img = wrap.querySelector<HTMLImageElement>("img");
+      const canvas = wrap.querySelector<HTMLCanvasElement>(".ripple-canvas");
+      if (!img || !canvas) continue;
+
+      const start = () => {
+        if (!img.naturalWidth) return; // imagen no disponible → queda el fallback
+        const destroy = initRippleThree(canvas, img);
+        wrap.dataset.gl = "1";
+        destroyers.push(() => { delete wrap.dataset.gl; destroy(); });
+      };
+
+      if (img.complete) start();
+      else img.addEventListener("load", start, { once: true });
+    }
+  }
+
+  function teardown() {
+    destroyers.forEach((d) => d());
+    destroyers = [];
+  }
+
+  document.addEventListener("astro:page-load", setup);
+  document.addEventListener("astro:before-swap", teardown);
+</script>

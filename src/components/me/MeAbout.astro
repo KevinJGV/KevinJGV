@@ -1,5 +1,6 @@
 ---
 import SpotifyPlayer from "./SpotifyPlayer.astro";
+import RippleImage from "../RippleImage.astro";
 import { tFor } from "../../i18n";
 const t = tFor(Astro);
 ---
@@ -13,11 +14,10 @@ const t = tFor(Astro);
     <SpotifyPlayer />
   </section>
   <section class="image-section unselected">
-    <img
+    <RippleImage
       src="https://res.cloudinary.com/dqgxt985j/image/upload/v1732430464/Me_nhlhpt.png"
       alt="me"
       class="photo unselected relative"
-      draggable="false"
     />
   </section>
 </article>

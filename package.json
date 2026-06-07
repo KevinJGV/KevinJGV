@@ -16,9 +16,10 @@
     "astro": "^6.4.3",
     "findup-sync": "^5.0.0",
     "gsap": "^3.15.0",
-    "react": "^19.2.6",
+    "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "resend": "^6.12.4",
+    "three": "^0.184.0",
     "tslib": "^2.8.1"
   },
   "engines": {
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@types/node": "^25.9.1",
     "@types/react": "^19.2.15",
-    "@types/react-dom": "^19.2.3"
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.184.1"
   }
 }
