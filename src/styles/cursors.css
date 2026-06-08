@@ -5,7 +5,10 @@ body {
     auto;
 }
 
-a {
+/* Cursor de "ancla" para links y cualquier elemento link-like (p.ej. los
+   hexágonos de tecnologías que navegan con data-href, sin ser <a>). */
+a,
+[data-href] {
   cursor:
     url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23000000" stroke="%23FFFFFF" stroke-width="1.25" d="m16.24 12 3.18-3.18a1.5 1.5 0 0 0 0-2.12L17.3 4.58a1.5 1.5 0 0 0-2.12 0L12 7.76 8.82 4.58a1.5 1.5 0 0 0-2.12 0L4.58 6.7a1.5 1.5 0 0 0 0 2.12L7.76 12l-3.18 3.18a1.5 1.5 0 0 0 0 2.12l2.12 2.12a1.5 1.5 0 0 0 2.12 0L12 16.24l3.18 3.18a1.5 1.5 0 0 0 2.12 0l2.12-2.12a1.5 1.5 0 0 0 0-2.12L16.24 12Z"></path></svg>')
       10 5,
