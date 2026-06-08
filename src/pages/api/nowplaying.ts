@@ -22,8 +22,10 @@ interface LfmTrack {
 }
 
 async function lastfmTrack(): Promise<{ title: string; artist: string; art: string | null; isPlaying: boolean } | null> {
-  const key = import.meta.env.LASTFM_API_KEY;
-  const user = import.meta.env.LASTFM_USER;
+  // import.meta.env (dev / build-inlined) con fallback a process.env (runtime
+  // de la función serverless en Vercel).
+  const key = import.meta.env.LASTFM_API_KEY ?? process.env.LASTFM_API_KEY;
+  const user = import.meta.env.LASTFM_USER ?? process.env.LASTFM_USER;
   if (!key || !user) return null;
   const url =
     `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks` +
