@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Dela";
-  src: url("/fonts/DelaGothicOne-Regular.ttf");
+  src: url("/fonts/DelaGothicOne-Regular.woff2");
 }
 
 .Dela {
@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: "Poppins-R";
-  src: url("/fonts/Poppins-Regular.ttf");
+  src: url("/fonts/Poppins-Regular.woff2");
 }
 
 .Poppins-R {
@@ -19,7 +19,7 @@
 
 @font-face {
   font-family: "Poppins-S";
-  src: url("/fonts/Poppins-SemiBold.ttf");
+  src: url("/fonts/Poppins-SemiBold.woff2");
 }
 
 .Poppins-S {
@@ -28,7 +28,7 @@
 
 @font-face {
   font-family: "Alumni";
-  src: url("/fonts/AlumniSans-VariableFont_wght.ttf");
+  src: url("/fonts/AlumniSans-VariableFont_wght.woff2");
 }
 
 .Alumni {
@@ -37,7 +37,7 @@
 
 @font-face {
   font-family: "Alumni Italic";
-  src: url("/fonts/AlumniSans-Italic-VariableFont_wght.ttf");
+  src: url("/fonts/AlumniSans-Italic-VariableFont_wght.woff2");
 }
 
 .Alumni_I {
@@ -46,7 +46,7 @@
 
 @font-face {
   font-family: "AudioWide";
-  src: url("/fonts/Audiowide-Regular.ttf");
+  src: url("/fonts/Audiowide-Regular.woff2");
 }
 
 .AudioWide {
@@ -55,7 +55,7 @@
 
 @font-face {
   font-family: "Ansterdam";
-  src: url("/fonts/Amsterdam-four.ttf");
+  src: url("/fonts/Amsterdam-four.woff2");
 }
 
 .Ansterdam {
