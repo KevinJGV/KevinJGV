@@ -64,13 +64,13 @@ Excited and interested in everything I realize I have yet to learn. Solid across
 
 ![](https://github-profile-trophy-delta-virid.vercel.app/?username=KevinJGV&theme=dracula&no-frame=true&no-bg=false&margin-w=4&column=7)
 
-</h2>
+<!-- </h2>
 
 ## 📈 Activity Graph
 
 <h2 align="center">
 
-![](https://github-readme-activity-graph-teal.vercel.app/graph?username=KevinJGV&theme=dracula&hide_border=true&area=true)
+![](https://github-readme-activity-graph-teal.vercel.app/graph?username=KevinJGV&theme=dracula&hide_border=true&area=true) -->
 
 </h2>
 
