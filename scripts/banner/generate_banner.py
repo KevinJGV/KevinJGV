@@ -69,7 +69,11 @@ def build(ascii_path, out_path):
     parts.append('  <g class="ascii" fill="#cdd9e5" font-size="%.1f" xml:space="preserve">' % FS)
     for i, line in enumerate(ascii_lines):
         y = ay + i * LH
-        parts.append(f'    <text x="{ax}" y="{y:.1f}">{esc(line)}</text>')
+        # x explícita por carácter: ancla cada glifo a su celda de rejilla, así la
+        # alineación no depende del avance de glifo/espacio de la fuente del visor
+        # (evita la cizalladura del ASCII al renderizar como imagen).
+        xs = " ".join(f"{ax + c * CW:.2f}" for c in range(len(line)))
+        parts.append(f'    <text x="{xs}" y="{y:.1f}">{esc(line)}</text>')
     parts.append('  </g>')
 
     # info panel
