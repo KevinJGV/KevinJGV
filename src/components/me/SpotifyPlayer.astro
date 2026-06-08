@@ -17,9 +17,8 @@ const t = tFor(Astro);
     </svg>
     <p>{t('spotify.listeningNow')}</p>
     <div class="carrousel">
-      <p class="textoscroll" id="sp-track">{t('spotify.listeningNow')}</p>
+      <p class="textoscroll" id="sp-track"><img id="sp-art" class="sp-art" alt="" hidden /><span id="sp-text">{t('spotify.listeningNow')}</span></p>
     </div>
-    <img id="sp-art" class="sp-art" alt="" hidden />
     <audio id="sp-preview" preload="none"></audio>
   </div>
   <label for="player">
@@ -64,11 +63,12 @@ const t = tFor(Astro);
   }
 
   .sp-art {
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
     border-radius: 4px;
     object-fit: cover;
-    margin-left: 6px;
+    vertical-align: middle;
+    margin-right: 8px;
   }
 
   .textoscroll {
@@ -205,9 +205,11 @@ const t = tFor(Astro);
       const res = await fetch("/api/nowplaying");
       const d = await res.json();
       if (d && d.title) {
-        trackEl.textContent = `${d.artist} — ${d.title}`;
+        const textEl = document.getElementById("sp-text");
+        if (textEl) textEl.textContent = `${d.artist} — ${d.title}`;
         if (artEl && d.albumArt) { artEl.src = d.albumArt; artEl.hidden = false; }
-        if (preview && d.previewUrl) { preview.src = d.previewUrl; hasPreview = true; }
+        // loop: mientras el trigger (hover/tap) esté activo, el preview se repite solo.
+        if (preview && d.previewUrl) { preview.src = d.previewUrl; preview.loop = true; hasPreview = true; }
       }
     } catch { /* degrada */ }
 
@@ -219,7 +221,6 @@ const t = tFor(Astro);
     } else {
       widget.addEventListener("click", () => (playing ? stopPreview() : startPreview()));
     }
-    preview?.addEventListener("ended", stopPreview);
   }
 
   document.addEventListener("astro:page-load", loadNowPlaying);
