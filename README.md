@@ -20,8 +20,9 @@
 Excited and interested in everything I realize I have yet to learn. Solid across the FullStack with a soft spot for architecture and AI integration.<br><br>
 👂 My full name is _Kevin Johan González Velandia_<br>🔭 Wrapping up my FullStack Developer / Implementation Lead role at [Clonai](https://www.linkedin.com/company/clonaico/)<br>👯 I’m looking to collaborate on product-focused projects, especially anything mixing SaaS + AI integration<br>🌱 I’m currently learning agentic patterns, advanced TypeScript, and team leadership<br>📫 Contact me ➜ [vin.devsito@gmail.com](mailto:vin.devsito@gmail.com)<!-- <br>👨‍💻 All of my projects are available at [my portfolio](https://www.vindevsito.dev/) --> <br>💬 Ask me about places to visit in my city<br>❤️ I love videogames | learn spiritual things/knowledge<br>⚡ Fun fact: I believe i have 4 nipples 🫣🌰
 
-<!-- ### 🎧 What am i listening now?
-[![Spotify](spotify-readme-8vvrd1fn5-kevinjgvs-projects.vercel.app)](https://open.spotify.com/user/22xnxi2j2d3vra2qhozf3bzsa) -->
+### 🎧 What am I listening to now?
+
+[![Now Playing](https://www.vindevsito.dev/api/now-playing.svg)](https://open.spotify.com/user/22xnxi2j2d3vra2qhozf3bzsa)
 
 ## 💻 Tech Stack
 
