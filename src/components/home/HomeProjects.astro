@@ -5,40 +5,29 @@ import { cases } from "../../data/cases";
 import { tFor, type Locale } from "../../i18n";
 const t = tFor(Astro);
 const locale: Locale = Astro.currentLocale === 'en' ? 'en' : 'es';
-
-function zoneFor(idx: number, total: number) {
-  if (total === 1) return { zoneLeft: 220, zoneRight: 220, zoneVert: 120 };
-  if (idx === 0) return { zoneLeft: 220, zoneRight: 60, zoneVert: 120 };
-  if (idx === total - 1) return { zoneLeft: 60, zoneRight: 220, zoneVert: 120 };
-  return { zoneLeft: 20, zoneRight: 20, zoneVert: 240 };
-}
+// Las zonas de magnetismo se calculan en runtime por posición física
+// (ver magnetic-cards.ts). Acá ya no se pasan props de zona.
 ---
 
 <section id="casos">
   <h2 class="Dela"><span class="hidden_text">{t('home.casos.titleHover')}</span> {t('home.casos.title')}</h2>
   <div class="casos-cards">
     {
-      cases.map((caseItem, idx) => {
-        const zones = zoneFor(idx, cases.length);
-        return (
-          <div class="casos-slot">
-            <Card
-              text={caseItem.text[locale]}
-              href={caseItem.href}
-              company={caseItem.company}
-              role={caseItem.role[locale]}
-              period={caseItem.period}
-              cover={caseItem.cover}
-              bgColor={caseItem.bgColor}
-              txtColor={caseItem.txtColor}
-              tags={caseItem.tags}
-              zoneLeft={zones.zoneLeft}
-              zoneRight={zones.zoneRight}
-              zoneVert={zones.zoneVert}
-            />
-          </div>
-        );
-      })
+      cases.map((caseItem) => (
+        <div class="casos-slot">
+          <Card
+            text={caseItem.text[locale]}
+            href={caseItem.href}
+            company={caseItem.company}
+            role={caseItem.role[locale]}
+            period={caseItem.period}
+            cover={caseItem.cover}
+            bgColor={caseItem.bgColor}
+            txtColor={caseItem.txtColor}
+            tags={caseItem.tags}
+          />
+        </div>
+      ))
     }
   </div>
   <!-- <blockquote class="text_center">
@@ -73,6 +62,7 @@ function zoneFor(idx: number, total: number) {
 
   .casos-cards {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-start;
     justify-content: center;
     gap: 32px;

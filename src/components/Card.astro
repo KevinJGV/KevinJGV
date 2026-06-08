@@ -12,9 +12,6 @@ interface Props {
   bgColor?: string;
   txtColor?: string;
   tags?: Record<string, string>;
-  zoneLeft?: number;
-  zoneRight?: number;
-  zoneVert?: number;
 }
 
 const {
@@ -27,9 +24,6 @@ const {
   bgColor = "#1a3a52",
   txtColor = "#fff",
   tags = {},
-  zoneLeft = 60,
-  zoneRight = 60,
-  zoneVert = 120,
 } = Astro.props;
 const t = tFor(Astro);
 
@@ -54,9 +48,6 @@ const isSvgCover = cover.toLowerCase().endsWith("</svg>");
   href={href}
   target="_blank"
   rel="noopener noreferrer"
-  data-zone-left={zoneLeft}
-  data-zone-right={zoneRight}
-  data-zone-vert={zoneVert}
   style={`--cover-bg: ${bgColor}; --cover-fg: ${txtColor};`}
 >
   <div class="mg-shine" aria-hidden="true"></div>

@@ -14,11 +14,23 @@ const MAX_PULL = 28;
 // del centro tras salir del expanded bounds).
 const FIRE_EXIT = 130;
 
+// Extensión de la zona de atracción por lado, según la posición FÍSICA de la
+// card en el contenedor (se calcula en runtime, ver computeZones):
+//  - lado abierto (borde externo, sin vecina) → atracción grande
+//  - lado con vecina → mínima (no interferir con la adyacente)
+//  - card interior total (vecinas en los 4 lados) → leve en los 4 (se nota)
+const ZONE_OUTER = 200;
+const ZONE_NEIGHBOR = 14;
+const ZONE_INTERIOR = 50;
+
+interface ZoneExt { left: number; right: number; top: number; bottom: number; }
+
 let firedCard: Card | null = null;
 let rafId: number | null = null;
 let pendingEvent: MouseEvent | null = null;
 
 const bases = new Map<Card, BaseRect>();
+const zonesByCard = new Map<Card, ZoneExt>();
 
 let resizeCleanup: (() => void) | null = null;
 
@@ -39,18 +51,52 @@ function cacheBases(stage: Stage, cards: Card[]): void {
     c.style.transform = prevTransform;
     c.className = prevClass;
   }
+  computeZones(cards);
+}
+
+// Deriva la zona de atracción de cada card de su POSICIÓN FÍSICA: detecta si
+// tiene vecinas a cada lado (otra card a ese lado, solapada en el eje
+// perpendicular = misma fila/columna). Lado abierto → grande; con vecina →
+// mínima; card interior total → leve en los 4. Recalculado en cada cacheBases
+// (init + resize), así fila↔columna reasigna zonas automáticamente.
+function computeZones(cards: Card[]): void {
+  zonesByCard.clear();
+  const info = cards.map((c) => {
+    const b = bases.get(c)!;
+    return { c, l: b.left, r: b.left + b.w, t: b.top, btm: b.top + b.h, cx: b.left + b.w / 2, cy: b.top + b.h / 2 };
+  });
+  const EPS = 4;
+  for (const a of info) {
+    let hasLeft = false, hasRight = false, hasTop = false, hasBottom = false;
+    for (const o of info) {
+      if (o === a) continue;
+      const sameRow = o.t < a.btm - EPS && o.btm > a.t + EPS;   // solape vertical
+      const sameCol = o.l < a.r - EPS && o.r > a.l + EPS;       // solape horizontal
+      if (sameRow && o.cx < a.cx - EPS) hasLeft = true;
+      if (sameRow && o.cx > a.cx + EPS) hasRight = true;
+      if (sameCol && o.cy < a.cy - EPS) hasTop = true;
+      if (sameCol && o.cy > a.cy + EPS) hasBottom = true;
+    }
+    const interior = hasLeft && hasRight && hasTop && hasBottom;
+    const ext = (hasNeighbor: boolean) =>
+      interior ? ZONE_INTERIOR : hasNeighbor ? ZONE_NEIGHBOR : ZONE_OUTER;
+    zonesByCard.set(a.c, {
+      left: ext(hasLeft),
+      right: ext(hasRight),
+      top: ext(hasTop),
+      bottom: ext(hasBottom),
+    });
+  }
 }
 
 function getZone(card: Card) {
   const b = bases.get(card)!;
-  const zl = parseInt(card.dataset.zoneLeft || '0', 10);
-  const zr = parseInt(card.dataset.zoneRight || '0', 10);
-  const zv = parseInt(card.dataset.zoneVert || '0', 10);
+  const z = zonesByCard.get(card) ?? { left: ZONE_OUTER, right: ZONE_OUTER, top: ZONE_OUTER, bottom: ZONE_OUTER };
   return {
-    left: b.left - zl,
-    right: b.left + b.w + zr,
-    top: b.top - zv,
-    bottom: b.top + b.h + zv,
+    left: b.left - z.left,
+    right: b.left + b.w + z.right,
+    top: b.top - z.top,
+    bottom: b.top + b.h + z.bottom,
     cx: b.left + b.w / 2,
     cy: b.top + b.h / 2,
   };
