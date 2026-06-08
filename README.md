@@ -3,7 +3,6 @@
   
   [![](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white&labelColor=4752C4&color=4752C4)](https://discordapp.com/users/356763345283710986)
   [![](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/vin-dev)
-  [![](https://img.shields.io/badge/stackoverflow-C45F0E?style=for-the-badge&logo=stackoverflow&logoColor=white&labelColor=C45F0E&color=C45F0E)](https://stackoverflow.com/users/26126865/kejogo-dev)
   [![](https://img.shields.io/badge/Página_Web-yelow?style=for-the-badge&logo=icloud&logoColor=white)](https://www.vindevsito.dev/)
 </div>
 
@@ -26,15 +25,31 @@ Excited and interested in everything I realize I have yet to learn. Solid across
 
 ## 💻 Tech Stack
 
-![Java](https://img.shields.io/badge/Java-ed212a?style=flat&logo=CoffeeScript&logoColor=white) ![Python](https://img.shields.io/badge/Python-3670A0?style=flat&logo=python&logoColor=ffdd54) ![JavaScript](https://img.shields.io/badge/JavaScript-%23323330.svg?style=flat&logo=javascript&logoColor=%23F7DF1E) ![MySQL](https://img.shields.io/badge/MySQL-4479A1.svg?style=flat&logo=mysql&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring_Boot-72b544?style=flat&logo=springboot&logoColor=white) ![Git](https://img.shields.io/badge/Git-%23F05033.svg?style=flat&logo=git&logoColor=white) ![Figma](https://img.shields.io/badge/Figma-%23F24E1E.svg?style=flat&logo=figma&logoColor=white) ![Canva](https://img.shields.io/badge/Canva-%2300C4CC.svg?style=flat&logo=Canva&logoColor=white) ![Trello](https://img.shields.io/badge/Trello-%230052CC.svg?style=flat&logo=trello&logoColor=white) ![Jira](https://img.shields.io/badge/Jira-%230A0FFF.svg?style=flat&logo=jira&logoColor=white) ![Confluence](https://img.shields.io/badge/Confluence-%23172BF4.svg?style=flat&logo=confluence&logoColor=white) ![HTML5](https://img.shields.io/badge/HTML5-%23E34F26.svg?style=flat&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-%231572B6.svg?style=flat&logo=css3&logoColor=white) ![Markdown](https://img.shields.io/badge/MarkDown-%23000000.svg?style=flat&logo=markdown&logoColor=white) ![GithubPages](https://img.shields.io/badge/Github%20Pages-121013?style=flat&logo=github&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-142a38?style=flat&logo=PostgreSQL&logoColor=white) ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=flat&logo=eslint&logoColor=white) ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white) ![Insomnia](https://img.shields.io/badge/Insomnia-5b07cf?style=flat&logo=Insomnia&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=flat&logo=notion&logoColor=white) ![SonarLint](https://img.shields.io/badge/SonarLint-CB2029?style=flat&logo=SONARLINT&logoColor=white) ![Astro](https://img.shields.io/badge/Astro-23262f?style=flat&logo=Astro) ![TypeScript](https://img.shields.io/badge/TypeScript-23262f?style=flat&logo=TypeScript&color=white) ![Anthropic](https://img.shields.io/badge/Anthropic-d97757?style=flat&logo=anthropic&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=flat&logo=openjdk&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) ![Jira](https://img.shields.io/badge/Jira-0052CC?style=flat&logo=jira&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white) ![CSS](https://img.shields.io/badge/CSS-1572B6?style=flat&logo=css3&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=ffdd54) ![Markdown](https://img.shields.io/badge/Markdown-000000?style=flat&logo=markdown&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-000000?style=flat&logo=notion&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat&logo=springboot&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white) ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black) ![Astro](https://img.shields.io/badge/Astro-BC52EE?style=flat&logo=astro&logoColor=white) ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=flat&logo=figma&logoColor=white) ![Insomnia](https://img.shields.io/badge/Insomnia-4000BF?style=flat&logo=insomnia&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white) ![SonarLint](https://img.shields.io/badge/SonarLint-CB2029?style=flat&logo=sonarlint&logoColor=white) ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black) ![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=flat&logo=archlinux&logoColor=white) ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white) ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black) ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white) ![Hyprland](https://img.shields.io/badge/Hyprland-00AAB6?style=flat&logo=hyprland&logoColor=white) ![Claude Code](https://img.shields.io/badge/Claude_Code-D97757?style=flat&logo=claude&logoColor=white) ![Convex](https://img.shields.io/badge/Convex-EE342F?style=flat&logo=convex&logoColor=white) ![Shopify](https://img.shields.io/badge/Shopify-7AB55C?style=flat&logo=shopify&logoColor=white) ![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat&logo=prisma&logoColor=white) ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white) ![GraphQL](https://img.shields.io/badge/GraphQL-E10098?style=flat&logo=graphql&logoColor=white) ![Liquid](https://img.shields.io/badge/Liquid-7AB55C?style=flat&logo=shopify&logoColor=white) ![Make](https://img.shields.io/badge/Make.com-6D00CC?style=flat&logo=make&logoColor=white) ![Apps Script](https://img.shields.io/badge/Apps_Script-4285F4?style=flat&logo=googleappsscript&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-5FA04E?style=flat&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white) ![Biome](https://img.shields.io/badge/Biome-60A5FA?style=flat&logo=biome&logoColor=white)
 
 ## 📊 GitHub Stats
 
 <h2 align="center">
 
-![](https://github-readme-stats.vercel.app/api/top-langs/?username=KevinJGV&theme=dracula&hide_border=false&include_all_commits=true&count_private=false&layout=compact)<br/><br/>
-![](https://github-readme-stats.vercel.app/api?username=KevinJGV&theme=dracula&hide_border=false&include_all_commits=true&count_private=false)<br/><br/>
+![](https://github-readme-stats-chi-livid-94.vercel.app/api/top-langs?username=KevinJGV&theme=dracula&hide_border=false&include_all_commits=true&count_private=false&layout=compact)<br/><br/>
+![](https://github-readme-stats-chi-livid-94.vercel.app/api?username=KevinJGV&theme=dracula&hide_border=false&include_all_commits=true&count_private=false)<br/><br/>
 ![](https://github-readme-streak-stats.herokuapp.com/?user=KevinJGV&theme=dracula&hide_border=false)
+
+</h2>
+
+## 🏆 Trophies
+
+<h2 align="center">
+
+![](https://github-profile-trophy-delta-virid.vercel.app/?username=KevinJGV&theme=dracula&no-frame=true&no-bg=false&margin-w=4&column=7)
+
+</h2>
+
+## 📈 Activity Graph
+
+<h2 align="center">
+
+![](https://github-readme-activity-graph-teal.vercel.app/graph?username=KevinJGV&theme=dracula&hide_border=true&area=true)
 
 </h2>
 
@@ -42,7 +57,7 @@ Excited and interested in everything I realize I have yet to learn. Solid across
 
 <h2 align="center">
 
-![](https://github-contributor-stats.vercel.app/api?username=KevinJGV&limit=5&theme=dracula&combine_all_yearly_contributions=true)
+![](https://github-repository-contribution-stat-bay.vercel.app/api?username=KevinJGV&limit=5&theme=dracula&combine_all_yearly_contributions=true)
 
 </h2>
 
