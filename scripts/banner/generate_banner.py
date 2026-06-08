@@ -58,6 +58,7 @@ def build(ascii_path, out_path):
       @keyframes fade { to { opacity: 1; } }
       @keyframes reveal { from { opacity: 0; } to { opacity: 1; } }
       @keyframes blink { 50% { opacity: 0; } }
+      @keyframes typeon { to { clip-path: inset(0 0 0 0); } }
     </style>
   </defs>''')
 
@@ -84,41 +85,51 @@ def build(ascii_path, out_path):
         parts.append(f'    <text x="{xs}" y="{y:.1f}">{text}</text>')
     parts.append('  </g>')
 
-    # info panel
+    # info panel — efecto typewriter (clip-path inset + steps por línea)
     px = panel_x
-    delay0 = 0.5
-    step = 0.12
-    # title ".: VIN"
-    parts.append(f'  <g class="ln" style="animation-delay:{delay0:.2f}s">')
+    CHARW = 12 * 0.6      # ancho de carácter del panel (font-size 12 monospace)
+    CHAR = 0.014          # s por carácter (velocidad de tipeo)
+    GAP = 0.06            # s entre líneas
+    t = [0.45]            # delay acumulado (lista para mutar desde el helper)
+
+    def typed(y, inner, ncols, fs=12):
+        dur = max(0.18, ncols * CHAR)
+        d = t[0]
+        ln = (f'  <text x="{px}" y="{y}" font-size="{fs}" '
+              f'style="clip-path: inset(0 100% 0 0); animation: typeon {dur:.2f}s steps({ncols}) {d:.2f}s forwards;">'
+              f'{inner}</text>')
+        t[0] = d + dur + GAP
+        return ln
+
+    # título ": VIN" (logo, fade)
+    parts.append(f'  <g class="ln" style="animation-delay:0.25s">')
     parts.append(f'    <circle cx="{px+4}" cy="36" r="3.2" fill="{accent}"/>')
     parts.append(f'    <circle cx="{px+4}" cy="46" r="3.2" fill="{accent}"/>')
     parts.append(f'    <circle cx="{px+13}" cy="41" r="3.2" fill="{accent}"/>')
     parts.append(f'    <text x="{px+26}" y="22" font-size="30" font-weight="bold" fill="#ffffff">VIN</text>')
     parts.append(f'  </g>')
-    parts.append(f'  <text class="ln" style="animation-delay:{delay0+step:.2f}s" x="{px}" y="58" font-size="12" fill="{accent}">Software Developer</text>')
 
-    # host line + separator
+    # líneas que se "escriben"
+    parts.append(typed(58, f'<tspan fill="{accent}">Software Developer</tspan>', len("Software Developer")))
     yh = 86
-    parts.append(f'  <text class="ln" style="animation-delay:{delay0+2*step:.2f}s" x="{px}" y="{yh}" font-size="12">'
-                 f'<tspan fill="{accent}" font-weight="bold">{host_user}</tspan>'
-                 f'<tspan fill="{dim}">@</tspan>'
-                 f'<tspan fill="{accent}" font-weight="bold">{host_name}</tspan></text>')
-    parts.append(f'  <text class="ln" style="animation-delay:{delay0+3*step:.2f}s" x="{px}" y="{yh+15}" font-size="12" fill="{dim}">{"─"*30}</text>')
+    host_inner = (f'<tspan fill="{accent}" font-weight="bold">{host_user}</tspan>'
+                  f'<tspan fill="{dim}">@</tspan>'
+                  f'<tspan fill="{accent}" font-weight="bold">{host_name}</tspan>')
+    parts.append(typed(yh, host_inner, len(host_user) + 1 + len(host_name)))
+    parts.append(typed(yh + 15, f'<tspan fill="{dim}">{"─"*30}</tspan>', 30))
 
-    # key/value rows
     ry = yh + 36
     keyw = 78
+    keycols = round(keyw / CHARW)
     for i, (k, v) in enumerate(rows):
-        d = delay0 + (4 + i) * step
-        parts.append(f'  <text class="ln" style="animation-delay:{d:.2f}s" x="{px}" y="{ry + i*24}" font-size="12">'
-                     f'<tspan fill="{keycol}" font-weight="bold">{k}</tspan>'
-                     f'<tspan x="{px+keyw}" fill="{valcol}">{esc(v)}</tspan></text>')
+        inner = (f'<tspan fill="{keycol}" font-weight="bold">{k}</tspan>'
+                 f'<tspan x="{px+keyw}" fill="{valcol}">{esc(v)}</tspan>')
+        parts.append(typed(ry + i * 24, inner, keycols + len(v)))
 
-    # terminal color dots
+    # terminal color dots (fade al terminar el tipeo)
     dy = ry + len(rows) * 24 + 8
     palette = ["#0d1117", "#ff6b6b", "#1ed760", "#ffd866", "#6cb6ff", "#d2a8ff", "#56d4dd", "#e6edf3"]
-    dlast = delay0 + (4 + len(rows)) * step
-    parts.append(f'  <g class="ln" style="animation-delay:{dlast:.2f}s">')
+    parts.append(f'  <g class="ln" style="animation-delay:{t[0]:.2f}s">')
     for i, c in enumerate(palette):
         stroke = ' stroke="#30363d" stroke-width="1"' if c == "#0d1117" else ''
         parts.append(f'    <rect x="{px + i*22}" y="{dy}" width="16" height="16" rx="3" fill="{c}"{stroke}/>')
