@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="356" viewBox="0 0 800 356" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas, monospace">
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="332" viewBox="0 0 800 332" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas, monospace">
   <defs>
     <style>
       text { dominant-baseline: text-before-edge; }
@@ -12,8 +12,8 @@
       @keyframes typeon { to { clip-path: inset(0 0 0 0); } }
     </style>
   </defs>
-  <rect width="800" height="356" rx="14" fill="#0d1117"/>
-  <rect x="0.5" y="0.5" width="799" height="355" rx="14" fill="none" stroke="#1f2630" stroke-width="1"/>
+  <rect width="800" height="332" rx="14" fill="#0d1117"/>
+  <rect x="0.5" y="0.5" width="799" height="331" rx="14" fill="none" stroke="#1f2630" stroke-width="1"/>
   <g class="ascii" fill="#cdd9e5" font-size="6.4" xml:space="preserve">
     <text x="137.36 141.20 145.04 148.88 152.72 156.56 160.40 164.24 168.08 171.92 175.76 179.60 187.28 191.12 194.96 198.80 225.68 229.52 233.36" y="46.0">.--+##*++**=.-::.:.</text>
     <text x="118.16 122.00 125.84 129.68 133.52 137.36 141.20 145.04 148.88 152.72 156.56 160.40 164.24 168.08 171.92 175.76 179.60 183.44 187.28 191.12 194.96 198.80 202.64 206.48 210.32 214.16 218.00 221.84 225.68 229.52 233.36 237.20 241.04 244.88" y="52.4">:=:=*##%@@@@@@@@@%@@%@%%*-*%%%%%*:</text>
@@ -65,25 +65,25 @@
     <text x="378.32" y="22" font-size="30" font-weight="bold" fill="#ffffff">VIN</text>
   </g>
   <text x="352.32" y="58" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.25s steps(18) 0.45s forwards;"><tspan fill="#1ed760">Software Developer</tspan></text>
-  <text x="352.32" y="86" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.18s steps(12) 0.76s forwards;"><tspan fill="#1ed760" font-weight="bold">kevin</tspan><tspan fill="#7d8590">@</tspan><tspan fill="#1ed760" font-weight="bold">vindev</tspan></text>
-  <text x="352.32" y="101" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.42s steps(30) 1.00s forwards;"><tspan fill="#7d8590">──────────────────────────────</tspan></text>
-  <text x="352.32" y="122" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.52s steps(37) 1.48s forwards;"><tspan fill="#1ed760" font-weight="bold">Name</tspan><tspan x="430.32" fill="#e6edf3">Kevin J. González Velandia</tspan></text>
-  <text x="352.32" y="146" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.64s steps(46) 2.06s forwards;"><tspan fill="#1ed760" font-weight="bold">Role</tspan><tspan x="430.32" fill="#e6edf3">FullStack Dev · Implementation Lead</tspan></text>
-  <text x="352.32" y="170" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.24s steps(17) 2.76s forwards;"><tspan fill="#1ed760" font-weight="bold">Company</tspan><tspan x="430.32" fill="#e6edf3">Clonai</tspan></text>
-  <text x="352.32" y="194" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.57s steps(41) 3.06s forwards;"><tspan fill="#1ed760" font-weight="bold">Learning</tspan><tspan x="430.32" fill="#e6edf3">Agentic patterns · Advanced TS</tspan></text>
-  <text x="352.32" y="218" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.77s steps(55) 3.70s forwards;"><tspan fill="#1ed760" font-weight="bold">Traits</tspan><tspan x="430.32" fill="#e6edf3">Multifaceted · Motivated · Engaged · Focused</tspan></text>
-  <text x="352.32" y="242" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.71s steps(51) 4.53s forwards;"><tspan fill="#1ed760" font-weight="bold">Stack</tspan><tspan x="430.32" fill="#e6edf3">Astro · TypeScript · Java · React · Node</tspan></text>
-  <text x="352.32" y="266" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.29s steps(21) 5.30s forwards;"><tspan fill="#1ed760" font-weight="bold">Editor</tspan><tspan x="430.32" fill="#e6edf3">nvim (btw)</tspan></text>
-  <text x="352.32" y="290" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.39s steps(28) 5.65s forwards;"><tspan fill="#1ed760" font-weight="bold">Uptime</tspan><tspan x="430.32" fill="#e6edf3">online &amp; shipping</tspan></text>
-  <g class="ln" style="animation-delay:6.11s">
-    <rect x="352.32" y="322" width="16" height="16" rx="3" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
-    <rect x="374.32" y="322" width="16" height="16" rx="3" fill="#ff6b6b"/>
-    <rect x="396.32" y="322" width="16" height="16" rx="3" fill="#1ed760"/>
-    <rect x="418.32" y="322" width="16" height="16" rx="3" fill="#ffd866"/>
-    <rect x="440.32" y="322" width="16" height="16" rx="3" fill="#6cb6ff"/>
-    <rect x="462.32" y="322" width="16" height="16" rx="3" fill="#d2a8ff"/>
-    <rect x="484.32" y="322" width="16" height="16" rx="3" fill="#56d4dd"/>
-    <rect x="506.32" y="322" width="16" height="16" rx="3" fill="#e6edf3"/>
-    <rect class="cur" x="534.3199999999999" y="322" width="8" height="16" fill="#1ed760"/>
+  <text x="352.32" y="86" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.20s steps(14) 0.76s forwards;"><tspan fill="#1ed760" font-weight="bold">omarchy</tspan><tspan fill="#7d8590">@</tspan><tspan fill="#1ed760" font-weight="bold">vindev</tspan></text>
+  <text x="352.32" y="101" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.42s steps(30) 1.02s forwards;"><tspan fill="#7d8590">──────────────────────────────</tspan></text>
+  <text x="352.32" y="122" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.52s steps(37) 1.50s forwards;"><tspan fill="#1ed760" font-weight="bold">Name</tspan><tspan x="430.32" fill="#e6edf3">Kevin J. González Velandia</tspan></text>
+  <text x="352.32" y="146" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.64s steps(46) 2.08s forwards;"><tspan fill="#1ed760" font-weight="bold">Role</tspan><tspan x="430.32" fill="#e6edf3">FullStack Dev · Implementation Lead</tspan></text>
+  <text x="352.32" y="170" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.57s steps(41) 2.78s forwards;"><tspan fill="#1ed760" font-weight="bold">Learning</tspan><tspan x="430.32" fill="#e6edf3">Agentic patterns · Advanced TS</tspan></text>
+  <text x="352.32" y="194" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.77s steps(55) 3.41s forwards;"><tspan fill="#1ed760" font-weight="bold">Traits</tspan><tspan x="430.32" fill="#e6edf3">Multifaceted · Motivated · Engaged · Focused</tspan></text>
+  <text x="352.32" y="218" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.71s steps(51) 4.24s forwards;"><tspan fill="#1ed760" font-weight="bold">Stack</tspan><tspan x="430.32" fill="#e6edf3">Astro · TypeScript · Java · React · Node</tspan></text>
+  <text x="352.32" y="242" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.25s steps(18) 5.02s forwards;"><tspan fill="#1ed760" font-weight="bold">Editor</tspan><tspan x="430.32" fill="#e6edf3">VS Code</tspan></text>
+  <text x="352.32" y="266" font-size="12" style="clip-path: inset(0 100% 0 0); animation: typeon 0.39s steps(28) 5.33s forwards;"><tspan fill="#1ed760" font-weight="bold">Uptime</tspan><tspan x="430.32" fill="#e6edf3">online &amp; shipping</tspan></text>
+  <style>@keyframes curmove { 0% { transform: translate(0px,58.0px); } 7.86% { transform: translate(0px,58.0px); } 12.27% { transform: translate(129.6px,58.0px); } 13.32% { transform: translate(0px,86.0px); } 16.74% { transform: translate(100.8px,86.0px); } 17.79% { transform: translate(0px,101.0px); } 25.13% { transform: translate(216.0px,101.0px); } 26.18% { transform: translate(0px,122.0px); } 35.23% { transform: translate(266.4px,122.0px); } 36.28% { transform: translate(0px,146.0px); } 47.54% { transform: translate(331.2px,146.0px); } 48.58% { transform: translate(0px,170.0px); } 58.62% { transform: translate(295.2px,170.0px); } 59.66% { transform: translate(0px,194.0px); } 73.12% { transform: translate(396.0px,194.0px); } 74.17% { transform: translate(0px,218.0px); } 86.65% { transform: translate(367.2px,218.0px); } 87.70% { transform: translate(0px,242.0px); } 92.10% { transform: translate(129.6px,242.0px); } 93.15% { transform: translate(0px,266.0px); } 100.00% { transform: translate(201.6px,266.0px); } }</style>
+  <rect x="352.32" y="0" width="6.5" height="13" rx="1" fill="#1ed760" style="transform: translate(0px,58.0px); animation: curmove 5.72s linear forwards, blink 0.9s steps(1) infinite;"/>
+  <g class="ln" style="animation-delay:5.78s">
+    <rect x="352.32" y="298" width="16" height="16" rx="3" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+    <rect x="374.32" y="298" width="16" height="16" rx="3" fill="#ff6b6b"/>
+    <rect x="396.32" y="298" width="16" height="16" rx="3" fill="#1ed760"/>
+    <rect x="418.32" y="298" width="16" height="16" rx="3" fill="#ffd866"/>
+    <rect x="440.32" y="298" width="16" height="16" rx="3" fill="#6cb6ff"/>
+    <rect x="462.32" y="298" width="16" height="16" rx="3" fill="#d2a8ff"/>
+    <rect x="484.32" y="298" width="16" height="16" rx="3" fill="#56d4dd"/>
+    <rect x="506.32" y="298" width="16" height="16" rx="3" fill="#e6edf3"/>
   </g>
 </svg>

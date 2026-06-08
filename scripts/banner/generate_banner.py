@@ -28,15 +28,14 @@ def build(ascii_path, out_path):
     keycol = "#1ed760"
     valcol = "#e6edf3"
     dim = "#7d8590"
-    host_user, host_name = "kevin", "vindev"
+    host_user, host_name = "omarchy", "vindev"
     rows = [
         ("Name", "Kevin J. González Velandia"),
         ("Role", "FullStack Dev · Implementation Lead"),
-        ("Company", "Clonai"),
         ("Learning", "Agentic patterns · Advanced TS"),
         ("Traits", "Multifaceted · Motivated · Engaged · Focused"),
         ("Stack", "Astro · TypeScript · Java · React · Node"),
-        ("Editor", "nvim (btw)"),
+        ("Editor", "VS Code"),
         ("Uptime", "online & shipping"),
     ]
     # compute dots row position to size the canvas so nothing clips
@@ -91,6 +90,7 @@ def build(ascii_path, out_path):
     CHAR = 0.014          # s por carácter (velocidad de tipeo)
     GAP = 0.06            # s entre líneas
     t = [0.45]            # delay acumulado (lista para mutar desde el helper)
+    cursor_steps = []     # (delay, dur, ncols, y) por línea, para el cursor móvil
 
     def typed(y, inner, ncols, fs=12):
         dur = max(0.18, ncols * CHAR)
@@ -98,6 +98,7 @@ def build(ascii_path, out_path):
         ln = (f'  <text x="{px}" y="{y}" font-size="{fs}" '
               f'style="clip-path: inset(0 100% 0 0); animation: typeon {dur:.2f}s steps({ncols}) {d:.2f}s forwards;">'
               f'{inner}</text>')
+        cursor_steps.append((d, dur, ncols, y))
         t[0] = d + dur + GAP
         return ln
 
@@ -126,6 +127,19 @@ def build(ascii_path, out_path):
                  f'<tspan x="{px+keyw}" fill="{valcol}">{esc(v)}</tspan>')
         parts.append(typed(ry + i * 24, inner, keycols + len(v)))
 
+    # cursor que sigue el tipeo: una sola animación translate que recorre cada
+    # línea (x crece con el revelado) y salta a la siguiente; parpadea siempre.
+    T = max(d + du for d, du, _, _ in cursor_steps)
+    CURW = CHARW * 0.9
+    kf = [f'0% {{ transform: translate(0px,{cursor_steps[0][3]:.1f}px); }}']
+    for d, du, nc, y in cursor_steps:
+        kf.append(f'{d / T * 100:.2f}% {{ transform: translate(0px,{y:.1f}px); }}')
+        kf.append(f'{(d + du) / T * 100:.2f}% {{ transform: translate({nc * CHARW:.1f}px,{y:.1f}px); }}')
+    parts.append('  <style>@keyframes curmove { ' + ' '.join(kf) + ' }</style>')
+    parts.append(f'  <rect x="{px}" y="0" width="{CURW:.1f}" height="13" rx="1" fill="{accent}" '
+                 f'style="transform: translate(0px,{cursor_steps[0][3]:.1f}px); '
+                 f'animation: curmove {T:.2f}s linear forwards, blink 0.9s steps(1) infinite;"/>')
+
     # terminal color dots (fade al terminar el tipeo)
     dy = ry + len(rows) * 24 + 8
     palette = ["#0d1117", "#ff6b6b", "#1ed760", "#ffd866", "#6cb6ff", "#d2a8ff", "#56d4dd", "#e6edf3"]
@@ -133,8 +147,6 @@ def build(ascii_path, out_path):
     for i, c in enumerate(palette):
         stroke = ' stroke="#30363d" stroke-width="1"' if c == "#0d1117" else ''
         parts.append(f'    <rect x="{px + i*22}" y="{dy}" width="16" height="16" rx="3" fill="{c}"{stroke}/>')
-    # blinking cursor
-    parts.append(f'    <rect class="cur" x="{px + len(palette)*22 + 6}" y="{dy}" width="8" height="16" fill="{accent}"/>')
     parts.append(f'  </g>')
 
     parts.append('</svg>')
