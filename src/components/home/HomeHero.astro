@@ -32,11 +32,11 @@ const contactHref = getAlternatePath('/contact', locale);
   <section id="home1_img" class="sticky">
     <img
       id="photo"
-      src="https://res.cloudinary.com/dqgxt985j/image/upload/v1780868029/photo_xmglr7.png"
+      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
       alt="Kevin"
-      srcset=""
       class="unselected relative"
       draggable="false"
+      decoding="async"
     />
   </section>
 </article>
@@ -93,6 +93,11 @@ const contactHref = getAlternatePath('/contact', locale);
     left: 50% !important;
     transform: translate(-50%);
     width: 450px;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+  }
+  #photo.ready {
+    opacity: 1;
   }
 
   @media screen and (max-width: 780px) {
@@ -125,3 +130,23 @@ const contactHref = getAlternatePath('/contact', locale);
     }
   }
 </style>
+
+<script>
+  import { heroPhotos } from "../../data/heroPhotos";
+
+  // Elige una foto al azar en cada carga/navegación (como el reshuffle de techs)
+  // y la revela con fade al cargar. El <img> arranca con un placeholder
+  // transparente (sin red) → un solo fetch real, sin doble carga ni flash.
+  function setHeroPhoto() {
+    const img = document.getElementById("photo") as HTMLImageElement | null;
+    if (!img || heroPhotos.length === 0) return;
+    const url = heroPhotos[Math.floor(Math.random() * heroPhotos.length)].src;
+    img.classList.remove("ready");
+    const reveal = () => img.classList.add("ready");
+    img.addEventListener("load", reveal, { once: true });
+    img.src = url;
+    if (img.complete && img.naturalWidth > 0) reveal(); // cacheada
+  }
+
+  document.addEventListener("astro:page-load", setHeroPhoto);
+</script>
