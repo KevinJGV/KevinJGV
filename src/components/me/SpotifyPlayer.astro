@@ -17,8 +17,10 @@ const t = tFor(Astro);
     </svg>
     <p>{t('spotify.listeningNow')}</p>
     <div class="carrousel">
-      <p class="textoscroll">00:00 - Siddharta</p>
+      <p class="textoscroll" id="sp-track">{t('spotify.listeningNow')}</p>
     </div>
+    <img id="sp-art" class="sp-art" alt="" hidden />
+    <audio id="sp-preview" preload="none"></audio>
   </div>
   <label for="player">
     <a
@@ -59,6 +61,14 @@ const t = tFor(Astro);
   .carrousel {
     width: 155px;
     overflow: hidden;
+  }
+
+  .sp-art {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    object-fit: cover;
+    margin-left: 6px;
   }
 
   .textoscroll {
@@ -132,3 +142,95 @@ const t = tFor(Astro);
     }
   }
 </style>
+
+<script>
+  const FADE_MS = 800;
+  const OFFSET_MS = 1000;
+
+  let hasPreview = false;
+  let playing = false;
+  const timers: number[] = [];
+  const clearTimers = () => { timers.forEach(clearTimeout); timers.length = 0; };
+
+  function fade(audio: HTMLAudioElement, to: number, ms: number, onDone?: () => void) {
+    const from = audio.volume;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const k = Math.min(1, (now - start) / ms);
+      audio.volume = Math.max(0, Math.min(1, from + (to - from) * k));
+      if (k < 1) requestAnimationFrame(tick); else onDone?.();
+    };
+    requestAnimationFrame(tick);
+  }
+
+  const loopAudio = () => document.getElementById("audio-player") as HTMLAudioElement | null;
+  function muted(): boolean {
+    const w = window as unknown as { audioController?: { isMuted: () => boolean } };
+    return w.audioController?.isMuted?.() ?? false;
+  }
+
+  function startPreview() {
+    const preview = document.getElementById("sp-preview") as HTMLAudioElement | null;
+    const loop = loopAudio();
+    if (!preview || !hasPreview || playing || muted()) return;
+    playing = true;
+    clearTimers();
+    if (loop) fade(loop, 0, FADE_MS);
+    timers.push(window.setTimeout(() => {
+      preview.currentTime = 0; preview.volume = 0;
+      preview.play().catch(() => {});
+      fade(preview, 1, FADE_MS);
+    }, OFFSET_MS));
+  }
+
+  function stopPreview() {
+    const preview = document.getElementById("sp-preview") as HTMLAudioElement | null;
+    const loop = loopAudio();
+    if (!preview || !playing) return;
+    playing = false;
+    clearTimers();
+    fade(preview, 0, FADE_MS, () => preview.pause());
+    timers.push(window.setTimeout(() => {
+      if (loop && !muted()) { if (loop.paused) loop.play().catch(() => {}); fade(loop, 1, FADE_MS); }
+    }, OFFSET_MS));
+  }
+
+  async function loadNowPlaying() {
+    const trackEl = document.getElementById("sp-track");
+    const artEl = document.getElementById("sp-art") as HTMLImageElement | null;
+    const preview = document.getElementById("sp-preview") as HTMLAudioElement | null;
+    const widget = document.querySelector(".bottom-section") as HTMLElement | null;
+    if (!trackEl || !widget) return;
+    try {
+      const res = await fetch("/api/nowplaying");
+      const d = await res.json();
+      if (d && d.title) {
+        trackEl.textContent = `${d.artist} — ${d.title}`;
+        if (artEl && d.albumArt) { artEl.src = d.albumArt; artEl.hidden = false; }
+        if (preview && d.previewUrl) { preview.src = d.previewUrl; hasPreview = true; }
+      }
+    } catch { /* degrada */ }
+
+    if (widget.dataset.bound === "1") return;
+    widget.dataset.bound = "1";
+    if (window.matchMedia("(pointer: fine)").matches) {
+      widget.addEventListener("mouseenter", startPreview);
+      widget.addEventListener("mouseleave", stopPreview);
+    } else {
+      widget.addEventListener("click", () => (playing ? stopPreview() : startPreview()));
+    }
+    preview?.addEventListener("ended", stopPreview);
+  }
+
+  document.addEventListener("astro:page-load", loadNowPlaying);
+  // Al navegar: cortar el preview y restaurar el loop (que persiste entre vistas),
+  // por si se sale mientras sonaba el preview (evita dejar el loop en volumen 0).
+  document.addEventListener("astro:before-swap", () => {
+    clearTimers();
+    const preview = document.getElementById("sp-preview") as HTMLAudioElement | null;
+    const loop = loopAudio();
+    preview?.pause();
+    if (loop && !muted()) loop.volume = 1;
+    playing = false;
+  });
+</script>
