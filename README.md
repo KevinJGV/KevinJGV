@@ -50,6 +50,14 @@ Excited and interested in everything I realize I have yet to learn. Solid across
 
 </h2>
 
+## ⌛ Coding Time
+
+<h2 align="center">
+
+![WakaTime](https://github-readme-stats-chi-livid-94.vercel.app/api/wakatime?username=VinDev&theme=dracula&layout=compact&hide_border=false)
+
+</h2>
+
 ## 🏆 Trophies
 
 <h2 align="center">
