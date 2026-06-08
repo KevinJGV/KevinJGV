@@ -67,13 +67,19 @@ def build(ascii_path, out_path):
 
     # ascii portrait (single fade-in group, near-white)
     parts.append('  <g class="ascii" fill="#cdd9e5" font-size="%.1f" xml:space="preserve">' % FS)
+    # Emitir SOLO glifos visibles, cada uno con su x absoluta de rejilla. No se
+    # emiten espacios: así ningún visor puede colapsar el espaciado de la izquierda
+    # (que desfasaría la fila y "escurriría" el rostro). Se descartan también ' ' y
+    # '.' (fondo / halo casi-blanco) para que el lado vacío quede realmente en blanco.
+    EMPTY = {" ", "."}
     for i, line in enumerate(ascii_lines):
         y = ay + i * LH
-        # x explícita por carácter: ancla cada glifo a su celda de rejilla, así la
-        # alineación no depende del avance de glifo/espacio de la fuente del visor
-        # (evita la cizalladura del ASCII al renderizar como imagen).
-        xs = " ".join(f"{ax + c * CW:.2f}" for c in range(len(line)))
-        parts.append(f'    <text x="{xs}" y="{y:.1f}">{esc(line)}</text>')
+        glyphs = [(ax + c * CW, ch) for c, ch in enumerate(line) if ch not in EMPTY]
+        if not glyphs:
+            continue
+        xs = " ".join(f"{x:.2f}" for x, _ in glyphs)
+        text = esc("".join(ch for _, ch in glyphs))
+        parts.append(f'    <text x="{xs}" y="{y:.1f}">{text}</text>')
     parts.append('  </g>')
 
     # info panel
