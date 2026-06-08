@@ -5,16 +5,17 @@ const t = tFor(Astro);
 
 <section class="bottom-section Poppins-R flex relative s_b">
   <div class="player relative grid all_c">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-    >
-      <rect class="eq-bar eq-bar--1" x="4"    y="4" width="3.7" height="8"></rect>
-      <rect class="eq-bar eq-bar--2" x="10.2" y="4" width="3.7" height="16"></rect>
-      <rect class="eq-bar eq-bar--3" x="16.3" y="4" width="3.7" height="11"></rect>
-    </svg>
+    <div class="sp-icon">
+      <svg class="eq" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <rect class="eq-bar eq-bar--1" x="4"    y="4" width="3.7" height="8"></rect>
+        <rect class="eq-bar eq-bar--2" x="10.2" y="4" width="3.7" height="16"></rect>
+        <rect class="eq-bar eq-bar--3" x="16.3" y="4" width="3.7" height="11"></rect>
+      </svg>
+      <svg class="sp-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="6" y="4" width="4.5" height="16" rx="1.5"></rect>
+        <rect x="13.5" y="4" width="4.5" height="16" rx="1.5"></rect>
+      </svg>
+    </div>
     <p>{t('spotify.listeningNow')}</p>
     <div class="carrousel">
       <p class="textoscroll" id="sp-track"><img id="sp-art" class="sp-art" alt="" hidden /><span id="sp-text">{t('spotify.listeningNow')}</span></p>
@@ -69,6 +70,34 @@ const t = tFor(Astro);
     object-fit: cover;
     vertical-align: middle;
     margin-right: 8px;
+  }
+
+  /* Ícono: ecualizador por defecto; al reproducir el preview pasa a "pausa"
+     con una animación rápida (los dos SVG comparten celda, stackeados). */
+  .sp-icon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    margin: 3px;
+  }
+  .sp-icon > svg {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    transition: opacity 0.15s ease, transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .sp-pause rect { fill: var(--green); }
+  .sp-pause {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  .player.sp-playing .eq {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  .player.sp-playing .sp-pause {
+    opacity: 1;
+    transform: scale(1);
   }
 
   .textoscroll {
@@ -144,8 +173,8 @@ const t = tFor(Astro);
 </style>
 
 <script>
-  const FADE_MS = 800;
-  const OFFSET_MS = 1000;
+  const FADE_MS = 250;
+  const OFFSET_MS = 150;
 
   let hasPreview = false;
   let playing = false;
@@ -174,6 +203,7 @@ const t = tFor(Astro);
     const loop = loopAudio();
     if (!preview || !hasPreview || playing || muted()) return;
     playing = true;
+    document.querySelector(".player")?.classList.add("sp-playing"); // eq → pausa
     clearTimers();
     if (loop) fade(loop, 0, FADE_MS);
     timers.push(window.setTimeout(() => {
@@ -188,6 +218,7 @@ const t = tFor(Astro);
     const loop = loopAudio();
     if (!preview || !playing) return;
     playing = false;
+    document.querySelector(".player")?.classList.remove("sp-playing"); // pausa → eq
     clearTimers();
     fade(preview, 0, FADE_MS, () => preview.pause());
     timers.push(window.setTimeout(() => {
@@ -233,5 +264,6 @@ const t = tFor(Astro);
     preview?.pause();
     if (loop && !muted()) loop.volume = 1;
     playing = false;
+    document.querySelector(".player")?.classList.remove("sp-playing");
   });
 </script>
