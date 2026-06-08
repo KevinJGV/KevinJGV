@@ -24,7 +24,8 @@ const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://c
     <!-- Anti-flash: resuelve el tema ANTES de pintar y de cargar el CSS -->
     <script is:inline>
       (function () {
-        var pref = localStorage.getItem("cv-theme");
+        var pref = null;
+        try { pref = localStorage.getItem("cv-theme"); } catch (_) {}
         var sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         var resolved = pref === "light" || pref === "dark" ? pref : sysDark ? "dark" : "light";
         document.documentElement.dataset.theme = resolved;
