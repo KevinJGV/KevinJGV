@@ -1,0 +1,103 @@
+---
+// src/components/cv/ThemeToggle.astro
+interface Props {
+  labels: { theme: string; light: string; dark: string; system: string };
+}
+const { labels } = Astro.props;
+---
+
+<div class="theme-toggle" role="group" aria-label={labels.theme}>
+  <button type="button" data-set-theme="light" aria-label={labels.light} title={labels.light}>
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"></path>
+    </svg>
+  </button>
+  <button type="button" data-set-theme="system" aria-label={labels.system} title={labels.system}>
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="12" rx="1"></rect>
+      <path d="M8 20h8M12 16v4"></path>
+    </svg>
+  </button>
+  <button type="button" data-set-theme="dark" aria-label={labels.dark} title={labels.dark}>
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+    </svg>
+  </button>
+</div>
+
+<script is:inline>
+  (function () {
+    var KEY = "cv-theme";
+    var root = document.documentElement;
+    var mq = window.matchMedia("(prefers-color-scheme: dark)");
+
+    function stored() {
+      var v = localStorage.getItem(KEY);
+      return v === "light" || v === "dark" || v === "system" ? v : "system";
+    }
+    function resolve(pref) {
+      if (pref === "light" || pref === "dark") return pref;
+      return mq.matches ? "dark" : "light";
+    }
+    function apply(pref) {
+      root.dataset.theme = resolve(pref);
+      var buttons = document.querySelectorAll(".theme-toggle [data-set-theme]");
+      for (var i = 0; i < buttons.length; i++) {
+        var b = buttons[i];
+        b.setAttribute("aria-pressed", b.getAttribute("data-set-theme") === pref ? "true" : "false");
+      }
+    }
+    function set(pref) {
+      localStorage.setItem(KEY, pref);
+      apply(pref);
+    }
+
+    apply(stored());
+
+    document.addEventListener("click", function (e) {
+      var btn = e.target && e.target.closest ? e.target.closest("[data-set-theme]") : null;
+      if (!btn) return;
+      set(btn.getAttribute("data-set-theme"));
+    });
+
+    mq.addEventListener("change", function () {
+      if (stored() === "system") apply("system");
+    });
+  })();
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    gap: 0.15rem;
+    border: 1px solid var(--cv-border);
+    border-radius: 999px;
+    padding: 0.15rem;
+  }
+  .theme-toggle button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--cv-text-secondary);
+    cursor: pointer;
+    transition: color 200ms ease, background-color 200ms ease;
+  }
+  .theme-toggle button:hover {
+    color: var(--cv-text);
+  }
+  .theme-toggle button[aria-pressed="true"] {
+    background: var(--cv-surface);
+    color: var(--cv-accent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .theme-toggle button {
+      transition: none;
+    }
+  }
+</style>
