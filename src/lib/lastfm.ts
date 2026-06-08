@@ -26,7 +26,7 @@ export async function lastfmTrack(): Promise<{ title: string; artist: string; ar
   const url =
     `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks` +
     `&user=${encodeURIComponent(user)}&api_key=${key}&format=json&limit=1`;
-  const res = await fetch(url);
+  const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
   if (!res.ok) return null;
   const j = await res.json();
   const t: LfmTrack | undefined = j?.recenttracks?.track?.[0];
@@ -42,7 +42,7 @@ export async function lastfmTrack(): Promise<{ title: string; artist: string; ar
 export async function itunes(title: string, artist: string): Promise<{ preview: string | null; art: string | null }> {
   const term = encodeURIComponent(`${title} ${artist}`);
   try {
-    const r = await fetch(`https://itunes.apple.com/search?term=${term}&entity=song&limit=1`);
+    const r = await fetch(`https://itunes.apple.com/search?term=${term}&entity=song&limit=1`, { signal: AbortSignal.timeout(5000) });
     if (r.ok) {
       const j = await r.json();
       const it = j?.results?.[0];
@@ -58,7 +58,7 @@ export async function itunes(title: string, artist: string): Promise<{ preview: 
 export async function deezerPreview(title: string, artist: string): Promise<string | null> {
   const term = encodeURIComponent(`${title} ${artist}`);
   try {
-    const r = await fetch(`https://api.deezer.com/search?q=${term}&limit=1`);
+    const r = await fetch(`https://api.deezer.com/search?q=${term}&limit=1`, { signal: AbortSignal.timeout(5000) });
     if (r.ok) { const j = await r.json(); return j?.data?.[0]?.preview ?? null; }
   } catch { /* ignore */ }
   return null;

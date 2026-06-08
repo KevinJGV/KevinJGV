@@ -26,6 +26,9 @@ async function toDataUri(url: string | null): Promise<string | null> {
     const r = await fetch(url, { signal: AbortSignal.timeout(4000) });
     if (!r.ok) return null;
     const buf = await r.arrayBuffer();
+    // Reject implausibly large art: GitHub's camo proxy silently drops oversized
+    // images, and a huge base64 blob would bloat the SVG response.
+    if (buf.byteLength > 150_000) return null;
     const bytes = new Uint8Array(buf);
     // Convert to base64 without Buffer (available in both Node and edge runtimes).
     let binary = "";
@@ -46,9 +49,6 @@ function offlineSvg(label = "Not playing"): string {
   <defs>
     <clipPath id="art-clip">
       <rect x="16" y="16" width="88" height="88" rx="8"/>
-    </clipPath>
-    <clipPath id="card-clip">
-      <rect x="0" y="0" width="400" height="120" rx="12"/>
     </clipPath>
   </defs>
   <!-- Card background -->
@@ -76,7 +76,7 @@ function buildSvg(params: {
 }): string {
   const { title, artist, artDataUri, isPlaying } = params;
 
-  const label = isPlaying ? "Now playing" : "Last played";
+  const label = xmlEscape(isPlaying ? "Now playing" : "Last played");
   const displayTitle = xmlEscape(trunc(title, 28));
   const displayArtist = xmlEscape(trunc(artist, 30));
 
@@ -129,7 +129,7 @@ function buildSvg(params: {
   <!-- Playing indicator dot -->
   ${dotElement}
   <!-- Label -->
-  <text x="${labelX}" y="38" font-size="11" fill="#b3b3b3" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">${xmlEscape(label)}</text>
+  <text x="${labelX}" y="38" font-size="11" fill="#b3b3b3" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">${label}</text>
   <!-- Track title -->
   <text x="113" y="64" font-size="15" font-weight="bold" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif">${displayTitle}</text>
   <!-- Artist -->
