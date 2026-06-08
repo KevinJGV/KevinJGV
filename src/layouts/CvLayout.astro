@@ -31,6 +31,40 @@ const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://c
         document.documentElement.dataset.theme = resolved;
       })();
     </script>
+
+    <!-- Detección de idioma del sistema (espeja el comportamiento del sitio principal).
+         Corre ANTES de pintar para evitar flash del idioma incorrecto. -->
+    <script is:inline>
+      (function () {
+        var KEY = "cv-locale";
+        var p = window.location.pathname;
+        var current = /(^|\/)en\/?$/.test(p) ? "en" : "es";
+        var stored = null;
+        try { stored = localStorage.getItem(KEY); } catch (_) {}
+        var target;
+        if (stored === "es" || stored === "en") {
+          target = stored;
+        } else {
+          var lang = (navigator.language || "en").toLowerCase();
+          // ES solo si el idioma del navegador empieza por "es"; cualquier otro -> EN.
+          target = lang.indexOf("es") === 0 ? "es" : "en";
+          try { localStorage.setItem(KEY, target); } catch (_) {}
+        }
+        if (target !== current) {
+          window.location.replace(current === "es" ? "en/" : "../");
+          return;
+        }
+        if (stored !== current) {
+          try { localStorage.setItem(KEY, current); } catch (_) {}
+        }
+        // El switcher manual persiste la elección para que el auto-redirect la respete.
+        document.addEventListener("click", function (e) {
+          var a = e.target && e.target.closest ? e.target.closest("[data-set-locale]") : null;
+          if (!a) return;
+          try { localStorage.setItem(KEY, a.getAttribute("data-set-locale")); } catch (_) {}
+        });
+      })();
+    </script>
   </head>
   <body>
     <slot />
@@ -52,7 +86,7 @@ const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://c
     --cv-surface: #1e1e1e;
     --cv-text: rgba(255, 255, 255, 0.87);
     --cv-text-secondary: rgba(255, 255, 255, 0.6);
-    --cv-border: #333333;
+    --cv-border: #242424;
     --cv-accent: #60a5fa;
   }
 

@@ -15,6 +15,7 @@ export interface CvAchievement {
 export interface CvExperience {
   role: string;
   company: string;
+  companyUrl?: string;
   period: string;
   summary: string;
   achievements: CvAchievement[];
@@ -23,6 +24,7 @@ export interface CvExperience {
 export interface CvEducation {
   title: string;
   institution: string;
+  institutionUrl?: string;
   period: string;
   location: string;
   description: string;
@@ -83,6 +85,7 @@ const es: CvData = {
     {
       role: "Desarrollador FullStack / Líder Implementador",
       company: "Clonai S.a.s",
+      companyUrl: "https://www.linkedin.com/company/clonaico/posts/?feedView=all",
       period: "02/2025 – 05/2026",
       summary:
         "Actué como co-creador técnico del producto SaaS desde su fase MVP, liderando el desarrollo de la arquitectura y la lógica de negocio. Posteriormente, dada mi comprensión integral del sistema y tras una reestructuración estratégica, fui seleccionado para asumir el rol de Líder Implementador, combinando el desarrollo técnico continuo con la dirección del equipo de entrega.",
@@ -112,6 +115,7 @@ const es: CvData = {
     {
       role: "Desarrollador FullStack",
       company: "Campuslands Co-working",
+      companyUrl: "https://www.linkedin.com/company/campuslands/posts/?feedView=all",
       period: "10/2023 – 02/2025",
       summary:
         "Contribuí al desarrollo de plataformas internas y externas impulsadas por IA, enfocadas en mejorar la gestión comercial, la entrega de servicios digitales y el servicio al cliente.",
@@ -144,6 +148,7 @@ const es: CvData = {
     {
       title: "Técnico en desarrollo de software",
       institution: "Campuslands S.a.s",
+      institutionUrl: "https://www.linkedin.com/company/campuslands/about/",
       period: "09/2023 – 02/2025",
       location: "Floridablanca, Colombia",
       description:
@@ -198,6 +203,7 @@ const en: CvData = {
     {
       role: "FullStack Developer / Implementation Lead",
       company: "Clonai S.a.s",
+      companyUrl: "https://www.linkedin.com/company/clonaico/posts/?feedView=all",
       period: "02/2025 – 05/2026",
       summary:
         "I acted as the technical co-creator of the SaaS product from its MVP phase, leading the development of the architecture and business logic. Subsequently, given my comprehensive understanding of the system and following a strategic restructuring, I was selected to assume the role of Implementation Lead, combining continuous technical development with the direction of the delivery team.",
@@ -227,6 +233,7 @@ const en: CvData = {
     {
       role: "FullStack Developer",
       company: "Campuslands Co-working",
+      companyUrl: "https://www.linkedin.com/company/campuslands/posts/?feedView=all",
       period: "10/2023 – 02/2025",
       summary:
         "I contributed to the development of internal and external AI-driven platforms, focused on improving commercial management, digital service delivery, and customer service.",
@@ -259,6 +266,7 @@ const en: CvData = {
     {
       title: "Software Development Technician",
       institution: "Campuslands S.a.s",
+      institutionUrl: "https://www.linkedin.com/company/campuslands/about/",
       period: "09/2023 – 02/2025",
       location: "Floridablanca, Colombia",
       description:
