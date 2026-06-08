@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="785" height="356" viewBox="0 0 785 356" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas, monospace">
+<svg xmlns="http://www.w3.org/2000/svg" width="801" height="396" viewBox="0 0 801 396" font-family="ui-monospace, 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas, monospace">
   <defs>
     <style>
       text { dominant-baseline: text-before-edge; }
@@ -11,62 +11,73 @@
       @keyframes blink { 50% { opacity: 0; } }
     </style>
   </defs>
-  <rect width="785" height="356" rx="14" fill="#0d1117"/>
-  <rect x="0.5" y="0.5" width="784" height="355" rx="14" fill="none" stroke="#1f2630" stroke-width="1"/>
+  <rect width="801" height="396" rx="14" fill="#0d1117"/>
+  <rect x="0.5" y="0.5" width="800" height="395" rx="14" fill="none" stroke="#1f2630" stroke-width="1"/>
   <g class="ascii" fill="#cdd9e5" font-size="9.0" xml:space="preserve">
-    <text x="26" y="46.0">                  .:-+##***--=--..-==:</text>
-    <text x="26" y="55.2">            .:+*##%@@@@@@@@@@@@@%%@=-@:</text>
-    <text x="26" y="64.4">           =#@%%%@@@@@@@@@@@@@@@@@@%##..</text>
-    <text x="26" y="73.6">         .=%@##@@@@@##@@@@@@@@@@@@@@@@%%*=</text>
-    <text x="26" y="82.8">        -#@#=%@@@@@@*@@@@@@@@@@@@@@@@@@@@@%-</text>
-    <text x="26" y="92.0">        +@@++#%%@@@@%@@@@@@@@@@@@@@@@@@@@@@+-:</text>
-    <text x="26" y="101.2">        .%@@@@@%@@@@@@@%#%*==***%@@@@@@@%*++%+</text>
-    <text x="26" y="110.4">         :@@@@@@@@%%#*+-::::::::+@@@@@%###%@@-</text>
-    <text x="26" y="119.6">          #@@@@@@#*=::::::------:+@@@@@@@@@@@+</text>
-    <text x="26" y="128.8">          -+*@@*--@*--::=#*+==----+*@@@@@@@*:</text>
-    <text x="26" y="138.0">             -*::-#+=::----+%%#+-:::**+*%%-</text>
-    <text x="26" y="147.2">              +::::=::::-::-#*=-:::::++++</text>
-    <text x="26" y="156.4">              +-::-=:::::--:::::::::=++=.</text>
-    <text x="26" y="165.6">              .+::--::::-:::::::::=+*-.</text>
-    <text x="26" y="174.8">               .+:-----=-::::::-=+**=.</text>
-    <text x="26" y="184.0">                .=-::::::::-=*##*=+=</text>
-    <text x="26" y="193.2">                 .----:=*#%%%#+====+ .=-</text>
-    <text x="26" y="202.4">                   ..:-*%#*+=======*+=:=   .-:</text>
-    <text x="26" y="211.6">           .-=+*#%@*=*+++========-=*@=:*=:--=:</text>
-    <text x="26" y="220.8">         :*@@@@@#=%@+:::----::::=*%@*.=@@+:=#:.</text>
-    <text x="26" y="230.0">        -@@@@#=.  .#@#*+===++*%@@#*%:-%*--*@@@@#.</text>
-    <text x="26" y="239.2">       :@@@*:       :+*######*+-. =-:--.-#%@@@%+.</text>
-    <text x="26" y="248.4">       -%@=         . ....       +-:=---+-:#%=</text>
-    <text x="26" y="257.6">         -         .:. ::       :=:::-==---.</text>
-    <text x="26" y="266.8">                    .....       -=:-==--.</text>
-    <text x="26" y="276.0">                                ::...</text>
+    <text x="26" y="46.0">                 .:. ..:-----..</text>
+    <text x="26" y="55.2">              .-+###*###%%%%%##*=: :.</text>
+    <text x="26" y="64.4">         :-=++*%%@@@@@@@@@@@@@@@%%*#*=.</text>
+    <text x="26" y="73.6">      .=*%@@%%%@@@@@@@@@@@@@@@@@@@@@@%#+.</text>
+    <text x="26" y="82.8">      =%@@@%%%@@@@@@@@@@@@@@@@@@@@@%@@@@#*=:</text>
+    <text x="26" y="92.0">    .+%%@@@@@@%@@@@@@@@@@@%@@@@@@@@@@@@@@%@%+.</text>
+    <text x="26" y="101.2">    :%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%@@@@@%+.</text>
+    <text x="26" y="110.4">    :%%@@@@%@@@@@@@@@@@%%%@@@%#*%%%%@@@@@@@%%%+</text>
+    <text x="26" y="119.6">   .*@%%@@@@@@%%##*+#@#*+**@%*==+####*#%@@@%@@%:</text>
+    <text x="26" y="128.8">  :*@@@@@%%%#*+=====+##*===++==========+*#%@@@@+</text>
+    <text x="26" y="138.0">  +%@@@@**+=============================++*%@@@%:</text>
+    <text x="26" y="147.2"> .#@@@@%+++==============================++*%%%%=</text>
+    <text x="26" y="156.4">  +@@%##+++==============================++*##%@+</text>
+    <text x="26" y="165.6">  :%%##*+++==============================+++*##%*</text>
+    <text x="26" y="174.8">   *##*++**####%%%%%#*========*#%%%%%####**++*#%+</text>
+    <text x="26" y="184.0">   =##*+*########%%%%%*++++++*#%%%%########*+*##-</text>
+    <text x="26" y="193.2">   -##**################+==+#################*#*.</text>
+    <text x="26" y="202.4">   .*##%###############%+===################%#%*</text>
+    <text x="26" y="211.6">.-=-*%*%###############*+===+###############%*%+:-:</text>
+    <text x="26" y="220.8">:***+*=##############*++======*##############=*++++.</text>
+    <text x="26" y="230.0">.+*++*==*##########*+=++=======+*###########+=*++++</text>
+    <text x="26" y="239.2"> =+=+#===+**###**+==+=++====+==+==+**####*+===#+=+=</text>
+    <text x="26" y="248.4"> :+=+**=============++***+****++=============**+=+:</text>
+    <text x="26" y="257.6">  =+++**+=================+================+**+++=</text>
+    <text x="26" y="266.8">  -+==+*+++============+==++=============+++*+==*:</text>
+    <text x="26" y="276.0">  .-==-+*+++======++***********++=======+++**+***-</text>
+    <text x="26" y="285.2">       .+*+++======++++++**++++++======+++*+.:-:.</text>
+    <text x="26" y="294.4">        :+*++==========++++++==========++**:</text>
+    <text x="26" y="303.6">         :#*++========================++**:</text>
+    <text x="26" y="312.8">         .+***+======================+***=</text>
+    <text x="26" y="322.0">          ==+***+==================+***==-</text>
+    <text x="26" y="331.2">          ====+***+==============+***===+-</text>
+    <text x="26" y="340.4">          :=====++****++++++++****+======.</text>
+    <text x="26" y="349.6">           .:-=====++**********++=====-:</text>
+    <text x="26" y="358.8">              .:-=====++++++++=====-:.</text>
+    <text x="26" y="368.0">                 .::-==========-:..</text>
+    <text x="26" y="377.2">                     ..::::::.</text>
   </g>
   <g class="ln" style="animation-delay:0.50s">
-    <circle cx="340.59999999999997" cy="36" r="3.2" fill="#1ed760"/>
-    <circle cx="340.59999999999997" cy="46" r="3.2" fill="#1ed760"/>
-    <circle cx="349.59999999999997" cy="41" r="3.2" fill="#1ed760"/>
-    <text x="362.59999999999997" y="22" font-size="30" font-weight="bold" fill="#ffffff">VIN</text>
+    <circle cx="356.79999999999995" cy="36" r="3.2" fill="#1ed760"/>
+    <circle cx="356.79999999999995" cy="46" r="3.2" fill="#1ed760"/>
+    <circle cx="365.79999999999995" cy="41" r="3.2" fill="#1ed760"/>
+    <text x="378.79999999999995" y="22" font-size="30" font-weight="bold" fill="#ffffff">VIN</text>
   </g>
-  <text class="ln" style="animation-delay:0.62s" x="336.59999999999997" y="58" font-size="12" fill="#1ed760">Software Developer</text>
-  <text class="ln" style="animation-delay:0.74s" x="336.59999999999997" y="86" font-size="12"><tspan fill="#1ed760" font-weight="bold">kevin</tspan><tspan fill="#7d8590">@</tspan><tspan fill="#1ed760" font-weight="bold">vindev</tspan></text>
-  <text class="ln" style="animation-delay:0.86s" x="336.59999999999997" y="101" font-size="12" fill="#7d8590">──────────────────────────────</text>
-  <text class="ln" style="animation-delay:0.98s" x="336.59999999999997" y="122" font-size="12"><tspan fill="#1ed760" font-weight="bold">Name</tspan><tspan x="414.59999999999997" fill="#e6edf3">Kevin J. González Velandia</tspan></text>
-  <text class="ln" style="animation-delay:1.10s" x="336.59999999999997" y="146" font-size="12"><tspan fill="#1ed760" font-weight="bold">Role</tspan><tspan x="414.59999999999997" fill="#e6edf3">FullStack Dev · Implementation Lead</tspan></text>
-  <text class="ln" style="animation-delay:1.22s" x="336.59999999999997" y="170" font-size="12"><tspan fill="#1ed760" font-weight="bold">Company</tspan><tspan x="414.59999999999997" fill="#e6edf3">Clonai</tspan></text>
-  <text class="ln" style="animation-delay:1.34s" x="336.59999999999997" y="194" font-size="12"><tspan fill="#1ed760" font-weight="bold">Learning</tspan><tspan x="414.59999999999997" fill="#e6edf3">Agentic patterns · Advanced TS</tspan></text>
-  <text class="ln" style="animation-delay:1.46s" x="336.59999999999997" y="218" font-size="12"><tspan fill="#1ed760" font-weight="bold">Traits</tspan><tspan x="414.59999999999997" fill="#e6edf3">Multifaceted · Motivated · Engaged · Focused</tspan></text>
-  <text class="ln" style="animation-delay:1.58s" x="336.59999999999997" y="242" font-size="12"><tspan fill="#1ed760" font-weight="bold">Stack</tspan><tspan x="414.59999999999997" fill="#e6edf3">Astro · TypeScript · Java · React · Node</tspan></text>
-  <text class="ln" style="animation-delay:1.70s" x="336.59999999999997" y="266" font-size="12"><tspan fill="#1ed760" font-weight="bold">Editor</tspan><tspan x="414.59999999999997" fill="#e6edf3">nvim (btw)</tspan></text>
-  <text class="ln" style="animation-delay:1.82s" x="336.59999999999997" y="290" font-size="12"><tspan fill="#1ed760" font-weight="bold">Uptime</tspan><tspan x="414.59999999999997" fill="#e6edf3">online &amp; shipping</tspan></text>
+  <text class="ln" style="animation-delay:0.62s" x="352.79999999999995" y="58" font-size="12" fill="#1ed760">Software Developer</text>
+  <text class="ln" style="animation-delay:0.74s" x="352.79999999999995" y="86" font-size="12"><tspan fill="#1ed760" font-weight="bold">kevin</tspan><tspan fill="#7d8590">@</tspan><tspan fill="#1ed760" font-weight="bold">vindev</tspan></text>
+  <text class="ln" style="animation-delay:0.86s" x="352.79999999999995" y="101" font-size="12" fill="#7d8590">──────────────────────────────</text>
+  <text class="ln" style="animation-delay:0.98s" x="352.79999999999995" y="122" font-size="12"><tspan fill="#1ed760" font-weight="bold">Name</tspan><tspan x="430.79999999999995" fill="#e6edf3">Kevin J. González Velandia</tspan></text>
+  <text class="ln" style="animation-delay:1.10s" x="352.79999999999995" y="146" font-size="12"><tspan fill="#1ed760" font-weight="bold">Role</tspan><tspan x="430.79999999999995" fill="#e6edf3">FullStack Dev · Implementation Lead</tspan></text>
+  <text class="ln" style="animation-delay:1.22s" x="352.79999999999995" y="170" font-size="12"><tspan fill="#1ed760" font-weight="bold">Company</tspan><tspan x="430.79999999999995" fill="#e6edf3">Clonai</tspan></text>
+  <text class="ln" style="animation-delay:1.34s" x="352.79999999999995" y="194" font-size="12"><tspan fill="#1ed760" font-weight="bold">Learning</tspan><tspan x="430.79999999999995" fill="#e6edf3">Agentic patterns · Advanced TS</tspan></text>
+  <text class="ln" style="animation-delay:1.46s" x="352.79999999999995" y="218" font-size="12"><tspan fill="#1ed760" font-weight="bold">Traits</tspan><tspan x="430.79999999999995" fill="#e6edf3">Multifaceted · Motivated · Engaged · Focused</tspan></text>
+  <text class="ln" style="animation-delay:1.58s" x="352.79999999999995" y="242" font-size="12"><tspan fill="#1ed760" font-weight="bold">Stack</tspan><tspan x="430.79999999999995" fill="#e6edf3">Astro · TypeScript · Java · React · Node</tspan></text>
+  <text class="ln" style="animation-delay:1.70s" x="352.79999999999995" y="266" font-size="12"><tspan fill="#1ed760" font-weight="bold">Editor</tspan><tspan x="430.79999999999995" fill="#e6edf3">nvim (btw)</tspan></text>
+  <text class="ln" style="animation-delay:1.82s" x="352.79999999999995" y="290" font-size="12"><tspan fill="#1ed760" font-weight="bold">Uptime</tspan><tspan x="430.79999999999995" fill="#e6edf3">online &amp; shipping</tspan></text>
   <g class="ln" style="animation-delay:1.94s">
-    <rect x="336.59999999999997" y="322" width="16" height="16" rx="3" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
-    <rect x="358.59999999999997" y="322" width="16" height="16" rx="3" fill="#ff6b6b"/>
-    <rect x="380.59999999999997" y="322" width="16" height="16" rx="3" fill="#1ed760"/>
-    <rect x="402.59999999999997" y="322" width="16" height="16" rx="3" fill="#ffd866"/>
-    <rect x="424.59999999999997" y="322" width="16" height="16" rx="3" fill="#6cb6ff"/>
-    <rect x="446.59999999999997" y="322" width="16" height="16" rx="3" fill="#d2a8ff"/>
-    <rect x="468.59999999999997" y="322" width="16" height="16" rx="3" fill="#56d4dd"/>
-    <rect x="490.59999999999997" y="322" width="16" height="16" rx="3" fill="#e6edf3"/>
-    <rect class="cur" x="518.5999999999999" y="322" width="8" height="16" fill="#1ed760"/>
+    <rect x="352.79999999999995" y="322" width="16" height="16" rx="3" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+    <rect x="374.79999999999995" y="322" width="16" height="16" rx="3" fill="#ff6b6b"/>
+    <rect x="396.79999999999995" y="322" width="16" height="16" rx="3" fill="#1ed760"/>
+    <rect x="418.79999999999995" y="322" width="16" height="16" rx="3" fill="#ffd866"/>
+    <rect x="440.79999999999995" y="322" width="16" height="16" rx="3" fill="#6cb6ff"/>
+    <rect x="462.79999999999995" y="322" width="16" height="16" rx="3" fill="#d2a8ff"/>
+    <rect x="484.79999999999995" y="322" width="16" height="16" rx="3" fill="#56d4dd"/>
+    <rect x="506.79999999999995" y="322" width="16" height="16" rx="3" fill="#e6edf3"/>
+    <rect class="cur" x="534.8" y="322" width="8" height="16" fill="#1ed760"/>
   </g>
 </svg>
