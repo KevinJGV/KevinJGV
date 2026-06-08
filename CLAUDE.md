@@ -70,3 +70,8 @@ Vercel estático. El adapter está en `astro.config.mjs`. No tocar `output: 'sta
 
 - `.astro/`, `.vercel/`, `dist/`, `node_modules/` — generados.
 - `package-lock.json` — manipulado por npm, no editar a mano.
+
+## Ideas / Roadmap futuro
+
+Ideas a medio/largo plazo (NO trabajo activo) están en [`docs/IDEAS.md`](docs/IDEAS.md) — p.ej. el
+easter egg "modo personal/psicodélico". Tienen prerequisitos; leerlos antes de implementar.
