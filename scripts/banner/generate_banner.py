@@ -70,8 +70,10 @@ def build(ascii_path, out_path):
     # Emitir SOLO glifos visibles, cada uno con su x absoluta de rejilla. No se
     # emiten espacios: así ningún visor puede colapsar el espaciado de la izquierda
     # (que desfasaría la fila y "escurriría" el rostro). Se descartan también ' ' y
-    # '.' (fondo / halo casi-blanco) para que el lado vacío quede realmente en blanco.
-    EMPTY = {" ", "."}
+    # para que el lado vacío quede realmente en blanco. Con el método de cobertura el
+    # fondo ya es espacio puro (umbral), así que solo se descarta ' ' (se conservan las
+    # líneas finas, incluido el '.' de cobertura baja).
+    EMPTY = {" "}
     for i, line in enumerate(ascii_lines):
         y = ay + i * LH
         glyphs = [(ax + c * CW, ch) for c, ch in enumerate(line) if ch not in EMPTY]
