@@ -26,9 +26,11 @@ const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://c
       (function () {
         var pref = null;
         try { pref = localStorage.getItem("cv-theme"); } catch (_) {}
-        var sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        var resolved = pref === "light" || pref === "dark" ? pref : sysDark ? "dark" : "light";
-        document.documentElement.dataset.theme = resolved;
+        // Solo forzamos el atributo para una elección explícita; "sistema"
+        // (o sin preferencia) lo resuelve el CSS con prefers-color-scheme.
+        if (pref === "light" || pref === "dark") {
+          document.documentElement.dataset.theme = pref;
+        }
       })();
     </script>
 
@@ -72,22 +74,66 @@ const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://c
 </html>
 
 <style is:global>
-  :root,
-  [data-theme="light"] {
+  /* Source Sans 3 (la familia de los PDFs): Regular 400, Bold 700, Italic. */
+  @font-face {
+    font-family: "SourceSans";
+    src: url("/fonts/SourceSans3.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "SourceSans";
+    src: url("/fonts/SourceSans3-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "SourceSans";
+    src: url("/fonts/SourceSans3-Italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  /* Base = claro. */
+  :root {
     --cv-bg: #ffffff;
     --cv-surface: #f3f4f6;
     --cv-text: #111827;
     --cv-text-secondary: #6b7280;
-    --cv-border: #e5e7eb;
+    --cv-border: #afb1b4;
     --cv-accent: #3b82f6;
   }
-  [data-theme="dark"] {
+  /* Por defecto (sin elección explícita) seguimos el tema del SO vía CSS,
+     sin depender de JS — así nunca queda "atascado en claro". */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --cv-bg: #121212;
+      --cv-surface: #1e1e1e;
+      --cv-text: rgba(255, 255, 255, 0.87);
+      --cv-text-secondary: rgba(255, 255, 255, 0.6);
+      --cv-border: #333333;
+      --cv-accent: #60a5fa;
+    }
+  }
+  /* Elección explícita del usuario (mayor especificidad → siempre gana). */
+  :root[data-theme="dark"] {
     --cv-bg: #121212;
     --cv-surface: #1e1e1e;
     --cv-text: rgba(255, 255, 255, 0.87);
     --cv-text-secondary: rgba(255, 255, 255, 0.6);
-    --cv-border: #242424;
+    --cv-border: #333333;
     --cv-accent: #60a5fa;
+  }
+  :root[data-theme="light"] {
+    --cv-bg: #ffffff;
+    --cv-surface: #f3f4f6;
+    --cv-text: #111827;
+    --cv-text-secondary: #6b7280;
+    --cv-border: #afb1b4;
+    --cv-accent: #3b82f6;
   }
 
   * {
@@ -100,7 +146,7 @@ const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://c
     margin: 0;
     background: var(--cv-bg);
     color: var(--cv-text);
-    font-family: Georgia, "Times New Roman", Cambria, "Liberation Serif", serif;
+    font-family: "SourceSans", system-ui, sans-serif;
     line-height: 1.5;
     transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
   }

@@ -26,23 +26,25 @@ const { labels } = Astro.props;
   </button>
 </div>
 
-<script is:inline>
+<script>
+  // Script PROCESADO (no is:inline): Astro lo hashea, así pasa el CSP estricto.
+  // El tema "sistema" se delega al CSS (prefers-color-scheme) quitando el
+  // atributo; solo light/dark fuerzan data-theme.
   (function () {
     var KEY = "cv-theme";
     var root = document.documentElement;
-    var mq = window.matchMedia("(prefers-color-scheme: dark)");
 
     function stored() {
       var v = null;
       try { v = localStorage.getItem(KEY); } catch (_) {}
       return v === "light" || v === "dark" || v === "system" ? v : "system";
     }
-    function resolve(pref) {
-      if (pref === "light" || pref === "dark") return pref;
-      return mq.matches ? "dark" : "light";
-    }
     function apply(pref) {
-      root.dataset.theme = resolve(pref);
+      if (pref === "light" || pref === "dark") {
+        root.dataset.theme = pref;
+      } else {
+        delete root.dataset.theme; // "sistema" → el CSS sigue al SO
+      }
       var buttons = document.querySelectorAll(".theme-toggle [data-set-theme]");
       for (var i = 0; i < buttons.length; i++) {
         var b = buttons[i];
@@ -57,13 +59,10 @@ const { labels } = Astro.props;
     apply(stored());
 
     document.addEventListener("click", function (e) {
-      var btn = e.target && e.target.closest ? e.target.closest("[data-set-theme]") : null;
+      var t = e.target;
+      var btn = t instanceof Element ? t.closest("[data-set-theme]") : null;
       if (!btn) return;
       set(btn.getAttribute("data-set-theme"));
-    });
-
-    mq.addEventListener("change", function () {
-      if (stored() === "system") apply("system");
     });
   })();
 </script>
