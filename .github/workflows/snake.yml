@@ -1,0 +1,30 @@
+name: Generate Snake
+
+on:
+  schedule: # 18:00 UTC daily (low-traffic hour)
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    name: generate-contributions-snake
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: Platane/snk@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          svg_out_path: assets/snake-contributions.svg
+
+      - name: Commit & Push
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add assets/snake-contributions.svg
+          if git commit -m "chore(profile): actualizar snake de contribuciones"; then
+            git push
+          fi
