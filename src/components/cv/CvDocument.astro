@@ -15,7 +15,7 @@ const d = cv[locale];
 <main class="cv">
   <nav class="toolbar">
       <a class="lang" href={altLangHref} hreflang={locale === "es" ? "en" : "es"} data-set-locale={locale === "es" ? "en" : "es"}>{d.ui.switchTo}</a>
-      <a class="download" href={pdfHref} download>{d.ui.downloadPdf}</a>
+      <a class="download" href={pdfHref} download={pdfHref.split("/").pop()}>{d.ui.downloadPdf}</a>
       <ThemeToggle
         labels={{
           theme: d.ui.themeLabel,

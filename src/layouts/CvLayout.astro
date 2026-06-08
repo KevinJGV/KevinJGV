@@ -53,7 +53,7 @@ const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://c
           try { localStorage.setItem(KEY, target); } catch (_) {}
         }
         if (target !== current) {
-          window.location.replace(current === "es" ? "en/" : "../");
+          window.location.replace(current === "es" ? "/cv/en/" : "/cv/");
           return;
         }
         if (stored !== current) {
