@@ -1,5 +1,11 @@
 # README Profile "no genérico" Implementation Plan
 
+> **ESTADO: ✅ SHIPPED a `main` y validado en producción (2026-06-08).**
+> Todas las features están live en el perfil github.com/KevinJGV. El detalle de lo que
+> realmente quedó (difiere del plan original) y los pendientes están al final, en
+> **"Estado final shipped"** y **"Pendientes / follow-ups"**. Aprendizajes técnicos
+> reutilizables en `docs/superpowers/findings/2026-06-08-readme-profile-findings.md`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Hacer que el README de perfil de KevinJGV destaque vs uno genérico con 5 features que usan datos reales que Kevin controla y su estética personal.
@@ -88,3 +94,50 @@ Restricciones: `.env` con secretos reales (no commitear; solo `.env.example`). R
 ## Orden de ejecución
 
 1/3/6 (sin dependencia de Kevin) → 2/5 (necesitan assets/credenciales). Commits a la rama `feat/readme-profile`; Kevin pushea/mergea.
+
+---
+
+## Estado final shipped (lo que realmente quedó en `main`)
+
+El repo `KevinJGV/KevinJGV` es dual: README de perfil + portfolio Astro (Vercel). Live:
+
+- **Banner ASCII fastfetch** — `assets/banner.svg`, generado por `scripts/banner/`:
+  - `img2ascii.py`: line-art → ASCII por **cobertura de tinta** (`-threshold` → `-negate` →
+    `-filter Box -resize` → mapeo `cobertura^gamma` a rampa). Capta líneas finas (ojos, nariz,
+    boca, dedos) que el método de luminancia/`-level` borraba. CLI: `img2ascii.py <png> <cols> <thresh> <gamma>` (uso: `portrait.png 84 50% 0.6`).
+  - `generate_banner.py`: SVG con retrato a la izquierda (cada glifo con **x absoluta**, sin
+    espacios — evita cizalladura/colapso de espaciado en visores) + panel fastfetch a la derecha
+    con **typewriter** (`clip-path: inset()` animado con `steps(N)` por línea, delays acumulados)
+    y **cursor que sigue la escritura** (una animación `transform: translate` `curmove` que recorre
+    el borde de revelado de cada línea y salta a la siguiente, parpadeando).
+  - Retrato fuente: `scripts/banner/portrait.png` (la versión simplificada "peace sign"). El PNG
+    original `assets/Github_banner.png` se conserva como fallback.
+  - Datos del panel (en `generate_banner.py`, lista `rows` + `host_user`): `omarchy@vindev`,
+    Name, Role (`FullStack Dev · Implementation Lead`), Learning, Traits, Stack, Editor (`VS Code`),
+    Uptime. **Se quitó la fila Company (Clonai) — Kevin ya no trabaja ahí.**
+- **Now Playing en vivo** — `src/pages/api/now-playing.svg.ts` + `src/lib/lastfm.ts` (Last.fm +
+  iTunes, carátula base64, ecualizador animado). README embebe `https://www.vindevsito.dev/api/now-playing.svg`.
+- **Chismes colapsables** — `<details>` en README.
+- **WakaTime** — card desde la instance self-hosted `github-readme-stats-chi-livid-94.vercel.app/api/wakatime?username=VinDev`.
+- **Grafo 3D** — `.github/workflows/profile-3d.yml` (yoshi389111/github-profile-3d-contrib@v0.9.2);
+  genera `profile-3d-contrib/*.svg` y commitea. README usa `profile-night-rainbow.svg`.
+- **Snake** — `.github/workflows/snake.yml` (Platane/snk@v3, `outputs:` + `github_token`).
+- **Widgets self-hosted** (forks de Kevin en su Vercel, ver README): stats/top-langs, trophy,
+  activity-graph, contribution-stats. Tokens = un PAT en cada proyecto.
+- (Descartado del plan: la idea de "quotes" y el parpadeo de ojos del retrato.)
+
+Ambos workflows hacen **push resiliente** (`pull --rebase` + reintentos, `fetch-depth: 0`) tras una
+carrera de push que crasheó el snake. Crons separados (3D 18:00 UTC, snake 06:00 UTC).
+
+## Pendientes / follow-ups
+
+- **WakaTime (acción de Kevin):** en wakatime.com/settings activar *"Display languages, editors,
+  operating systems publicly"* + perfil público; si no, la card muestra "User doesn't publicly
+  share detailed code statistics". (La card en sí ya está cableada y correcta.)
+- **Role del banner:** sigue como `FullStack Dev · Implementation Lead` (era el rol en Clonai). Si
+  Kevin define nuevo rol/empresa, editar `rows` en `scripts/banner/generate_banner.py` y regenerar.
+- **Regenerar el banner** tras cualquier cambio de datos/retrato: ver `scripts/banner/README.md`.
+- **Permisos de Actions:** el repo necesita *Settings → Actions → General → Workflow permissions →
+  Read and write* (ya configurado; recordarlo si se clona/forkea).
+- Roadmap mayor del portfolio (no de este perfil): ver memoria `project_roadmap_status` — siguiente
+  spec sería **Features OGG** (bilingüe ES/EN ya está hecho, plan `2026-05-27-bilingual-es-en.md`).
