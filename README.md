@@ -1,5 +1,5 @@
 <div id="header" align="center">
-  <img decoding="async" src="./assets/Github_banner.png" width="1000"/>
+  <img decoding="async" src="./assets/banner.svg" width="1000" alt="VIN — Software Developer"/>
   
   [![](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white&labelColor=4752C4&color=4752C4)](https://discordapp.com/users/356763345283710986)
   [![](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/vin-dev)
