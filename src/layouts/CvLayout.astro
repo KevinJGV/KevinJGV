@@ -1,0 +1,100 @@
+---
+// src/layouts/CvLayout.astro
+interface Props {
+  locale: "es" | "en";
+  title: string;
+  description: string;
+}
+const { locale, title, description } = Astro.props;
+const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://cv.vindevsito.dev/";
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href="https://cv.vindevsito.dev/" />
+    <link rel="alternate" hreflang="en" href="https://cv.vindevsito.dev/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://cv.vindevsito.dev/" />
+
+    <!-- Anti-flash: resuelve el tema ANTES de pintar y de cargar el CSS -->
+    <script is:inline>
+      (function () {
+        var pref = localStorage.getItem("cv-theme");
+        var sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var resolved = pref === "light" || pref === "dark" ? pref : sysDark ? "dark" : "light";
+        document.documentElement.dataset.theme = resolved;
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root,
+  [data-theme="light"] {
+    --cv-bg: #ffffff;
+    --cv-surface: #f3f4f6;
+    --cv-text: #111827;
+    --cv-text-secondary: #6b7280;
+    --cv-border: #e5e7eb;
+    --cv-accent: #3b82f6;
+  }
+  [data-theme="dark"] {
+    --cv-bg: #121212;
+    --cv-surface: #1e1e1e;
+    --cv-text: rgba(255, 255, 255, 0.87);
+    --cv-text-secondary: rgba(255, 255, 255, 0.6);
+    --cv-border: #333333;
+    --cv-accent: #60a5fa;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--cv-bg);
+    color: var(--cv-text);
+    font-family: Georgia, "Times New Roman", Cambria, "Liberation Serif", serif;
+    line-height: 1.5;
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+  a {
+    color: var(--cv-accent);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  :focus-visible {
+    outline: 2px solid var(--cv-accent);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body {
+      transition: none;
+    }
+  }
+  @media (prefers-contrast: more) {
+    [data-theme="dark"] {
+      --cv-text: #ffffff;
+      --cv-text-secondary: #e0e0e0;
+      --cv-bg: #000000;
+    }
+    :root,
+    [data-theme="light"] {
+      --cv-text: #000000;
+      --cv-bg: #ffffff;
+    }
+  }
+</style>
