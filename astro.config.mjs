@@ -52,6 +52,7 @@ export default defineConfig({
       directives: [
         "default-src 'self'",
         "img-src 'self' data: https:",
+        "media-src 'self' https:",
         "font-src 'self' data:",
         "connect-src 'self' https://vitals.vercel-insights.com",
         "frame-ancestors 'none'",
