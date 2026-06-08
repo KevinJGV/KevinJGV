@@ -1,8 +1,7 @@
 name: Generate Snake
 
 on:
-  schedule: # 06:00 UTC daily (separado del workflow 3D de las 18:00 para evitar
-            # colisión de push a main)
+  schedule: # 06:00 UTC diario (separado del workflow 3D de las 18:00)
     - cron: "0 6 * * *"
   workflow_dispatch:
 
@@ -15,17 +14,26 @@ jobs:
     name: generate-contributions-snake
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: Platane/snk@v3
         with:
           github_user_name: ${{ github.repository_owner }}
-          svg_out_path: assets/snake-contributions.svg
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          outputs: |
+            assets/snake-contributions.svg
 
       - name: Commit & Push
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add assets/snake-contributions.svg
-          if git commit -m "chore(profile): actualizar snake de contribuciones"; then
-            git push
-          fi
+          git diff --quiet --cached && { echo "sin cambios"; exit 0; }
+          git commit -m "chore(profile): actualizar snake de contribuciones"
+          # push resiliente a carreras con el workflow 3D (rebase + reintentos)
+          for i in 1 2 3 4 5; do
+            git pull --rebase --autostash origin main && git push && exit 0
+            echo "reintento $i (carrera de push)"; sleep $((RANDOM % 4 + 2))
+          done
+          echo "push falló tras reintentos"; exit 1
