@@ -12,8 +12,8 @@ def build(ascii_path, out_path):
     ascii_lines = [l for l in ascii_lines if l.strip() != ""] or ascii_lines
 
     # --- layout ---
-    FS = 9.0            # ascii font-size
-    LH = 9.2            # ascii line-height
+    FS = 6.4            # ascii font-size (chico: más detalle sin agrandar el banner)
+    LH = 6.4            # ascii line-height
     CW = FS * 0.6       # monospace char width approx
     ax, ay = 26, 46     # ascii origin
     cols = max((len(l) for l in ascii_lines), default=40)

@@ -6,8 +6,8 @@ neofetch/fastfetch (derecha), con animación de reveal.
 ## Regenerar
 
 ```bash
-# 1. retrato → ASCII (ajustar columnas si hace falta; 56 da buen balance)
-python3 scripts/banner/img2ascii.py scripts/banner/portrait.png 56 > /tmp/ascii.txt
+# 1. retrato → ASCII (cols + -level para aislar rasgos de ilustración de líneas)
+python3 scripts/banner/img2ascii.py scripts/banner/portrait.png 68 "32%,66%" > /tmp/ascii.txt
 
 # 2. ASCII → SVG final
 python3 scripts/banner/generate_banner.py /tmp/ascii.txt assets/banner.svg
