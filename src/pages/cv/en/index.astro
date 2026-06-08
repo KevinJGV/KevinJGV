@@ -1,0 +1,16 @@
+---
+// src/pages/cv/en/index.astro  →  /cv/en/  (subdominio: cv.vindevsito.dev/en/)
+import CvLayout from "../../../layouts/CvLayout.astro";
+import CvDocument from "../../../components/cv/CvDocument.astro";
+import { cv } from "../../../data/cv";
+const d = cv.en;
+---
+
+<CvLayout locale="en" title={`${d.name} — CV`} description={d.profile}>
+  <CvDocument
+    locale="en"
+    pdfHref="../cv-en.pdf"
+    altLangHref="../"
+    portfolioHref="https://vindevsito.dev/en"
+  />
+</CvLayout>
