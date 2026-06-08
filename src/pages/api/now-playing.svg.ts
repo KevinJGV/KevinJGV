@@ -58,11 +58,11 @@ function offlineSvg(label = "Not playing"): string {
   <!-- Music note placeholder -->
   <text x="60" y="68" font-size="32" text-anchor="middle" fill="#535353" font-family="system-ui, -apple-system, sans-serif">♪</text>
   <!-- Label -->
-  <text x="120" y="38" font-size="11" fill="#b3b3b3" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">${xmlEscape(label)}</text>
+  <text x="113" y="38" font-size="11" fill="#b3b3b3" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">${xmlEscape(label)}</text>
   <!-- Title -->
-  <text x="120" y="62" font-size="15" font-weight="bold" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif">—</text>
+  <text x="113" y="62" font-size="15" font-weight="bold" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif">—</text>
   <!-- Artist -->
-  <text x="120" y="83" font-size="13" fill="#b3b3b3" font-family="system-ui, -apple-system, sans-serif">—</text>
+  <text x="113" y="83" font-size="13" fill="#b3b3b3" font-family="system-ui, -apple-system, sans-serif">—</text>
   <!-- Border -->
   <rect width="399" height="119" rx="12" fill="none" stroke="#282828" stroke-width="1" x="0.5" y="0.5"/>
 </svg>`;

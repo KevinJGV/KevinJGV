@@ -1,8 +1,9 @@
 name: Generate Snake
 
 on:
-  schedule: # 18:00 UTC daily (low-traffic hour)
-    - cron: "0 18 * * *"
+  schedule: # 06:00 UTC daily (separado del workflow 3D de las 18:00 para evitar
+            # colisión de push a main)
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 permissions:
