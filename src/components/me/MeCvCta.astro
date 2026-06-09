@@ -1,0 +1,45 @@
+---
+import Anchor from "../Anchor.astro";
+import { tFor } from "../../i18n";
+const t = tFor(Astro);
+// Link locale-aware: lleva el idioma actual del portafolio al CV
+// (ES → cv.vindevsito.dev/, EN → cv.vindevsito.dev/en/). Misma pestaña.
+const cvHref =
+  Astro.currentLocale === "en"
+    ? "https://cv.vindevsito.dev/en/"
+    : "https://cv.vindevsito.dev/";
+---
+
+<article id="me5" class="top-section flex_col alignI_c">
+  <h1 class="Alumni_I">{t("me.cvCta.question")}</h1>
+  <p class="Poppins-R">{t("me.cvCta.answer")}</p>
+  <Anchor
+    text={t("me.cvCta.linkText")}
+    href={cvHref}
+    _blank={false}
+    svg={true}
+    max_font_size="3.5rem"
+    min_font_size="2rem"
+    bgHeight="4.5rem"
+  />
+</article>
+
+<style>
+  #me5 {
+    gap: 1.25rem;
+    text-align: center;
+    padding-block: 2rem 4rem;
+  }
+
+  #me5 h2 {
+    margin: 0;
+    font-weight: normal;
+    font-size: clamp(1.3rem, 0.0774rem + 2.7936vw, 2rem);
+  }
+
+  #me5 p {
+    margin: 0;
+    margin-bottom: 1rem;
+    font-size: clamp(1rem, 0.0774rem + 1.7936vw, 1.2rem);
+  }
+</style>

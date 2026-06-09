@@ -101,6 +101,11 @@ export default {
         { text: "Overly authoritarian people" },
       ],
     },
+    cvCta: {
+      question: "Did you like me? 🫣",
+      answer: "Let me show you more… 😏",
+      linkText: "More about me",
+    },
   },
   spotify: {
     listeningNow: "Listening now:",
