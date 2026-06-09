@@ -162,9 +162,47 @@ sobrescribir una elección manual.
 - Revisión manual: cambio de tema sin flash, persistencia, descarga de PDF por
   idioma, selector ES↔EN, impresión limpia.
 
+## Producción: enrutamiento del subdominio (cómo se sirve el CV en la raíz)
+
+`cv.vindevsito.dev` y el portafolio comparten **un solo deploy estático**. Servir
+contenido distinto por host en la **raíz** (`/`) resultó imposible con los
+mecanismos del repo, porque en `output: 'static'` el `handle: filesystem` de
+Vercel sirve los `.html` prerenderizados **antes** que cualquier función:
+
+- `rewrites` de `vercel.json` → se evalúan **después** del filesystem ⇒ `/` servía
+  el `index.html` del apex. Solo funcionaban rutas sin colisión.
+- Edge middleware (`@astrojs/vercel` `middlewareMode: 'edge'`) → en static, el
+  `_middleware` solo atrapa lo que **no** existe como archivo (API/404). Tampoco
+  intercepta `/`.
+
+Lo que **sí** corre antes del filesystem en un deploy estático: *redirects* y las
+**Vercel Routing Rules** (config a nivel proyecto, NO en el repo). La solución es
+una routing rule que reescribe por host. Vive en la config del proyecto Vercel
+`kejogostorage/webpage` y sobrevive a los deploys. Para reproducirla:
+
+```bash
+npx vercel routes add "CV subdomain root" \
+  --src "/:path((?!_astro/|_vercel/|cv/).*)" --src-syntax path-to-regexp \
+  --has "host:eq=cv.vindevsito.dev" \
+  --action rewrite --dest "/cv/:path" --yes
+npx vercel routes publish --yes
+```
+
+Notas:
+- `src` y `dest` deben usar el **mismo** parámetro sin desajuste de modificador
+  (`:path` ↔ `:path`; `:path*` en el dest NO sustituye y da 404).
+- Excluye `_astro/`, `_vercel/` y `cv/` (assets compartidos y rutas ya correctas).
+- El apex no se ve afectado (la regla está condicionada al host del CV).
+- Por esto `vercel.json` ya **no** lleva `rewrites`: la routing rule lo reemplaza.
+
 ## Fuera de alcance (follow-up)
 
 - **Enlazado inteligente** del portafolio principal (`vindevsito.dev`) ↔ el
-  subdominio del CV. Tarea separada posterior.
+  subdominio del CV. Incluye limpiar las URLs **internas** del subdominio: hoy el
+  selector ES↔EN y la descarga apuntan a `/cv/...` (absolutas, correctas en el
+  apex), así que en el subdominio la barra muestra `/cv/` al navegar. La raíz sí
+  queda limpia.
+- Hacer que el auto-redirect de idioma y el anti-flash de tema (`is:inline`,
+  bloqueados por el CSP en prod) funcionen bajo el CSP del subdominio.
 - Configuración de DNS / asignación del subdominio `cv.vindevsito.dev` en Vercel
-  (acción manual del usuario, una sola vez).
+  (ya hecho: nameservers Vercel + subdominio conectado al proyecto `webpage`).
