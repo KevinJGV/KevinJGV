@@ -7,6 +7,9 @@ interface Props {
 }
 const { locale, title, description } = Astro.props;
 const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://cv.vindevsito.dev/";
+// Favicon relativo: resuelve a /cv/cv.ico en ambos hosts (subdominio vía rewrite,
+// apex directo). Igual patrón que el PDF: ES base /, EN base /en/ → ../.
+const faviconHref = locale === "en" ? "../cv.ico" : "cv.ico";
 ---
 
 <!doctype html>
@@ -16,6 +19,7 @@ const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://c
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="icon" href={faviconHref} sizes="any" />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="es" href="https://cv.vindevsito.dev/" />
     <link rel="alternate" hreflang="en" href="https://cv.vindevsito.dev/en/" />
