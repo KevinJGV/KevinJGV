@@ -1,9 +1,9 @@
 {
   "rewrites": [
     {
-      "source": "/((?!(?:_astro|_vercel|cv)/).*)",
+      "source": "/:path((?!_astro/|_vercel/|cv/).*)",
       "has": [{ "type": "host", "value": "cv.vindevsito.dev" }],
-      "destination": "/cv/$1"
+      "destination": "/cv/:path*"
     }
   ],
   "headers": [
