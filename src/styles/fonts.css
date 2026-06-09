@@ -28,7 +28,11 @@
 
 @font-face {
   font-family: "Alumni";
-  src: url("/fonts/AlumniSans-VariableFont_wght.woff2");
+  src: url("/fonts/AlumniSans-VariableFont_wght.woff2") format("woff2");
+  /* Sin descriptor font-weight a propósito: el browser auto-mapea el eje wght del
+     variable font y satura los valores fuera de rango (Sidebar usa 1000 → 900).
+     Declarar `font-weight: 100 900` rompía justo ese caso (1000 fuera de rango →
+     instancia por defecto 100/Thin). Igual que en main. */
 }
 
 .Alumni {
@@ -37,7 +41,7 @@
 
 @font-face {
   font-family: "Alumni Italic";
-  src: url("/fonts/AlumniSans-Italic-VariableFont_wght.woff2");
+  src: url("/fonts/AlumniSans-Italic-VariableFont_wght.woff2") format("woff2");
 }
 
 .Alumni_I {
