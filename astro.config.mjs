@@ -62,6 +62,13 @@ export default defineConfig({
       styleDirective: {
         resources: ["'self'", "'unsafe-inline'"],
       },
+      // Hash del único <script is:inline> del portafolio (anti-flash de ruido +
+      // auto-redirect de idioma, en Layout.astro). Astro NO hashea is:inline, así
+      // que sin esto la CSP estricta lo bloquea (debe correr pre-paint para evitar
+      // flash). ⚠️ Si se edita ese bloque, regenerar este hash (ver build output).
+      scriptDirective: {
+        hashes: ["sha256-rPzTUm1ekgv8deKAyepZvkRwJW4Yv+fQF49qr6lvpJE="],
+      },
     },
   },
   adapter: vercel({

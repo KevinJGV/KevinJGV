@@ -30,3 +30,4 @@ pnpm-debug.log*
 
 # Visual brainstorming companion (superpowers skill)
 .superpowers/
+.vercel

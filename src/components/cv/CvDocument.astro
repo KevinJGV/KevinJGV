@@ -1,0 +1,273 @@
+---
+// src/components/cv/CvDocument.astro
+import { cv } from "../../data/cv";
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  locale: "es" | "en";
+  pdfHref: string;
+  altLangHref: string;
+}
+const { locale, pdfHref, altLangHref } = Astro.props;
+const d = cv[locale];
+---
+
+<main class="cv">
+  <nav class="toolbar">
+      <a class="lang" href={altLangHref} hreflang={locale === "es" ? "en" : "es"} data-set-locale={locale === "es" ? "en" : "es"}>{d.ui.switchTo}</a>
+      <a class="download" href={pdfHref} download={pdfHref.split("/").pop()}>{d.ui.downloadPdf}</a>
+      <ThemeToggle
+        labels={{
+          theme: d.ui.themeLabel,
+          light: d.ui.themeLight,
+          dark: d.ui.themeDark,
+          system: d.ui.themeSystem,
+        }}
+      />
+  </nav>
+
+  <header class="head">
+    <div class="head-top">
+      <h1>{d.name}</h1>
+      <h2 class="role">{d.title}</h2>
+    </div>
+    <p class="contact">
+      <a href={`mailto:${d.email}`}>{d.email}</a>
+      <span>·</span>
+      <a href={`https://wa.me/${d.phone}`}>{d.phone}</a>
+      <span>·</span>
+      <span>{d.location}</span>
+      {d.links.map((l) => (
+        <>
+          <span>·</span>
+          <a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
+        </>
+      ))}
+    </p>
+  </header>
+
+  <section class="block">
+    <h2>{d.profileHeading}</h2>
+    <p>{d.profile}</p>
+  </section>
+
+  <section class="block">
+    <h2>{d.experienceHeading}</h2>
+    {d.experience.map((job) => (
+      <article class="job">
+        <div class="job-head">
+          <div>
+            <h3>{job.role}</h3>
+            <p class="company">
+              {job.companyUrl ? (
+                <a href={job.companyUrl} target="_blank" rel="noopener noreferrer">{job.company}</a>
+              ) : (
+                job.company
+              )}
+            </p>
+          </div>
+          <p class="period">{job.period}</p>
+        </div>
+        <p>{job.summary}</p>
+        <p class="ach-label">{d.ui.achievementsLabel}:</p>
+        <ul>
+          {job.achievements.map((a) => (
+            <li><strong>{a.title}:</strong> {a.description}</li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </section>
+
+  <section class="block">
+    <h2>{d.educationHeading}</h2>
+    {d.education.map((e) => (
+      <article class="edu">
+        <div class="job-head">
+          <h3>{e.title}</h3>
+          <p class="period">{e.period}</p>
+        </div>
+        <p class="company">
+          {e.institutionUrl ? (
+            <a href={e.institutionUrl} target="_blank" rel="noopener noreferrer">{e.institution}</a>
+          ) : (
+            e.institution
+          )} · {e.location}</p>
+        <p>{e.description}</p>
+      </article>
+    ))}
+  </section>
+
+  <section class="block">
+    <h2>{d.skillsHeading}</h2>
+    <dl class="skills">
+      {d.skills.map((s) => (
+        <div class="skill-row">
+          <dt>{s.category}</dt>
+          <dd>{s.items}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+</main>
+
+<style>
+  .cv {
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 4rem;
+  }
+
+  .cv * {
+    font-family: "SourceSans", system-ui, sans-serif;
+  }
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    font-family: system-ui, sans-serif;
+    font-size: 0.85rem;
+  }
+  .toolbar-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .lang,
+  .download,
+  .back {
+    color: var(--cv-text-secondary);
+  }
+  .download {
+    border: 1px solid var(--cv-border);
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+  }
+  .head {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .head-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+  .head h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .role {
+    margin: 0;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--cv-text-secondary);
+  }
+  .contact {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    font-size: 0.85rem;
+    color: var(--cv-text-secondary);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: space-between;
+  }
+  .block {
+    margin-top: 1.75rem;
+  }
+  .block h2 {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 2px solid var(--cv-border);
+    padding-bottom: 0.3rem;
+    margin: 0 0 0.85rem;
+  }
+  .job,
+  .edu {
+    margin-bottom: 1.25rem;
+  }
+  .job-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .job h3,
+  .edu h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+  .company {
+    margin: 0.1rem 0;
+    font-style: italic;
+    color: var(--cv-text-secondary);
+  }
+  .period {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    font-size: 0.8rem;
+    color: var(--cv-text-secondary);
+    white-space: nowrap;
+  }
+  .ach-label {
+    margin: 0.6rem 0 0.2rem;
+    font-weight: bold;
+  }
+  ul {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+  li {
+    margin-bottom: 0.35rem;
+  }
+  .skills {
+    margin: 0;
+  }
+  .skill-row {
+    display: grid;
+    grid-template-columns: 14rem 1fr;
+    gap: 0.5rem 1rem;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid var(--cv-border);
+  }
+  .skill-row dt {
+    font-weight: bold;
+  }
+  .skill-row dd {
+    margin: 0;
+    color: var(--cv-text-secondary);
+  }
+  @media (max-width: 560px) {
+    .skill-row {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+  }
+
+  @media print {
+    .toolbar {
+      display: none;
+    }
+    .cv {
+      max-width: none;
+      padding: 0;
+    }
+    :global(body) {
+      background: #fff;
+      color: #000;
+    }
+    a {
+      color: #000;
+    }
+  }
+</style>

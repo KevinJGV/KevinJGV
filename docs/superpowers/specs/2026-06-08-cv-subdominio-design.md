@@ -162,9 +162,150 @@ sobrescribir una elección manual.
 - Revisión manual: cambio de tema sin flash, persistencia, descarga de PDF por
   idioma, selector ES↔EN, impresión limpia.
 
-## Fuera de alcance (follow-up)
+## Producción: enrutamiento del subdominio (cómo se sirve el CV en la raíz)
 
-- **Enlazado inteligente** del portafolio principal (`vindevsito.dev`) ↔ el
-  subdominio del CV. Tarea separada posterior.
-- Configuración de DNS / asignación del subdominio `cv.vindevsito.dev` en Vercel
-  (acción manual del usuario, una sola vez).
+`cv.vindevsito.dev` y el portafolio comparten **un solo deploy estático**. Servir
+contenido distinto por host en la **raíz** (`/`) resultó imposible con los
+mecanismos del repo, porque en `output: 'static'` el `handle: filesystem` de
+Vercel sirve los `.html` prerenderizados **antes** que cualquier función:
+
+- `rewrites` de `vercel.json` → se evalúan **después** del filesystem ⇒ `/` servía
+  el `index.html` del apex. Solo funcionaban rutas sin colisión.
+- Edge middleware (`@astrojs/vercel` `middlewareMode: 'edge'`) → en static, el
+  `_middleware` solo atrapa lo que **no** existe como archivo (API/404). Tampoco
+  intercepta `/`.
+
+Lo que **sí** corre antes del filesystem en un deploy estático: *redirects* y las
+**Vercel Routing Rules** (config a nivel proyecto, NO en el repo). La solución es
+una routing rule que reescribe por host. Vive en la config del proyecto Vercel
+`kejogostorage/webpage` y sobrevive a los deploys. Para reproducirla:
+
+```bash
+npx vercel routes add "CV subdomain root" \
+  --src "/:path((?!_astro/|_vercel/|cv/).*)" --src-syntax path-to-regexp \
+  --has "host:eq=cv.vindevsito.dev" \
+  --action rewrite --dest "/cv/:path" --yes
+npx vercel routes publish --yes
+```
+
+Notas:
+- `src` y `dest` deben usar el **mismo** parámetro sin desajuste de modificador
+  (`:path` ↔ `:path`; `:path*` en el dest NO sustituye y da 404).
+- Excluye `_astro/`, `_vercel/` y `cv/` (assets compartidos y rutas ya correctas).
+- El apex no se ve afectado (la regla está condicionada al host del CV).
+- Por esto `vercel.json` ya **no** lleva `rewrites`: la routing rule lo reemplaza.
+
+### Segunda routing rule: CSP del subdominio
+
+La rewrite anterior hace que las respuestas del subdominio salgan **sin** la CSP
+que Astro fija por-ruta (esa CSP queda en las respuestas del apex `/cv/…`). Para
+no servir el subdominio sin CSP, una segunda routing rule header-only (también
+condicionada al host) reinyecta una CSP. Usa `'unsafe-inline'` en `script-src`
+porque en el subdominio no se pueden mantener los hashes por-página de Astro (que
+cambian en cada build); el resto de directivas replican `astro.config.mjs`.
+
+```bash
+npx vercel routes add "CV subdomain CSP" \
+  --src "^/.*$" --has "host:eq=cv.vindevsito.dev" \
+  --set-response-header "Content-Security-Policy=default-src 'self'; img-src 'self' data: https:; media-src 'self' https:; font-src 'self' data:; connect-src 'self' https://vitals.vercel-insights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'" \
+  --yes
+npx vercel routes publish --yes
+```
+
+Notas:
+- Es regla #2 (Transform), después de la rewrite #1; aplica el header también a las
+  respuestas ya reescritas (`/`, `/en/`). Verificado en prod.
+- Consecuencia: en el subdominio los scripts `is:inline` (anti-flash de tema,
+  auto-redirect de idioma) corren bajo `'unsafe-inline'`. En el apex `/cv/…` la CSP
+  estricta de Astro sigue bloqueándolos (ruta interna, no de cara al usuario).
+
+### URLs internas limpias
+
+Los enlaces del CV (selector ES↔EN, descarga PDF) y el target del auto-redirect de
+idioma usan **paths relativos**, no `/cv/...` absolutos. Así resuelven limpio en el
+subdominio (`/` ↔ `/en/`, `/Kevin…pdf`) y correcto en el apex (`/cv/` ↔ `/cv/en/`).
+Ver `src/pages/cv/index.astro`, `src/pages/cv/en/index.astro`, y el script de
+redirect en `src/layouts/CvLayout.astro`.
+
+### Redirects cross-host (sin 404, sin duplicados)
+
+**Orden completo de routing rules** (host `cv.vindevsito.dev`), de arriba a abajo
+— los redirects van ANTES del rewrite (las routing rules corren antes que
+`vercel.json` y antes del filesystem; si fueran después del rewrite, `/me` ya sería
+`/cv/me`):
+
+1. `CV sub /cv/en alias` — redirect `^/cv/en/?$` → `/en/` (308). Preserva idioma.
+2. `CV sub catch-all to root` — redirect `^/(?!$|en/?$|_astro/|_vercel/|cv\.ico$|favicon\.ico$|Kevin_Johan_Gonzalez_CV_(ES|EN)\.pdf$).+` → `/` (308). Manda toda ruta no-CV (`/me`, `/contact`, `/cv`, `/cv/`, random) a la raíz.
+3. `CV subdomain root` — rewrite (existente).
+4. `CV subdomain CSP` — header (existente).
+
+```bash
+npx vercel routes add "CV sub /cv/en alias" --src '^/cv/en/?$' \
+  --has "host:eq=cv.vindevsito.dev" --action redirect --dest "/en/" --status 308 --yes
+npx vercel routes add "CV sub catch-all to root" \
+  --src '^/(?!$|en/?$|_astro/|_vercel/|cv\.ico$|favicon\.ico$|Kevin_Johan_Gonzalez_CV_(ES|EN)\.pdf$).+' \
+  --has "host:eq=cv.vindevsito.dev" --action redirect --dest "/" --status 308 --yes
+# ordenar los 2 redirects al tope (alias antes que catch-all) y publicar:
+npx vercel routes reorder "CV sub catch-all to root" --position start --yes
+npx vercel routes reorder "CV sub /cv/en alias" --position start --yes
+npx vercel routes publish --yes
+```
+
+⚠️ **Fragilidad**: el catch-all (#2) enumera en su lookahead las rutas válidas del
+subdominio (raíz, `en`, `_astro/`, `_vercel/`, `cv.ico`, `favicon.ico`, los 2 PDFs).
+Si se añade una página o asset al CV, **hay que actualizar ese regex** o se
+redirigirá a `/`. `--src-syntax` default es `regex`.
+
+**Dominio principal → subdominio** (en `vercel.json`, no routing rule, porque
+ninguna routing rule afecta a `www`/apex y así queda en git):
+
+```jsonc
+// vercel.json
+"redirects": [{
+  "source": "/cv/:path*",
+  "has": [{ "type": "host", "value": "(www\\.)?vindevsito\\.dev" }],
+  "destination": "https://cv.vindevsito.dev/:path*",
+  "permanent": true
+}]
+```
+
+`vindevsito.dev/cv/` → `cv.vindevsito.dev/`, `/cv/en/` → `/en/`. CV con UNA sola URL
+canónica (el subdominio). Requiere deploy (commit + push). Nota: `/cv/` y `/cv/en/`
+ya cacheados como 200 pueden tardar en empezar a redirigir hasta que el edge
+revalide; las rutas nuevas (`/cv/loquesea`) redirigen de inmediato.
+
+**Dominio principal: rutas inexistentes → raíz** (routing rule, host `www`):
+
+```bash
+npx vercel routes add "Main domain unknown to root" \
+  --src '^/(?!$|me/?$|contact/?$|en/?$|en/me/?$|en/contact/?$|cv(/|$)|_astro/|_vercel/)[^.]+$' \
+  --has "host:eq=www.vindevsito.dev" --action redirect --dest "/" --status 308 --yes
+npx vercel routes publish --yes
+```
+
+Toda ruta inexistente del dominio principal (`/en/asdfadsf`, `/loquesea`, `/me/xyz`)
+→ 308 → `/`, en vez de servir una página 404. El `[^.]+$` excluye archivos (con
+punto: assets) y el lookahead excluye las páginas válidas y `/cv*` (que va al
+subdominio). El apex llega a `www` por su redirect de dominio.
+
+⚠️ **Fragilidad (igual que el catch-all del subdominio)**: enumera las páginas
+válidas del sitio principal (`me`, `contact`, `en`, `en/me`, `en/contact`). Si se
+añade una página al portafolio, **actualizar este regex** o se redirigirá a `/`.
+
+## Estado: épica CERRADA ✅
+
+Todo lo planeado (y los follow-ups) quedó resuelto:
+
+- **Enlazado** portafolio↔CV: hecho. CTA "Más sobre mí" en la página `me`
+  (locale-aware) + idioma compartido por cookie `vlocale` (`.vindevsito.dev`) entre
+  ambos sitios. El **back-link CV→Portafolio se descartó**: el CV ya tiene un link
+  "Website" → `https://vindevsito.dev` (`src/data/cv.ts`), así que era redundante
+  (la cadena `backToPortfolio` se eliminó por código muerto).
+- **URLs internas** del subdominio: limpias (paths relativos).
+- **Redirects cross-host** (sin 404): subdominio no-CV → `/`; apex `/cv/*` →
+  subdominio; apex inexistentes → `/`.
+- **CSP del subdominio**: restaurada (routing rule, `'unsafe-inline'`).
+- **Favicon**: `public/cv/cv.ico`.
+- **DNS**: nameservers Vercel + subdominio conectado al proyecto `webpage`.
+- Los scripts `is:inline` del apex `/cv/…` quedaron **irrelevantes**: `/cv/` ahora
+  redirige al subdominio, nadie aterriza ahí.

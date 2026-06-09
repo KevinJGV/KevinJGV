@@ -102,6 +102,11 @@ export default {
         { text: "Gente superautoritaria" },
       ],
     },
+    cvCta: {
+      question: "¿Te gusté? 🫣",
+      answer: "Te mostraré más de mí… 😏",
+      linkText: "Más sobre mí",
+    },
   },
   spotify: {
     listeningNow: "Escuchando ahora:",

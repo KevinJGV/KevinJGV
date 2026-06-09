@@ -1,0 +1,189 @@
+---
+// src/layouts/CvLayout.astro
+interface Props {
+  locale: "es" | "en";
+  title: string;
+  description: string;
+}
+const { locale, title, description } = Astro.props;
+const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://cv.vindevsito.dev/";
+// Favicon relativo: resuelve a /cv/cv.ico en ambos hosts (subdominio vía rewrite,
+// apex directo). Igual patrón que el PDF: ES base /, EN base /en/ → ../.
+const faviconHref = locale === "en" ? "../cv.ico" : "cv.ico";
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href={faviconHref} sizes="any" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href="https://cv.vindevsito.dev/" />
+    <link rel="alternate" hreflang="en" href="https://cv.vindevsito.dev/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://cv.vindevsito.dev/" />
+
+    <!-- Anti-flash: resuelve el tema ANTES de pintar y de cargar el CSS -->
+    <script is:inline>
+      (function () {
+        var pref = null;
+        try { pref = localStorage.getItem("cv-theme"); } catch (_) {}
+        // Solo forzamos el atributo para una elección explícita; "sistema"
+        // (o sin preferencia) lo resuelve el CSS con prefers-color-scheme.
+        if (pref === "light" || pref === "dark") {
+          document.documentElement.dataset.theme = pref;
+        }
+      })();
+    </script>
+
+    <!-- Detección de idioma del sistema (espeja el comportamiento del sitio principal).
+         Corre ANTES de pintar para evitar flash del idioma incorrecto. -->
+    <script is:inline>
+      // Idioma: misma cookie compartida que el portafolio (vlocale en
+      // .vindevsito.dev), para que la selección se mantenga al pasar de un sitio al
+      // otro. Precedencia: una URL /en/ explícita gana y persiste; en el path por
+      // defecto (/) manda la preferencia guardada (redirige a /en/ si es EN); sin
+      // cookie, detecta el idioma del navegador.
+      (function () {
+        function getLoc() {
+          var m = document.cookie.match(/(?:^|; )vlocale=([^;]+)/);
+          return m && (m[1] === "es" || m[1] === "en") ? m[1] : null;
+        }
+        function setLoc(v) {
+          var d = location.hostname.indexOf("vindevsito.dev") >= 0 ? "; domain=.vindevsito.dev" : "";
+          document.cookie = "vlocale=" + v + "; path=/; max-age=31536000" + d + "; SameSite=Lax";
+        }
+        var p = window.location.pathname;
+        var onEn = /(^|\/)en\/?$/.test(p);
+        var stored = getLoc();
+        if (onEn) {
+          if (stored !== "en") setLoc("en");            // URL explícita EN gana y persiste
+        } else if (stored === "en") {
+          window.location.replace("en/"); return;        // preferencia EN en / → /en/
+        } else if (!stored) {                            // primera visita: detectar
+          var target = (navigator.language || "en").toLowerCase().indexOf("es") === 0 ? "es" : "en";
+          setLoc(target);
+          if (target === "en") { window.location.replace("en/"); return; }
+        }
+        // El switcher manual persiste la elección en la cookie compartida.
+        document.addEventListener("click", function (e) {
+          var a = e.target && e.target.closest ? e.target.closest("[data-set-locale]") : null;
+          if (!a) return;
+          setLoc(a.getAttribute("data-set-locale"));
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  /* Source Sans 3 (la familia de los PDFs): Regular 400, Bold 700, Italic. */
+  @font-face {
+    font-family: "SourceSans";
+    src: url("/fonts/SourceSans3.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "SourceSans";
+    src: url("/fonts/SourceSans3-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "SourceSans";
+    src: url("/fonts/SourceSans3-Italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  /* Base = claro. */
+  :root {
+    --cv-bg: #ffffff;
+    --cv-surface: #f3f4f6;
+    --cv-text: #111827;
+    --cv-text-secondary: #6b7280;
+    --cv-border: #afb1b4;
+    --cv-accent: #3b82f6;
+  }
+  /* Por defecto (sin elección explícita) seguimos el tema del SO vía CSS,
+     sin depender de JS — así nunca queda "atascado en claro". */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --cv-bg: #121212;
+      --cv-surface: #1e1e1e;
+      --cv-text: rgba(255, 255, 255, 0.87);
+      --cv-text-secondary: rgba(255, 255, 255, 0.6);
+      --cv-border: #333333;
+      --cv-accent: #60a5fa;
+    }
+  }
+  /* Elección explícita del usuario (mayor especificidad → siempre gana). */
+  :root[data-theme="dark"] {
+    --cv-bg: #121212;
+    --cv-surface: #1e1e1e;
+    --cv-text: rgba(255, 255, 255, 0.87);
+    --cv-text-secondary: rgba(255, 255, 255, 0.6);
+    --cv-border: #333333;
+    --cv-accent: #60a5fa;
+  }
+  :root[data-theme="light"] {
+    --cv-bg: #ffffff;
+    --cv-surface: #f3f4f6;
+    --cv-text: #111827;
+    --cv-text-secondary: #6b7280;
+    --cv-border: #afb1b4;
+    --cv-accent: #3b82f6;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--cv-bg);
+    color: var(--cv-text);
+    font-family: "SourceSans", system-ui, sans-serif;
+    line-height: 1.5;
+    transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+  }
+  a {
+    color: var(--cv-accent);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  :focus-visible {
+    outline: 2px solid var(--cv-accent);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body {
+      transition: none;
+    }
+  }
+  @media (prefers-contrast: more) {
+    [data-theme="dark"] {
+      --cv-text: #ffffff;
+      --cv-text-secondary: #e0e0e0;
+      --cv-bg: #000000;
+    }
+    :root,
+    [data-theme="light"] {
+      --cv-text: #000000;
+      --cv-bg: #ffffff;
+    }
+  }
+</style>
