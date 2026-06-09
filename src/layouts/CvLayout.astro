@@ -41,35 +41,37 @@ const faviconHref = locale === "en" ? "../cv.ico" : "cv.ico";
     <!-- Detección de idioma del sistema (espeja el comportamiento del sitio principal).
          Corre ANTES de pintar para evitar flash del idioma incorrecto. -->
     <script is:inline>
+      // Idioma: misma cookie compartida que el portafolio (vlocale en
+      // .vindevsito.dev), para que la selección se mantenga al pasar de un sitio al
+      // otro. Precedencia: una URL /en/ explícita gana y persiste; en el path por
+      // defecto (/) manda la preferencia guardada (redirige a /en/ si es EN); sin
+      // cookie, detecta el idioma del navegador.
       (function () {
-        var KEY = "cv-locale";
+        function getLoc() {
+          var m = document.cookie.match(/(?:^|; )vlocale=([^;]+)/);
+          return m && (m[1] === "es" || m[1] === "en") ? m[1] : null;
+        }
+        function setLoc(v) {
+          var d = location.hostname.indexOf("vindevsito.dev") >= 0 ? "; domain=.vindevsito.dev" : "";
+          document.cookie = "vlocale=" + v + "; path=/; max-age=31536000" + d + "; SameSite=Lax";
+        }
         var p = window.location.pathname;
-        var current = /(^|\/)en\/?$/.test(p) ? "en" : "es";
-        var stored = null;
-        try { stored = localStorage.getItem(KEY); } catch (_) {}
-        var target;
-        if (stored === "es" || stored === "en") {
-          target = stored;
-        } else {
-          var lang = (navigator.language || "en").toLowerCase();
-          // ES solo si el idioma del navegador empieza por "es"; cualquier otro -> EN.
-          target = lang.indexOf("es") === 0 ? "es" : "en";
-          try { localStorage.setItem(KEY, target); } catch (_) {}
+        var onEn = /(^|\/)en\/?$/.test(p);
+        var stored = getLoc();
+        if (onEn) {
+          if (stored !== "en") setLoc("en");            // URL explícita EN gana y persiste
+        } else if (stored === "en") {
+          window.location.replace("en/"); return;        // preferencia EN en / → /en/
+        } else if (!stored) {                            // primera visita: detectar
+          var target = (navigator.language || "en").toLowerCase().indexOf("es") === 0 ? "es" : "en";
+          setLoc(target);
+          if (target === "en") { window.location.replace("en/"); return; }
         }
-        if (target !== current) {
-          // Targets relativos: resuelven limpio en el subdominio
-          // (/ ↔ /en/) y correcto en el apex (/cv/ ↔ /cv/en/).
-          window.location.replace(current === "es" ? "en/" : "../");
-          return;
-        }
-        if (stored !== current) {
-          try { localStorage.setItem(KEY, current); } catch (_) {}
-        }
-        // El switcher manual persiste la elección para que el auto-redirect la respete.
+        // El switcher manual persiste la elección en la cookie compartida.
         document.addEventListener("click", function (e) {
           var a = e.target && e.target.closest ? e.target.closest("[data-set-locale]") : null;
           if (!a) return;
-          try { localStorage.setItem(KEY, a.getAttribute("data-set-locale")); } catch (_) {}
+          setLoc(a.getAttribute("data-set-locale"));
         });
       })();
     </script>

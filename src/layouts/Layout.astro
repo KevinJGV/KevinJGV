@@ -49,38 +49,32 @@ const siteOrigin = Astro.site?.origin ?? 'https://vindevsito.dev';
           }
         } catch (e) { /* private mode */ }
       })();
+      // Idioma: cookie compartida en .vindevsito.dev (cruza portafolio↔CV; el
+      // localStorage no cruza subdominios). Precedencia: una URL /en/ explícita
+      // gana y persiste; en un path por defecto manda la preferencia guardada
+      // (redirige a EN si corresponde); sin cookie, detecta el idioma del navegador.
+      // is:inline (pre-paint, sin flash) → su hash está en security.csp del config.
       (function () {
-        const STORAGE_KEY = 'portfolio-locale';
-        const path = window.location.pathname;
-        const onEn = path.startsWith('/en/') || path === '/en';
-        const current = onEn ? 'en' : 'es';
-
-        let target;
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored === 'es' || stored === 'en') {
-          target = stored;
-        } else {
-          const lang = (navigator.language || 'en').toLowerCase();
-          // EN default for any non-ES browser language (more inclusive internationally)
-          target = lang.startsWith('es') ? 'es' : 'en';
-          try { localStorage.setItem(STORAGE_KEY, target); } catch (e) { /* private mode */ }
+        function getLoc() {
+          var m = document.cookie.match(/(?:^|; )vlocale=([^;]+)/);
+          return m && (m[1] === 'es' || m[1] === 'en') ? m[1] : null;
         }
-
-        if (target === current) {
-          // Sync localStorage if user navigated manually past auto-detect
-          if (stored !== current) {
-            try { localStorage.setItem(STORAGE_KEY, current); } catch (e) { /* ignore */ }
-          }
-          return;
+        function setLoc(v) {
+          var d = location.hostname.indexOf('vindevsito.dev') >= 0 ? '; domain=.vindevsito.dev' : '';
+          document.cookie = 'vlocale=' + v + '; path=/; max-age=31536000' + d + '; SameSite=Lax';
         }
-
-        let newPath;
-        if (target === 'en') {
-          newPath = '/en' + (path === '/' ? '' : path);
-        } else {
-          newPath = path.replace(/^\/en(\/|$)/, '/');
-          if (newPath === '') newPath = '/';
+        var path = window.location.pathname;
+        var onEn = path.startsWith('/en/') || path === '/en';
+        var stored = getLoc();
+        if (onEn) { if (stored !== 'en') setLoc('en'); return; }   // URL explícita gana
+        if (stored === 'es') return;
+        var target = stored;
+        if (!target) {                                             // primera visita
+          target = (navigator.language || 'en').toLowerCase().indexOf('es') === 0 ? 'es' : 'en';
+          setLoc(target);
+          if (target === 'es') return;
         }
+        var newPath = '/en' + (path === '/' ? '' : path);          // preferencia EN → redirige
         window.location.replace(newPath + window.location.search + window.location.hash);
       })();
     </script>

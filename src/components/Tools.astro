@@ -508,7 +508,9 @@ const showPerfToggle = !!import.meta.env.PUBLIC_PERF_TOGGLE;
       const path = window.location.pathname;
       const onEn = path.startsWith('/en/') || path === '/en';
       const target = onEn ? 'es' : 'en';
-      try { localStorage.setItem('portfolio-locale', target); } catch (e) { /* ignore */ }
+      // Cookie compartida (.vindevsito.dev) → el CV respeta esta elección.
+      const d = location.hostname.indexOf('vindevsito.dev') >= 0 ? '; domain=.vindevsito.dev' : '';
+      document.cookie = 'vlocale=' + target + '; path=/; max-age=31536000' + d + '; SameSite=Lax';
       let newPath: string;
       if (target === 'en') {
         newPath = '/en' + (path === '/' ? '' : path);
