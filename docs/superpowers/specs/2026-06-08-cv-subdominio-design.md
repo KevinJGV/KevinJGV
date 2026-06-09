@@ -227,11 +227,56 @@ subdominio (`/` ↔ `/en/`, `/Kevin…pdf`) y correcto en el apex (`/cv/` ↔ `/
 Ver `src/pages/cv/index.astro`, `src/pages/cv/en/index.astro`, y el script de
 redirect en `src/layouts/CvLayout.astro`.
 
+### Redirects cross-host (sin 404, sin duplicados)
+
+**Orden completo de routing rules** (host `cv.vindevsito.dev`), de arriba a abajo
+— los redirects van ANTES del rewrite (las routing rules corren antes que
+`vercel.json` y antes del filesystem; si fueran después del rewrite, `/me` ya sería
+`/cv/me`):
+
+1. `CV sub /cv/en alias` — redirect `^/cv/en/?$` → `/en/` (308). Preserva idioma.
+2. `CV sub catch-all to root` — redirect `^/(?!$|en/?$|_astro/|_vercel/|cv\.ico$|favicon\.ico$|Kevin_Johan_Gonzalez_CV_(ES|EN)\.pdf$).+` → `/` (308). Manda toda ruta no-CV (`/me`, `/contact`, `/cv`, `/cv/`, random) a la raíz.
+3. `CV subdomain root` — rewrite (existente).
+4. `CV subdomain CSP` — header (existente).
+
+```bash
+npx vercel routes add "CV sub /cv/en alias" --src '^/cv/en/?$' \
+  --has "host:eq=cv.vindevsito.dev" --action redirect --dest "/en/" --status 308 --yes
+npx vercel routes add "CV sub catch-all to root" \
+  --src '^/(?!$|en/?$|_astro/|_vercel/|cv\.ico$|favicon\.ico$|Kevin_Johan_Gonzalez_CV_(ES|EN)\.pdf$).+' \
+  --has "host:eq=cv.vindevsito.dev" --action redirect --dest "/" --status 308 --yes
+# ordenar los 2 redirects al tope (alias antes que catch-all) y publicar:
+npx vercel routes reorder "CV sub catch-all to root" --position start --yes
+npx vercel routes reorder "CV sub /cv/en alias" --position start --yes
+npx vercel routes publish --yes
+```
+
+⚠️ **Fragilidad**: el catch-all (#2) enumera en su lookahead las rutas válidas del
+subdominio (raíz, `en`, `_astro/`, `_vercel/`, `cv.ico`, `favicon.ico`, los 2 PDFs).
+Si se añade una página o asset al CV, **hay que actualizar ese regex** o se
+redirigirá a `/`. `--src-syntax` default es `regex`.
+
+**Dominio principal → subdominio** (en `vercel.json`, no routing rule, porque
+ninguna routing rule afecta a `www`/apex y así queda en git):
+
+```jsonc
+// vercel.json
+"redirects": [{
+  "source": "/cv/:path*",
+  "has": [{ "type": "host", "value": "(www\\.)?vindevsito\\.dev" }],
+  "destination": "https://cv.vindevsito.dev/:path*",
+  "permanent": true
+}]
+```
+
+`vindevsito.dev/cv/` → `cv.vindevsito.dev/`, `/cv/en/` → `/en/`. CV con UNA sola URL
+canónica (el subdominio). Requiere deploy (commit + push).
+
 ## Fuera de alcance (follow-up)
 
 - **Enlazado inteligente** del portafolio principal (`vindevsito.dev`) ↔ el
-  subdominio del CV (links cruzados apex→subdominio). Las URLs internas del
-  subdominio ya quedaron limpias (ver arriba).
+  subdominio del CV (links cruzados apex→subdominio, en la UI). Las URLs internas y
+  los redirects de enrutamiento ya están resueltos.
 - En el apex `/cv/…` los scripts `is:inline` siguen bloqueados por la CSP estricta
   de Astro (patrón del proyecto: Astro solo hashea scripts procesados, no
   `is:inline`). No impacta al usuario (el acceso es por el subdominio).
