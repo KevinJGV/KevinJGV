@@ -195,14 +195,45 @@ Notas:
 - El apex no se ve afectado (la regla está condicionada al host del CV).
 - Por esto `vercel.json` ya **no** lleva `rewrites`: la routing rule lo reemplaza.
 
+### Segunda routing rule: CSP del subdominio
+
+La rewrite anterior hace que las respuestas del subdominio salgan **sin** la CSP
+que Astro fija por-ruta (esa CSP queda en las respuestas del apex `/cv/…`). Para
+no servir el subdominio sin CSP, una segunda routing rule header-only (también
+condicionada al host) reinyecta una CSP. Usa `'unsafe-inline'` en `script-src`
+porque en el subdominio no se pueden mantener los hashes por-página de Astro (que
+cambian en cada build); el resto de directivas replican `astro.config.mjs`.
+
+```bash
+npx vercel routes add "CV subdomain CSP" \
+  --src "^/.*$" --has "host:eq=cv.vindevsito.dev" \
+  --set-response-header "Content-Security-Policy=default-src 'self'; img-src 'self' data: https:; media-src 'self' https:; font-src 'self' data:; connect-src 'self' https://vitals.vercel-insights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'" \
+  --yes
+npx vercel routes publish --yes
+```
+
+Notas:
+- Es regla #2 (Transform), después de la rewrite #1; aplica el header también a las
+  respuestas ya reescritas (`/`, `/en/`). Verificado en prod.
+- Consecuencia: en el subdominio los scripts `is:inline` (anti-flash de tema,
+  auto-redirect de idioma) corren bajo `'unsafe-inline'`. En el apex `/cv/…` la CSP
+  estricta de Astro sigue bloqueándolos (ruta interna, no de cara al usuario).
+
+### URLs internas limpias
+
+Los enlaces del CV (selector ES↔EN, descarga PDF) y el target del auto-redirect de
+idioma usan **paths relativos**, no `/cv/...` absolutos. Así resuelven limpio en el
+subdominio (`/` ↔ `/en/`, `/Kevin…pdf`) y correcto en el apex (`/cv/` ↔ `/cv/en/`).
+Ver `src/pages/cv/index.astro`, `src/pages/cv/en/index.astro`, y el script de
+redirect en `src/layouts/CvLayout.astro`.
+
 ## Fuera de alcance (follow-up)
 
 - **Enlazado inteligente** del portafolio principal (`vindevsito.dev`) ↔ el
-  subdominio del CV. Incluye limpiar las URLs **internas** del subdominio: hoy el
-  selector ES↔EN y la descarga apuntan a `/cv/...` (absolutas, correctas en el
-  apex), así que en el subdominio la barra muestra `/cv/` al navegar. La raíz sí
-  queda limpia.
-- Hacer que el auto-redirect de idioma y el anti-flash de tema (`is:inline`,
-  bloqueados por el CSP en prod) funcionen bajo el CSP del subdominio.
+  subdominio del CV (links cruzados apex→subdominio). Las URLs internas del
+  subdominio ya quedaron limpias (ver arriba).
+- En el apex `/cv/…` los scripts `is:inline` siguen bloqueados por la CSP estricta
+  de Astro (patrón del proyecto: Astro solo hashea scripts procesados, no
+  `is:inline`). No impacta al usuario (el acceso es por el subdominio).
 - Configuración de DNS / asignación del subdominio `cv.vindevsito.dev` en Vercel
   (ya hecho: nameservers Vercel + subdominio conectado al proyecto `webpage`).

@@ -53,7 +53,9 @@ const canonical = locale === "en" ? "https://cv.vindevsito.dev/en/" : "https://c
           try { localStorage.setItem(KEY, target); } catch (_) {}
         }
         if (target !== current) {
-          window.location.replace(current === "es" ? "/cv/en/" : "/cv/");
+          // Targets relativos: resuelven limpio en el subdominio
+          // (/ ↔ /en/) y correcto en el apex (/cv/ ↔ /cv/en/).
+          window.location.replace(current === "es" ? "en/" : "../");
           return;
         }
         if (stored !== current) {
