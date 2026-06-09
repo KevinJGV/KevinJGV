@@ -278,19 +278,24 @@ revalide; las rutas nuevas (`/cv/loquesea`) redirigen de inmediato.
 
 ```bash
 npx vercel routes add "Main domain unknown to root" \
-  --src '^/(?!$|me/?$|contact/?$|en/?$|en/me/?$|en/contact/?$|cv(/|$)|_astro/|_vercel/)[^.]+$' \
+  --src '^/(?!$|me/?$|contact/?$|en/?$|en/me/?$|en/contact/?$|cv(/|$)|api(/|$)|_)[^.]+$' \
   --has "host:eq=www.vindevsito.dev" --action redirect --dest "/" --status 308 --yes
 npx vercel routes publish --yes
 ```
 
 Toda ruta inexistente del dominio principal (`/en/asdfadsf`, `/loquesea`, `/me/xyz`)
 → 308 → `/`, en vez de servir una página 404. El `[^.]+$` excluye archivos (con
-punto: assets) y el lookahead excluye las páginas válidas y `/cv*` (que va al
-subdominio). El apex llega a `www` por su redirect de dominio.
+punto: assets) y el lookahead excluye las páginas válidas, `/cv*` (va al subdominio),
+`/api/*` (endpoints serverless) y `/_*` (internos de framework: `_astro`, `_vercel`,
+`_image`, `_server-islands`). El apex llega a `www` por su redirect de dominio.
 
 ⚠️ **Fragilidad (igual que el catch-all del subdominio)**: enumera las páginas
 válidas del sitio principal (`me`, `contact`, `en`, `en/me`, `en/contact`). Si se
 añade una página al portafolio, **actualizar este regex** o se redirigirá a `/`.
+**Bug ya pisado:** la versión inicial NO excluía `/api/` → redirigía
+`/api/nowplaying` y `/api/contact` a `/` (rompió el widget de música y el form de
+contacto en prod). Por eso ahora se excluye `api(/|$)` y todo `_` (cualquier ruta
+interna sin punto). Cualquier endpoint/ruta nueva SIN extensión hay que excluirla.
 
 ## Estado: épica CERRADA ✅
 
