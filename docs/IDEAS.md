@@ -25,7 +25,10 @@ Es un "modo paralelo": mismos componentes, otro set de datos/estilos/assets.
 - **Fondo:** otro fondo (más psicodélico).
 - **Fotos:** fotos distintas (más personales/random).
 - **Textos / descripciones:** copy en un tono **menos serio**.
-- **Música de fondo:** cambia a un tema más **"meme"**.
+- **Música de fondo:** cambia a un tema más **"meme"**. Aquí entra el **"feature
+  OGG"**: los archivos `public/VIN.ogg` y `public/VINXD.ogg` (sin uso desde
+  Foundation) son la música normal vs. la alterna de este modo. No es un feature
+  independiente — vive dentro de este easter egg.
 - **Redes sociales:** reemplazar por versiones más **personales**, que **NO** lleven a una red social
   real — o que solo lleven al **login** de dicha red (sin exponer un perfil real).
 - **Más referencias a hobbies / enlaces personales:** p.ej. **perfil de Steam**, etc.

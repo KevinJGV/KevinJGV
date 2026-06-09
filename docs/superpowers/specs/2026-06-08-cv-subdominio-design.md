@@ -292,13 +292,20 @@ subdominio). El apex llega a `www` por su redirect de dominio.
 válidas del sitio principal (`me`, `contact`, `en`, `en/me`, `en/contact`). Si se
 añade una página al portafolio, **actualizar este regex** o se redirigirá a `/`.
 
-## Fuera de alcance (follow-up)
+## Estado: épica CERRADA ✅
 
-- **Enlazado inteligente** del portafolio principal (`vindevsito.dev`) ↔ el
-  subdominio del CV (links cruzados apex→subdominio, en la UI). Las URLs internas y
-  los redirects de enrutamiento ya están resueltos.
-- En el apex `/cv/…` los scripts `is:inline` siguen bloqueados por la CSP estricta
-  de Astro (patrón del proyecto: Astro solo hashea scripts procesados, no
-  `is:inline`). No impacta al usuario (el acceso es por el subdominio).
-- Configuración de DNS / asignación del subdominio `cv.vindevsito.dev` en Vercel
-  (ya hecho: nameservers Vercel + subdominio conectado al proyecto `webpage`).
+Todo lo planeado (y los follow-ups) quedó resuelto:
+
+- **Enlazado** portafolio↔CV: hecho. CTA "Más sobre mí" en la página `me`
+  (locale-aware) + idioma compartido por cookie `vlocale` (`.vindevsito.dev`) entre
+  ambos sitios. El **back-link CV→Portafolio se descartó**: el CV ya tiene un link
+  "Website" → `https://vindevsito.dev` (`src/data/cv.ts`), así que era redundante
+  (la cadena `backToPortfolio` se eliminó por código muerto).
+- **URLs internas** del subdominio: limpias (paths relativos).
+- **Redirects cross-host** (sin 404): subdominio no-CV → `/`; apex `/cv/*` →
+  subdominio; apex inexistentes → `/`.
+- **CSP del subdominio**: restaurada (routing rule, `'unsafe-inline'`).
+- **Favicon**: `public/cv/cv.ico`.
+- **DNS**: nameservers Vercel + subdominio conectado al proyecto `webpage`.
+- Los scripts `is:inline` del apex `/cv/…` quedaron **irrelevantes**: `/cv/` ahora
+  redirige al subdominio, nadie aterriza ahí.

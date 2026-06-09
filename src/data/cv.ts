@@ -38,7 +38,6 @@ export interface CvSkillGroup {
 export interface CvUi {
   achievementsLabel: string;
   downloadPdf: string;
-  backToPortfolio: string;
   themeLabel: string;
   themeLight: string;
   themeDark: string;
@@ -179,7 +178,6 @@ const es: CvData = {
   ui: {
     achievementsLabel: "Logros Clave",
     downloadPdf: "Descargar PDF",
-    backToPortfolio: "← Portafolio",
     themeLabel: "Tema",
     themeLight: "Claro",
     themeDark: "Oscuro",
@@ -297,7 +295,6 @@ const en: CvData = {
   ui: {
     achievementsLabel: "Key Achievements",
     downloadPdf: "Download PDF",
-    backToPortfolio: "← Portfolio",
     themeLabel: "Theme",
     themeLight: "Light",
     themeDark: "Dark",
